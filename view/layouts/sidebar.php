@@ -5,7 +5,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-        <li class="nav-item <?php echo $page == 'home' ? 'active' : ''; ?>">
+        <li class="nav-item">
             <a class="nav-link" href="index.php?page=home">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
@@ -18,9 +18,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=serikat_pekerja">
-                <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">Master Serikat Pekerja</span>
+            <a class="nav-link" href="index.php?page=album">
+                <i class="icon-paper menu-icon"></i>
+                <span class="menu-title">Album</span>
             </a>
         </li>
         <li class="nav-item">

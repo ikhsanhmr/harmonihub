@@ -10,6 +10,7 @@ class ComposerStaticInitc581171b65dcd88b0e6327d7469f003b
         'M' => 
         array (
             'Models\\' => 7,
+            'Migrations\\' => 11,
         ),
         'L' => 
         array (
@@ -25,6 +26,10 @@ class ComposerStaticInitc581171b65dcd88b0e6327d7469f003b
         'Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Models',
+        ),
+        'Migrations\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/migrations',
         ),
         'Libraries\\' => 
         array (

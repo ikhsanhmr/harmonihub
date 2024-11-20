@@ -3,7 +3,13 @@
     "psr-4": {
       "Controllers\\": "app/Controllers",
       "Models\\": "app/Models",
-      "Libraries\\": "app/Libraries"
+      "Libraries\\": "app/Libraries",
+      "Migrations\\": "migrations"
     }
+  },
+  "scripts": {
+    "start": "php -S localhost:8000",
+    "migrate": "php migrations/migrate.php"
   }
 }
+
