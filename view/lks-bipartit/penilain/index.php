@@ -8,7 +8,7 @@ ob_start();
                 <div class="card-body">
                     <p class="card-title">Penilain</p>
                     <p class="font-weight-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente at, culpa eligendi neque vitae ipsum nobis necessitatibus eum eveniet eos quas illum, quod dolorem ad aliquid. Atque sit minima quam nesciunt, necessitatibus praesentium sapiente explicabo ab omnis aperiam ex rerum.</p>
-                    <p>Tampilan testing</p>
+                    <h1>Tampilan Penilain testing</h1>
 
                 </div>
             </div>
