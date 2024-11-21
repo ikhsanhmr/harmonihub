@@ -13,4 +13,9 @@ class Dashboard
     {
         require_once 'view/home.php';
     }
+
+    public function profile()
+    {
+        require_once 'view/profile.php';
+    }
 }

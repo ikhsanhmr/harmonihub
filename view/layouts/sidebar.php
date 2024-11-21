@@ -30,10 +30,20 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=lks_bipartit">
-                <i class="icon-bar-graph menu-icon"></i>
+            <a class="nav-link" data-toggle="collapse" href="#lks_bipartit" aria-expanded="false" aria-controls="ui-basic">
+                <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">LKS Bipartit</span>
+                <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="lks_bipartit">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="index.php?page=ba-pembentukan">BA Pembentukan</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="index.php?page=jadwal">Jadwal</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="index.php?page=tema">Tema</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="index.php?page=laporan">Laporan</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="index.php?page=penilain">Penilaian</a></li>
+                </ul>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="index.php?page=penilaian_pdp">

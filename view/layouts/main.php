@@ -18,6 +18,7 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
 
@@ -41,9 +42,9 @@
                             <img src="assets/images/faces/face28.jpg" alt="profile" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
-                                <i class="ti-settings text-primary"></i>
-                                Settings
+                            <a class="dropdown-item" href="index.php?page=profile">
+                                <i class="icon-head text-primary"></i>
+                                Profile
                             </a>
                             <a class="dropdown-item">
                                 <i class="ti-power-off text-primary"></i>
@@ -84,11 +85,11 @@
             </div>
             <!-- partial -->
             <!-- partial:partials/_sidebar.html -->
-            <?php include('view/layouts/sidebar.php')?>
+            <?php include('view/layouts/sidebar.php') ?>
             <!-- partial -->
             <div class="main-panel">
-                
-            <?php echo isset($content) ? $content : ''; ?>
+
+                <?php echo isset($content) ? $content : ''; ?>
 
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
