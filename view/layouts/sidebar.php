@@ -12,7 +12,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=user">
+            <a class="nav-link" href="index.php?page=user-list">
                 <i class="icon-head menu-icon"></i>
                 <span class="menu-title">User</span>
             </a>
@@ -37,11 +37,21 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
             <div class="collapse" id="lks_bipartit">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="index.php?page=ba-pembentukan">BA Pembentukan</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="index.php?page=jadwal">Jadwal</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="index.php?page=tema">Tema</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="index.php?page=laporan">Laporan</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="index.php?page=penilain">Penilaian</a></li>
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="index.php?page=ba-pembentukan">BA Pembentukan</a>
+                    </li>
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="index.php?page=jadwal">Jadwal</a>
+                    </li>
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="index.php?page=tema">Tema</a>
+                    </li>
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="index.php?page=laporan">Laporan</a>
+                    </li>
+                    <li class="nav-item"> 
+                        <a class="nav-link" href="index.php?page=penilain">Penilaian</a>
+                    </li>
                 </ul>
             </div>
         </li>

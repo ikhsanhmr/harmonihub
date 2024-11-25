@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Skydash Admin</title>
+    <title>HarmoniHub - Login</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
@@ -16,7 +16,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
 </head>
 
 <body>
@@ -24,22 +24,23 @@
         <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth px-0">
                 <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
+                    <div class="col-md-6 mx-auto">
                         <div class="auth-form-light text-center py-5 px-4 px-sm-5">
                             <div class="brand-logo">
-                                <img src="assets/images/logo.svg" alt="logo">
+                                <img src="assets/images/logo_harmoni_hub.png" alt="logo">
                             </div>
-                            <h4>Hello! let's get started</h4>
-                            <h6 class="font-weight-light">Sign in to continue.</h6>
-                            <form class="pt-3">
+                            <h4>Halo! Selamat Datang</h4>
+                            <h6 class="font-weight-light">Login untuk melanjutkan.</h6>
+
+                            <form class="pt-3" action="index.php?page=do-login" method="POST">
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Email">
+                                    <input type="text" class="form-control form-control-lg" name="username" id="username" placeholder="Username" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                                    <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Password" required>
                                 </div>
                                 <div class="mt-3">
-                                    <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="assets/index.html">SIGN IN</a>
+                                    <button class="btn btn-block btn-primary btn-lg font-weight-medium" type="submit">SIGN IN</button>
                                 </div>
                                 <!-- <div class="text-center mt-4 font-weight-light">
                                     Don't have an account? <a href="register.html" class="text-primary">Create</a>

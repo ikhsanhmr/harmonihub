@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
 
 </head>
 
@@ -29,8 +29,8 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="assets/images/logo.svg" class="mr-2" alt="logo" /></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
+                <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="assets/images/logo_harmoni_hub.png" class="mr-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo_harmoni_hub.png" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -46,7 +46,7 @@
                                 <i class="icon-head text-primary"></i>
                                 Profile
                             </a>
-                            <a class="dropdown-item">
+                            <a class="dropdown-item" href="index.php?page=logout">
                                 <i class="ti-power-off text-primary"></i>
                                 Logout
                             </a>
@@ -123,6 +123,12 @@
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.data-table').DataTable();
+        })
+    </script>
 </body>
 
 </html>
