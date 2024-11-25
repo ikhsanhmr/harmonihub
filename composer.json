@@ -4,7 +4,8 @@
       "Controllers\\": "app/Controllers",
       "Models\\": "app/Models",
       "Libraries\\": "app/Libraries",
-      "Migrations\\": "migrations"
+      "Migrations\\": "migrations",
+      "Helpers\\": "app/Helpers"
     }
   },
   "scripts": {

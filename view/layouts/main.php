@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
+    <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 

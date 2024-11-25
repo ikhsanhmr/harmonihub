@@ -16,6 +16,10 @@ class ComposerStaticInitc581171b65dcd88b0e6327d7469f003b
         array (
             'Libraries\\' => 10,
         ),
+        'H' => 
+        array (
+            'Helpers\\' => 8,
+        ),
         'C' => 
         array (
             'Controllers\\' => 12,
@@ -34,6 +38,10 @@ class ComposerStaticInitc581171b65dcd88b0e6327d7469f003b
         'Libraries\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Libraries',
+        ),
+        'Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Helpers',
         ),
         'Controllers\\' => 
         array (

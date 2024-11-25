@@ -7,7 +7,7 @@ use Controllers\AuthController;
 use Controllers\Dashboard;
 use Controllers\LksBipartit\BaPembentukan;
 use Controllers\LksBipartit\Jadwal;
-use Controllers\LksBipartit\Tema;
+use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
 use Controllers\LksBipartit\Penilain;
 use Controllers\UserController;
@@ -16,7 +16,7 @@ $auth = new AuthController();
 $dashboard = new Dashboard();
 $bapembentukan = new BaPembentukan();
 $jadwal = new Jadwal();
-$tema = new Tema();
+$tema = new TemaController();
 $laporan = new Laporan();
 $penilain = new Penilain();
 
@@ -50,6 +50,25 @@ if (!isset($_GET['page'])) {
     case 'tema':
       $tema->index();
       break;
+    case 'tema/create':
+      $tema->create();
+      break;
+    case 'tema/store':
+      $tema->store();
+      break;
+    case 'tema/delete':
+      $tema->delete();
+      break;
+    case 'tema=edit':
+      if (isset($_GET['id'])) {
+        $tema->edit();  // Panggil metode edit dengan ID
+      } else {
+        echo "<script>alert('ID Tema tidak ditemukan.');</script>";
+        $tema->index();  // Kembali ke halaman index jika ID tidak ada
+      }
+      break;
+    case 'tema/update':
+      $tema->update();
     case 'laporan':
       $laporan->index();
       break;
