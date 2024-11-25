@@ -11,13 +11,16 @@ class UserController
     public function __construct()
     {
         $this->db = Database::getInstance();
+        date_default_timezone_set('Asia/Jakarta');
     }
 
     public function index()
     {
-        $stmt = $this->db->prepare("SELECT u.id, u.name, u.username, u.email, u.profile_picture, u.created_at, u.updated_at, r.role_name as role_name 
+        $stmt = $this->db->prepare("SELECT u.id, u.name, u.username, u.email, u.profile_picture, u.created_at, u.updated_at, r.role_name as role_name, s.name as serikat_name 
                                     FROM users u 
-                                    JOIN roles r ON u.role_id = r.id");
+                                    JOIN roles r ON u.role_id = r.id
+                                    JOIN serikat s ON u.serikat_id = s.id
+                                    ORDER BY u.created_at DESC;");
         $stmt->execute();
         $users = $stmt->fetchAll();
 
@@ -26,10 +29,13 @@ class UserController
 
     public function create()
     {
-        // Ambil data role untuk dropdown
         $stmt = $this->db->prepare("SELECT id, role_name FROM roles");
         $stmt->execute();
         $roles = $stmt->fetchAll();
+
+        $stmt = $this->db->prepare("SELECT id, name FROM serikat");
+        $stmt->execute();
+        $serikats = $stmt->fetchAll();
 
         include 'view/user/user-create.php';
     }
@@ -84,6 +90,10 @@ class UserController
         $stmt = $this->db->prepare("SELECT id, role_name FROM roles");
         $stmt->execute();
         $roles = $stmt->fetchAll();
+
+        $stmt = $this->db->prepare("SELECT id, name FROM serikat");
+        $stmt->execute();
+        $serikats = $stmt->fetchAll();
 
         include 'view/user/user-edit.php';
     }

@@ -23,6 +23,14 @@ ob_start(); // Mulai output buffering
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="serikat_id">Serikat</label>
+                                    <select class="form-control" id="serikat_id" name="serikat_id" required>
+                                        <?php foreach ($serikats as $serikat): ?>
+                                            <option value="<?php echo $serikat['id']; ?>" <?php echo $serikat['id'] == $user['serikat_id'] ? 'selected' : ''; ?>><?php echo $serikat['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" required>
                                 </div>
@@ -30,16 +38,16 @@ ob_start(); // Mulai output buffering
                                     <label for="username">Username</label>
                                     <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
-                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" name="password">
                                     <small style="color: red;">*Kosongkan jika Anda tidak ingin mengganti password.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="profile_picture">Profile Picture</label>

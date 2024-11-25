@@ -36,6 +36,7 @@ ob_start(); // Mulai output buffering
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Role</th>
+                                    <th>Serikat</th>
                                     <th>Profile Picture</th>
                                     <th>Tanggal Dibuat</th>
                                     <th class="text-center" width="100">Aksi</th>
@@ -52,6 +53,7 @@ ob_start(); // Mulai output buffering
                                             <td><?php echo htmlspecialchars($user['username']); ?></td>
                                             <td><?php echo htmlspecialchars($user['email']); ?></td>
                                             <td><?php echo htmlspecialchars($user['role_name']); ?></td>
+                                            <td><?php echo htmlspecialchars($user['serikat_name']); ?></td>
                                             <td>
                                                 <?php if ($user['profile_picture']): ?>
                                                     <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="100">
