@@ -23,10 +23,10 @@ class AuthController
     {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
-        
+
         $query = "SELECT users.id, users.username, users.password, roles.role_name 
                       FROM users 
-                      JOIN roles ON users.roleId = roles.id 
+                      JOIN roles ON users.role_id = roles.id 
                       WHERE users.username = :username";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':username', $username, PDO::PARAM_STR);
