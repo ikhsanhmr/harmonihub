@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -123,6 +125,7 @@
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
+
 </body>
 
 </html>
