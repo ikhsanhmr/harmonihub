@@ -11,6 +11,8 @@
   "scripts": {
     "start": "php -S localhost:8000",
     "migrate": "php migrations/migrate.php"
+  },
+  "require": {
+    "respect/validation": "^2.3"
   }
 }
-

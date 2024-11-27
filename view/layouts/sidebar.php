@@ -18,13 +18,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=album">
-                <i class="icon-paper menu-icon"></i>
-                <span class="menu-title">Album</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="index.php?page=info_siru">
+            <a class="nav-link" href="index.php?page=info-siru">
                 <i class="icon-paper menu-icon"></i>
                 <span class="menu-title">Info SIRU</span>
             </a>

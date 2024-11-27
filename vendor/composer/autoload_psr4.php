@@ -6,6 +6,9 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
+    'Respect\\Stringifier\\' => array($vendorDir . '/respect/stringifier/src'),
     'Models\\' => array($baseDir . '/app/Models'),
     'Migrations\\' => array($baseDir . '/migrations'),
     'Libraries\\' => array($baseDir . '/app/Libraries'),

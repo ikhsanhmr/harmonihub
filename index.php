@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Controllers\Albums;
 use Controllers\AuthController;
 use Controllers\Dashboard;
+use Controllers\InfoSiru;
 use Controllers\LksBipartit\BaPembentukan;
 use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\TemaController;
@@ -19,7 +19,7 @@ $jadwal = new Jadwal();
 $tema = new TemaController();
 $laporan = new Laporan();
 $penilain = new Penilain();
-
+$infoSiruController = new InfoSiru();
 $userController = new UserController();
 
 // Periksa apakah pengguna sudah login
@@ -47,6 +47,7 @@ if (!isset($_GET['page'])) {
     case 'jadwal':
       $jadwal->index();
       break;
+
     case 'tema':
       $tema->index();
       break;
@@ -101,6 +102,24 @@ if (!isset($_GET['page'])) {
       break;
     case 'user-delete':
       $userController->destroy($_GET['id']); // Hapus user
+      break;
+    case 'info-siru':
+      $infoSiruController->index();
+      break;
+    case 'info-siru-create':
+      $infoSiruController->create();
+      break;
+    case 'info-siru-store':
+      $infoSiruController->store();
+      break;
+    case 'info-siru-destroy':
+      $infoSiruController->destroy($_GET['id']);
+      break;
+    case 'info-siru-edit':
+      $infoSiruController->edit($_GET['id']);
+      break;
+    case 'info-siru-update':
+      $infoSiruController->update($_GET['id']);
       break;
     default:
       // Aksi default untuk page yang tidak dikenali
