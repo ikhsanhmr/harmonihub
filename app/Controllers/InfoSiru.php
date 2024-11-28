@@ -1,6 +1,7 @@
 <?php
     namespace Controllers;
 
+    use Helpers\Validation;
     use Libraries\CSRF;
     use Libraries\Database;
     class InfoSiru
@@ -33,44 +34,16 @@
         }
         public function store() {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if (!CSRF::validateToken($_POST['csrf_token'])) {
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid CSRF token!'];
+                    header("Location: index.php?page=info-siru-create");
+                    exit;
+                }
                 $sender = $_SESSION["user_id"];
                 $type = $_POST['type'];
-                $filePath = null;
             
-                if (!isset($_FILES['filePath']) || $_FILES['filePath']['error'] !== UPLOAD_ERR_OK) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => 'File harus di-upload.'];
-                    header('Location: index.php?page=info-siru-create');
-                    exit;
-                }
-            
-                $fileName = $_FILES['filePath']['name'];
-                $fileTmpPath = $_FILES['filePath']['tmp_name'];
-                $fileSize = $_FILES['filePath']['size'];
-            
-                $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'mp4'];
-                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            
-                if (!in_array($fileExtension, $allowedExtensions)) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => "Jenis file tidak valid. Hanya diperbolehkan: " . implode(', ', $allowedExtensions)];
-                    header('Location: index.php?page=info-siru-create');
-                    exit;
-                }
-            
-                $maxFileSize = 5 * 1024 * 1024; // 5MB
-                if ($fileSize > $maxFileSize) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Maksimal ukuran file 5MB.'];
-                    header('Location: index.php?page=info-siru-create');
-                    exit;
-                }
-            
-                $uploadDir = 'uploads/info-siru/';
-                $filePath = $uploadDir . uniqid() . '_' . $fileName;
-            
-                if (!move_uploaded_file($fileTmpPath, $filePath)) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal meng-upload file.'];
-                    header('Location: index.php?page=info-siru-create');
-                    exit;
-                }
+                $filePath = Validation::ValidatorFile($_FILES["filePath"],"uploads/info-siru/","index.php?page=info-siru-create");
+                
             
                 $createdAt = date('Y-m-d H:i:s');
                 $updatedAt = date('Y-m-d H:i:s');
@@ -83,9 +56,11 @@
                 if ($success) {
                     $_SESSION['message'] = ['type' => 'success', 'text' => 'Sukses membuat Info Siru baru!'];
                     header('Location: index.php?page=info-siru');
+                    exit;
                 } else {
                     $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal membuat Info Siru!'];
                     header('Location: index.php?page=info-siru-create');
+                    exit;
                 }
             }
             
@@ -100,62 +75,32 @@
         }
         public function update(Int $id) {
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                
+                if (!CSRF::validateToken($_POST['csrf_token'])) {
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid CSRF token!'];
+                    header("Location: index.php?page=info-siru-edit&id=$id");
+                    exit;
+                }
                 $sender = $_SESSION["user_id"];
                 $type = $_POST['type'];
-                $filePath = null;
             
 
                 $query = "SELECT filePath FROM info_sirus WHERE id = ?";
                 $stmt = $this->db->prepare($query);
                 $stmt->execute([$id]);
-                $album = $stmt->fetch();
+                $infoSiru = $stmt->fetch();
 
-                if ($album && !empty($album['filePath']) && file_exists($album['filePath'])) {
-                    unlink($album['filePath']);
+                if ($infoSiru && !empty($infoSiru['filePath']) && file_exists($infoSiru['filePath'])) {
+                    unlink($infoSiru['filePath']);
                 }
                 
-                if (!isset($_FILES['filePath']) || $_FILES['filePath']['error'] !== UPLOAD_ERR_OK) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => 'File harus di-upload.'];
-                    header('Location: index.php?page=info-siru-update');
-                    exit;
-                }
-            
-                $fileName = $_FILES['filePath']['name'];
-                $fileTmpPath = $_FILES['filePath']['tmp_name'];
-                $fileSize = $_FILES['filePath']['size'];
-            
-                $allowedExtensions = ['jpg', 'jpeg', 'png', 'pdf', 'mp4'];
-                $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            
-                if (!in_array($fileExtension, $allowedExtensions)) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => "Jenis file tidak valid. Hanya diperbolehkan: " . implode(', ', $allowedExtensions)];
-                    header('Location: index.php?page=info-siru-update');
-                    exit;
-                }
-            
-                $maxFileSize = 5 * 1024 * 1024; // 5MB
-                if ($fileSize > $maxFileSize) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Maksimal ukuran file 5MB.'];
-                    header('Location: index.php?page=info-siru-update');
-                    exit;
-                }
-            
-                $uploadDir = 'uploads/info-siru/';
-                $filePath = $uploadDir . uniqid() . '_' . $fileName;
-               
-                if (!move_uploaded_file($fileTmpPath, $filePath)) {
-                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal meng-upload file.'];
-                    header('Location: index.php?page=info-siru-update');
-                    exit;
-                }
+                $file = Validation::ValidatorFile($_FILES["filePath"],"uploads/info-siru/","index.php?page=info-siru-edit&id=$id");
     
                 $updatedAt = date('Y-m-d H:i:s');
             
                 $query = "update info_sirus set sender = ?, filePath = ?, type= ?, updateAt= ? where id = ?";
                 $stmt = $this->db->prepare($query);
             
-                $success = $stmt->execute([$sender, $filePath, $type, $updatedAt,$id]);
+                $success = $stmt->execute([$sender, $file, $type, $updatedAt,$id]);
             
                 if ($success) {
                     $_SESSION['message'] = ['type' => 'success', 'text' => 'Sukses mengedit Info Siru!'];
@@ -184,7 +129,6 @@
                     $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal menghapus Info Siru.'];
                 }
 
-                // Redirect kembali ke halaman album
                 header('Location: index.php?page=info-siru');
                 exit();
             }

@@ -24,6 +24,12 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="index.php?page=serikat">
+                <i class="icon-contract menu-icon"></i>
+                <span class="menu-title">Serikat</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#lks_bipartit" aria-expanded="false" aria-controls="ui-basic">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">LKS Bipartit</span>
