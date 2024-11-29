@@ -35,7 +35,7 @@ class AuthController
         if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if (password_verify($password, $user['password'])) {
-                session_start();
+                // session_start();
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role_name'] = $user['role_name'];
@@ -61,7 +61,7 @@ class AuthController
 
     public function logout()
     {
-        session_start();
+        // session_start();
         session_destroy();
         echo "<script>
             alert('Anda berhasil logout!');
