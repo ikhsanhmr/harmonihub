@@ -18,15 +18,15 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=album">
+            <a class="nav-link" href="index.php?page=info-siru">
                 <i class="icon-paper menu-icon"></i>
-                <span class="menu-title">Album</span>
+                <span class="menu-title">Info SIRU</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=info_siru">
-                <i class="icon-paper menu-icon"></i>
-                <span class="menu-title">Info SIRU</span>
+            <a class="nav-link" href="index.php?page=serikat">
+                <i class="icon-contract menu-icon"></i>
+                <span class="menu-title">Serikat</span>
             </a>
         </li>
         <li class="nav-item">

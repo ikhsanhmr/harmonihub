@@ -11,7 +11,7 @@ class UserController
     public function __construct()
     {
         $this->db = Database::getInstance();
-        date_default_timezone_set('Asia/Jakarta');
+        date_default_timezone_set(timezoneId: 'Asia/Jakarta');
     }
 
     public function index()
