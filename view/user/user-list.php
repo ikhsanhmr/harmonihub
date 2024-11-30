@@ -44,33 +44,29 @@ ob_start(); // Mulai output buffering
                             </thead>
                             <tbody>
                                 <?php
-                                if (!empty($users)) {
-                                    foreach ($users as $index => $user) {
+                                foreach ($users as $index => $user) {
                                 ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($user['name']); ?></td>
-                                            <td><?php echo htmlspecialchars($user['username']); ?></td>
-                                            <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                            <td><?php echo htmlspecialchars($user['role_name']); ?></td>
-                                            <td><?php echo htmlspecialchars($user['serikat_name']); ?></td>
-                                            <td>
-                                                <?php if ($user['profile_picture']): ?>
-                                                    <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="100">
-                                                <?php else: ?>
-                                                    <span>No Picture</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?php echo date('d-m-Y H:i', strtotime($user['created_at'])); ?></td>
-                                            <td>
-                                                <a href="index.php?page=user-edit&id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="index.php?page=user-delete&id=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo htmlspecialchars($user['name']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['username']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['email']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['role_name']); ?></td>
+                                        <td><?php echo htmlspecialchars($user['serikat_name']); ?></td>
+                                        <td>
+                                            <?php if ($user['profile_picture']): ?>
+                                                <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="100">
+                                            <?php else: ?>
+                                                <span>No Picture</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo date('d-m-Y H:i', strtotime($user['created_at'])); ?></td>
+                                        <td>
+                                            <a href="index.php?page=user-edit&id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=user-delete&id=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                        </td>
+                                    </tr>
                                 <?php
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='8'>No users found</td></tr>";
                                 }
                                 ?>
                             </tbody>
