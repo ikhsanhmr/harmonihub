@@ -10,12 +10,12 @@ use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
 use Controllers\LksBipartit\Penilain;
+use Controllers\PenilaianPdpController;
 use Controllers\Serikat;
 use Controllers\UserController;
 
 $auth = new AuthController();
 $dashboard = new Dashboard();
-$bapembentukan = new BaPembentukan();
 $jadwal = new Jadwal();
 $tema = new TemaController();
 $laporan = new Laporan();
@@ -23,6 +23,8 @@ $penilain = new Penilain();
 $infoSiruController = new InfoSiru();
 $serikatController = new Serikat();
 $userController = new UserController();
+$pdpController = new PenilaianPdpController();
+$baController = new BaPembentukan();
 
 // Periksa apakah pengguna sudah login
 session_start();
@@ -42,9 +44,6 @@ if (!isset($_GET['page'])) {
       break;
     case 'profile':
       $dashboard->profile();
-      break;
-    case 'ba-pembentukan':
-      $bapembentukan->index();
       break;
     case 'jadwal':
       $jadwal->index();
@@ -140,6 +139,42 @@ if (!isset($_GET['page'])) {
       break;
     case 'serikat-destroy':
       $serikatController->destroy($_GET['id']);
+      break;
+    case 'penilaian-pdp-list':
+      $pdpController->index();
+      break;
+    case 'penilaian-pdp-create':
+      $pdpController->create();
+      break;
+    case 'penilaian-pdp-store':
+      $pdpController->store();
+      break;
+    case 'penilaian-pdp-edit':
+      $pdpController->edit($_GET['id']);
+      break;
+    case 'penilaian-pdp-update':
+      $pdpController->update($_GET['id']);
+      break;
+    case 'penilaian-pdp-delete':
+      $pdpController->destroy($_GET['id']);
+      break;
+    case 'ba-pembentukan-list':
+      $baController->index();
+      break;
+    case 'ba-pembentukan-create':
+      $baController->create();
+      break;
+    case 'ba-pembentukan-store':
+      $baController->store();
+      break;
+    case 'ba-pembentukan-edit':
+      $baController->edit($_GET['id']);
+      break;
+    case 'ba-pembentukan-update':
+      $baController->update($_GET['id']);
+      break;
+    case 'ba-pembentukan-delete':
+      $baController->destroy($_GET['id']);
       break;
     default:
       // Aksi default untuk page yang tidak dikenali

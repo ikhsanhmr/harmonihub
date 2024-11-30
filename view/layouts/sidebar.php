@@ -38,7 +38,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             <div class="collapse" id="lks_bipartit">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> 
-                        <a class="nav-link" href="index.php?page=ba-pembentukan">BA Pembentukan</a>
+                        <a class="nav-link" href="index.php?page=ba-pembentukan-list">BA Pembentukan</a>
                     </li>
                     <li class="nav-item"> 
                         <a class="nav-link" href="index.php?page=jadwal">Jadwal</a>
@@ -49,14 +49,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
                     <li class="nav-item"> 
                         <a class="nav-link" href="index.php?page=laporan">Laporan</a>
                     </li>
-                    <li class="nav-item"> 
-                        <a class="nav-link" href="index.php?page=penilain">Penilaian</a>
-                    </li>
                 </ul>
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="index.php?page=penilaian_pdp">
+            <a class="nav-link" href="index.php?page=penilaian-pdp-list">
                 <i class="icon-grid-2 menu-icon"></i>
                 <span class="menu-title">Penilaian PDP Lain</span>
             </a>
