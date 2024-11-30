@@ -17,12 +17,8 @@ if (isset($_SESSION['message'])) {
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Data Serikat Pekerja</h4>
-                    <div style="float: right">
-                        <a href="index.php?page=serikat-create" class="btn btn-success btn-sm">
-                            Tambah Data
-                        </a>
-                    </div>
+                    <h4 class="card-title">Data Anggota Serikat Pekerja</h4>
+                    
                     <div class="table-responsive pt-3">
                         <table class="table table-bordered data-table">
                             <thead>
@@ -30,11 +26,10 @@ if (isset($_SESSION['message'])) {
                                     <th class="text-center" width="50">No.</th>
                                     <th>Nama</th>
                                     <th>Nama Unit</th>
-                                    <th>Nip</th>
+                                    <th>Nama Serikat</th>
                                     <th>Keanggotaan</th>
                                     <th>No Kta</th>
-                                    <th>Posisi</th>
-                                    <th>Logo</th>
+                                    <th>Nip</th>
                                     <th>Tanggal Dibuat</th>
                                     <th class="text-center" width="100">Aksi</th>
                                 </tr>
@@ -47,27 +42,21 @@ if (isset($_SESSION['message'])) {
                                         <tr>
 
                                             <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['nama']); ?></td>
+                                            <td><?php echo htmlspecialchars($serikat['name']); ?></td>
                                             <td><?php echo htmlspecialchars($serikat['nama_unit']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['nip']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['keanggotaan']); ?></td>
+                                            <td><?php echo htmlspecialchars($serikat['nama_serikat']); ?></td>
+                                            <td><?php echo htmlspecialchars($serikat['membership']); ?></td>
                                             <td><?php echo htmlspecialchars($serikat['noKta']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['posisi']); ?></td>
-                                            <td>
-                                                <?php if ($serikat['logoPath']): ?>
-                                                    <img src="<?php echo $serikat['logoPath']; ?>" alt="Photo Logo" width="100">
-                                                <?php else: ?>
-                                                    <span>No Picture</span>
-                                                <?php endif; ?>
-                                            </td>
+                                            <td><?php echo htmlspecialchars($serikat['nip']); ?></td>
+                                           
                                             <td><?php echo date('d-m-Y H:i', strtotime($serikat['createdAt'])); ?></td>
                                             <td>
-                                                <a href="index.php?page=serikat-edit&id=<?php echo $serikat['id_serikat']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="index.php?page=serikat-destroy&id=<?php echo $serikat['id_serikat']; ?>" 
-                                                    id="delete-<?php echo $serikat['id_serikat']; ?>" method="post" style="display:inline;">
+                                                <a href="index.php?page=anggota-serikat-edit&id=<?php echo $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="index.php?page=anggota-serikat-destroy&id=<?php echo $serikat['id']; ?>" 
+                                                    id="delete-<?php echo $serikat['id']; ?>" method="post" style="display:inline;">
                                                     <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                                                     <button type="button" class="btn btn-danger btn-sm delete-btn" 
-                                                            data-id="<?php echo $serikat['id_serikat']; ?>">
+                                                            data-id="<?php echo $serikat['id']; ?>">
                                                         Delete
                                                     </button>
                                                 </form>

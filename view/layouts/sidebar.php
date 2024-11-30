@@ -30,6 +30,12 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="index.php?page=anggota-serikat">
+            <i class="icon-map menu-icon"></i>
+                <span class="menu-title">Anggota Serikat</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#lks_bipartit" aria-expanded="false" aria-controls="ui-basic">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">LKS Bipartit</span>

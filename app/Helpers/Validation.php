@@ -39,6 +39,9 @@ final class Validation
 
         $filePath = $uploadDir . uniqid() . '_' . $fileName;
 
+        if(!is_dir($uploadDir)){
+            mkdir($uploadDir, 0777, true);
+        }
         if (!move_uploaded_file($fileTmpPath, $filePath)) {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal meng-upload file.'];
             header("Location: $redirectPage");

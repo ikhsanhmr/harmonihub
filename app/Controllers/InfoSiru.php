@@ -107,7 +107,7 @@
                     header('Location: index.php?page=info-siru');
                 } else {
                     $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal Mengedit Info Siru!'];
-                    header('Location: index.php?page=info-siru-update');
+                    header('Location: index.php?page=info-siru-edit&id=$id');
                 }
             }
         }
@@ -119,7 +119,12 @@
                     header("Location: index.php?page=info-siru");
                     exit;
                 }
-
+                $stmt = $this->db->prepare("select filePath FROM info_sirus WHERE id = ?");
+                $stmt->execute([$id]);
+                $infoSiru = $stmt->fetch();
+                if($infoSiru && !empty($infoSiru["filePath"]) && file_exists($infoSiru["filePath"])){
+                    unlink($infoSiru["filePath"]);
+                }
                 $stmt = $this->db->prepare("DELETE FROM info_sirus WHERE id = ?");
                 $success = $stmt->execute([$id]);
 

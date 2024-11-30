@@ -2,17 +2,21 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Controllers\AnggotaSerikat;
 use Controllers\AuthController;
 use Controllers\Dashboard;
+use Controllers\FrontendController;
 use Controllers\InfoSiru;
 use Controllers\LksBipartit\BaPembentukan;
 use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
 use Controllers\LksBipartit\Penilain;
-use Controllers\Serikat;
+use Controllers\Serikats;
 use Controllers\UserController;
 
+
+$frontend = new FrontendController();
 $auth = new AuthController();
 $dashboard = new Dashboard();
 $bapembentukan = new BaPembentukan();
@@ -21,19 +25,40 @@ $tema = new TemaController();
 $laporan = new Laporan();
 $penilain = new Penilain();
 $infoSiruController = new InfoSiru();
-$serikatController = new Serikat();
+$serikat = new Serikats();
+$anggotaSerikat = new AnggotaSerikat();
 $userController = new UserController();
 
-// Periksa apakah pengguna sudah login
+
+
 session_start();
+
+if (isset($_GET["harmonihub"])) {
+  $routeFe = $_GET['harmonihub'];
+  switch ($routeFe) {
+      case 'index':
+          $frontend->index();
+          break;
+      case 'serikat':
+          $frontend->serikat();
+          break;
+      case 'info-siru':
+          $frontend->infoSiru();
+          break;
+  }
+  exit(); 
+}
+
 if (!isset($_SESSION['user_id']) && $_GET['page'] !== 'login' && $_GET['page'] !== 'do-login') {
   // Redirect ke halaman login jika belum login
-  header('Location: index.php?page=login');
+  header('Location: index.php?harmonihub=index');
   exit();
 }
 
+
+
 if (!isset($_GET['page'])) {
-  $dashboard->login();
+  $frontend->index();
 } else {
   $page = $_GET['page'];
   switch ($page) {
@@ -124,22 +149,37 @@ if (!isset($_GET['page'])) {
       $infoSiruController->update($_GET['id']);
       break;
     case 'serikat':
-      $serikatController->index();
+      $serikat->index();
       break;
     case 'serikat-create':
-      $serikatController->create();
+      $serikat->create();
       break;
     case 'serikat-store':
-      $serikatController->store();
+      $serikat->store();
       break;
     case 'serikat-edit':
-      $serikatController->edit($_GET['id']);
+      $serikat->edit($_GET['id']);
       break;
     case 'serikat-update':
-      $serikatController->update($_GET['id']);
+      $serikat->update($_GET['id']);
       break;
     case 'serikat-destroy':
-      $serikatController->destroy($_GET['id']);
+      $serikat->destroy($_GET['id']);
+      break;
+    case 'anggota-serikat':
+        $anggotaSerikat->index();
+      break;
+    case 'anggota-serikat-store':
+      $anggotaSerikat->store();
+      break;
+    case 'anggota-serikat-edit':
+      $anggotaSerikat->edit($_GET['id']);
+      break;
+    case 'anggota-serikat-update':
+      $anggotaSerikat->update($_GET['id']);
+      break;
+    case 'anggota-serikat-destroy':
+      $anggotaSerikat->destroy($_GET['id']);
       break;
     default:
       // Aksi default untuk page yang tidak dikenali

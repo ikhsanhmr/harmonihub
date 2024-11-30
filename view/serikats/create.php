@@ -18,40 +18,34 @@ if (isset($_SESSION['message'])) {
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Tambah Info Siru</h4>
-
-                    <form action="index.php?page=info-siru-store" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="<?php echo CSRF::generateToken(); ?>">
+                    <h4 class="card-title">Tambah Serikat</h4>
+                    <form action="index.php?page=serikat-store" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?php echo CSRF::generateToken(); ?>">
                         <div class="row">
                            
                             <div class="col-md-6">
                                
                                 <div class="form-group">
-                                    <label for="sender">Pengirim</label>
-                                    <input type="text" class="form-control" id="sender" 
-                                    name="sender" value="<?= $_SESSION["username"]?>" readonly>
+                                    <label for="name">Nama</label>
+                                    <input type="text" class="form-control" id="name" 
+                                    name="name" autocomplete="name" placeholder="Masukkan Nama">
                                   
                                 </div>
+                               
+                               
                                 <div class="form-group">
-                                    <label for="type">Type</label>
-                                    <select class="form-control" id="type" name="type" required>
-                                        <option value="" selected disabled>Pilih Type</option>
-                                            <option value="flyer">Flyer</option>
-                                            <option value="video">Video</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="filePath">filePath</label>
-                                    <input type="file" class="form-control" id="filePath" name="filePath">
+                                    <label for="logoPath">logoPath</label>
+                                    <input type="file" class="form-control" id="logoPath" name="logoPath">
                                 </div>
                             </div>
+                          
                         </div>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 Simpan
                             </button>
-                            <a href="index.php?page=info-siru" class="btn btn-warning btn-sm">
+                            <a href="index.php?page=serikat" class="btn btn-warning btn-sm">
                                 Kembali
                             </a>
                         </div>
