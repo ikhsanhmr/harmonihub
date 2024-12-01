@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/app/Libraries/middleware.php';
 
 use Controllers\AnggotaSerikat;
 use Controllers\AuthController;
@@ -54,7 +55,22 @@ if (!isset($_SESSION['user_id']) && $_GET['page'] !== 'login' && $_GET['page'] !
   exit();
 }
 
-
+// Middleware untuk cek role
+if (isset($_GET['page'])) {
+  if (in_array($_GET['page'], [
+      'jadwal', 'tema', 'tema/create', 'tema/store', 'tema/delete', 'tema=edit', 'tema/update',
+      'user-list', 'user-create', 'user-store', 'user-edit', 'user-update', 'user-delete',
+      'info-siru-create', 'info-siru-store', 'info-siru-destroy', 'info-siru-edit', 'info-siru-update',
+      'serikat', 'serikat-create', 'serikat-store', 'serikat-edit', 'serikat-update', 'serikat-destroy',
+      'anggota-serikat', 'anggota-serikat-store', 'anggota-serikat-edit', 'anggota-serikat-update', 'anggota-serikat-destroy',
+      'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
+      'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
+      'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete', 
+      'unit-list', 'unit-create', 'unit-store', 'unit-edit', 'unit-update', 'unit-delete'
+    ])) {
+      checkRole('admin'); 
+  }
+}
 
 if (!isset($_GET['page'])) {
   $frontend->index();
