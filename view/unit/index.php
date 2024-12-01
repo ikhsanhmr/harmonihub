@@ -19,9 +19,9 @@ ob_start();
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Laporan LKS Bipartit</h4>
+                    <h4 class="card-title">Data Unit</h4>
                     <div style="float: right">
-                        <a href="index.php?page=laporan-create" class="btn btn-success btn-sm">
+                        <a href="index.php?page=unit-create" class="btn btn-success btn-sm">
                             Tambah Data
                         </a>
                     </div>
@@ -30,32 +30,20 @@ ob_start();
                             <thead>
                                 <tr class="text-center">
                                     <th class="text-center" width="50">No.</th>
-                                    <th>Unit</th>
-                                    <th>Tanggal</th>
-                                    <th>Topik Bahasan</th>
-                                    <th>Latar Belakang</th>
-                                    <th>Rekomendasi</th>
-                                    <th>Tanggal <br> Tindak Lanjut</th>
-                                    <th>Uraian <br> Tindak Lanjut</th>
+                                    <th>Nama Unit</th>
                                     <th class="text-center" width="100">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($laporans as $index => $laporan) {
+                                foreach ($units as $index => $unit) {
                                 ?>
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($laporan['unit_name']); ?></td>
-                                        <td><?php echo date('d-m-Y', strtotime($laporan['tanggal'])); ?></td>
-                                        <td><?php echo htmlspecialchars($laporan['topik_bahasan']); ?></td>
-                                        <td><?php echo htmlspecialchars($laporan['latar_belakang']); ?></td>
-                                        <td><?php echo htmlspecialchars($laporan['rekomendasi']); ?></td>
-                                        <td><?php echo date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])); ?></td>
-                                        <td><?php echo htmlspecialchars($laporan['uraian_tindak_lanjut']); ?></td>
+                                        <td><?php echo htmlspecialchars($unit['name']); ?></td>
                                         <td>
-                                            <a href="index.php?page=laporan-edit&id=<?php echo $laporan['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="index.php?page=laporan-delete&id=<?php echo $laporan['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                            <a href="index.php?page=unit-edit&id=<?php echo $unit['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=unit-delete&id=<?php echo $unit['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php

@@ -3,7 +3,8 @@
 namespace Controllers\LksBipartit;
 
 use Libraries\Database;
-class BaPembentukan{
+class BaPembentukan
+{
     private $db;
 
     public function __construct()

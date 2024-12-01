@@ -11,44 +11,41 @@ use Controllers\LksBipartit\BaPembentukan;
 use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
-use Controllers\LksBipartit\Penilain;
 use Controllers\PenilaianPdpController;
 use Controllers\Serikats;
+use Controllers\UnitController;
 use Controllers\UserController;
-
 
 $frontend = new FrontendController();
 $auth = new AuthController();
 $dashboard = new Dashboard();
 $jadwal = new Jadwal();
 $tema = new TemaController();
-$laporan = new Laporan();
-$penilain = new Penilain();
 $infoSiruController = new InfoSiru();
 $serikat = new Serikats();
 $anggotaSerikat = new AnggotaSerikat();
 $userController = new UserController();
 $pdpController = new PenilaianPdpController();
 $baController = new BaPembentukan();
-
-
+$laporanController = new Laporan();
+$unitController = new UnitController();
 
 session_start();
 
 if (isset($_GET["harmonihub"])) {
   $routeFe = $_GET['harmonihub'];
   switch ($routeFe) {
-      case 'index':
-          $frontend->index();
-          break;
-      case 'serikat':
-          $frontend->serikat();
-          break;
-      case 'info-siru':
-          $frontend->infoSiru();
-          break;
+    case 'index':
+      $frontend->index();
+      break;
+    case 'serikat':
+      $frontend->serikat();
+      break;
+    case 'info-siru':
+      $frontend->infoSiru();
+      break;
   }
-  exit(); 
+  exit();
 }
 
 if (!isset($_SESSION['user_id']) && $_GET['page'] !== 'login' && $_GET['page'] !== 'do-login') {
@@ -96,12 +93,6 @@ if (!isset($_GET['page'])) {
       break;
     case 'tema/update':
       $tema->update();
-    case 'laporan':
-      $laporan->index();
-      break;
-    case 'penilain':
-      $penilain->index();
-      break;
     case 'login':
       $auth->loginForm();
       break;
@@ -166,7 +157,7 @@ if (!isset($_GET['page'])) {
       $serikat->destroy($_GET['id']);
       break;
     case 'anggota-serikat':
-        $anggotaSerikat->index();
+      $anggotaSerikat->index();
       break;
     case 'anggota-serikat-store':
       $anggotaSerikat->store();
@@ -215,6 +206,42 @@ if (!isset($_GET['page'])) {
       break;
     case 'ba-pembentukan-delete':
       $baController->destroy($_GET['id']);
+      break;
+    case 'laporan-list':
+      $laporanController->index();
+      break;
+    case 'laporan-create':
+      $laporanController->create();
+      break;
+    case 'laporan-store':
+      $laporanController->store();
+      break;
+    case 'laporan-edit':
+      $laporanController->edit($_GET['id']);
+      break;
+    case 'laporan-update':
+      $laporanController->update($_GET['id']);
+      break;
+    case 'laporan-delete':
+      $laporanController->destroy($_GET['id']);
+      break;
+    case 'unit-list':
+      $unitController->index();
+      break;
+    case 'unit-create':
+      $unitController->create();
+      break;
+    case 'unit-store':
+      $unitController->store();
+      break;
+    case 'unit-edit':
+      $unitController->edit($_GET['id']);
+      break;
+    case 'unit-update':
+      $unitController->update($_GET['id']);
+      break;
+    case 'unit-delete':
+      $unitController->destroy($_GET['id']);
       break;
     default:
       // Aksi default untuk page yang tidak dikenali
