@@ -13,6 +13,7 @@ use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
 use Controllers\PenilaianPdpController;
+use Controllers\ProfileController;
 use Controllers\Serikats;
 use Controllers\UnitController;
 use Controllers\UserController;
@@ -30,6 +31,7 @@ $pdpController = new PenilaianPdpController();
 $baController = new BaPembentukan();
 $laporanController = new Laporan();
 $unitController = new UnitController();
+$profileContoller = new ProfileController();
 
 session_start();
 
@@ -81,8 +83,17 @@ if (!isset($_GET['page'])) {
       $dashboard->home();
       break;
     case 'profile':
-      $dashboard->profile();
+      $profileContoller->index();
       break;
+    case 'profile/update':
+      // Ambil ID dari sesi, bukan dari parameter URL
+      if (isset($_SESSION['user_id'])) {
+        $profileContoller->update(); // Tidak perlu kirim $id, gunakan $_SESSION['user_id']
+      } else {
+        // Redirect ke halaman login jika pengguna tidak login
+        header('Location: index.php?page=login');
+        exit;
+      }
     case 'jadwal':
       $jadwal->index();
       break;

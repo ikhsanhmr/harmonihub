@@ -2,22 +2,43 @@
 ob_start();
 ?>
 <div class="content-wrapper">
+    <?php
+    if (isset($_SESSION['message'])) {
+        $message = $_SESSION['message'];
+        $messageClass = $message['type'] == 'success' ? 'alert-success' : 'alert-danger';
+    ?>
+        <div class="alert <?php echo $messageClass; ?>" role="alert">
+            <?php echo $message['text']; ?>
+        </div>
+    <?php
+        unset($_SESSION['message']);
+    }
+    ?>
     <div class="row">
         <div class="col-md-4 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
-                        <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg" alt="" width="150" height="150">
+                        <?php if ($user['profile_picture']): ?>
+                            <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="150" height="150" style="border-radius: 100%; margin-bottom: 1rem;">
+                        <?php else: ?>
+                            <span>No Picture</span>
+                        <?php endif; ?>
                     </div>
                     <div class="profile text-center fw-bold">
-                        <p class="profile-title">ADMIN APRIYANA</p>
-                        <p class="role">Admin</p>
+                        <p class="profile-title"><?php echo $user['name']; ?></p>
+                        <?php if ($user['role_name'] == 'admin') { ?>
+                            <p class="role"><?= htmlspecialchars($user['role_name']) ?></p>
+                        <?php } ?>
                         <hr>
                         <p class="profile-title">Username</p>
-                        <p class="title-name">adminapri</p>
+                        <p class="title-name"><?= htmlspecialchars($user['username']) ?></p>
                         <hr>
                         <p class="profile-title">Email</p>
-                        <p class="title-name">adminapri@email.com</p>
+                        <p class="title-name"><?= htmlspecialchars($user['email']) ?></p>
+                        <hr>
+                        <p class="profile-title">Serikat</p>
+                        <p class="title-name"><?= htmlspecialchars($user['serikat_name']) ?></p>
                     </div>
                 </div>
             </div>
@@ -26,41 +47,36 @@ ob_start();
             <div class="card">
                 <div class="card-body">
                     <p class="card-title">Update Profile</p>
-                    <form class="forms-sample">
+                    <form class="forms-sample" action="index.php?page=profile/update" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Nama Lengkap</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="name" placeholder="Nama Lengkap">
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Nama Lengkap" value="<?= htmlspecialchars($user['name']) ?>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="email" class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input type="email" class="form-control" id="email" placeholder="Email">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?= htmlspecialchars($user['email']) ?>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="username" class="col-sm-3 col-form-label">Username</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="username" placeholder="Username">
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="<?= htmlspecialchars($user['username']) ?>">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="password" class="col-sm-3 col-form-label">Password</label>
                             <div class="col-sm-9">
-                                <input type="password" class="form-control" id="password" placeholder="Password">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-sm-3 col-form-label">Re Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" id="password-confirm" placeholder="Password">
+                                <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="profile" class="col-sm-3 col-form-label">Profile</label>
                             <div class="col-sm-9">
-                                <input type="file" class="form-control" id="profile">
+                                <input type="file" class="form-control" name="profile_picture" id="profile">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Simpan</button>
