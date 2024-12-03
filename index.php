@@ -60,17 +60,65 @@ if (!isset($_SESSION['user_id']) && $_GET['page'] !== 'login' && $_GET['page'] !
 // Middleware untuk cek role
 if (isset($_GET['page'])) {
   if (in_array($_GET['page'], [
-      'jadwal', 'tema', 'tema/create', 'tema/store', 'tema/delete', 'tema=edit', 'tema/update',
-      'user-list', 'user-create', 'user-store', 'user-edit', 'user-update', 'user-delete',
-      'info-siru-create', 'info-siru-store', 'info-siru-destroy', 'info-siru-edit', 'info-siru-update',
-      'serikat', 'serikat-create', 'serikat-store', 'serikat-edit', 'serikat-update', 'serikat-destroy',
-      'anggota-serikat', 'anggota-serikat-store', 'anggota-serikat-edit', 'anggota-serikat-update', 'anggota-serikat-destroy',
-      'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
-      'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
-      'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete', 
-      'unit-list', 'unit-create', 'unit-store', 'unit-edit', 'unit-update', 'unit-delete'
-    ])) {
-      checkRole('admin'); 
+    'jadwal',
+    'fectch/jadwal',
+    'jadwal/store',
+    'jadwal/edit',
+    'jadwal/delete',
+    'tema',
+    'tema/create',
+    'tema/store',
+    'tema/delete',
+    'tema=edit',
+    'tema/update',
+    'user-list',
+    'user-create',
+    'user-store',
+    'user-edit',
+    'user-update',
+    'user-delete',
+    'info-siru-create',
+    'info-siru-store',
+    'info-siru-destroy',
+    'info-siru-edit',
+    'info-siru-update',
+    'serikat',
+    'serikat-create',
+    'serikat-store',
+    'serikat-edit',
+    'serikat-update',
+    'serikat-destroy',
+    'anggota-serikat',
+    'anggota-serikat-store',
+    'anggota-serikat-edit',
+    'anggota-serikat-update',
+    'anggota-serikat-destroy',
+    'penilaian-pdp-list',
+    'penilaian-pdp-create',
+    'penilaian-pdp-store',
+    'penilaian-pdp-edit',
+    'penilaian-pdp-update',
+    'penilaian-pdp-delete',
+    'ba-pembentukan-list',
+    'ba-pembentukan-create',
+    'ba-pembentukan-store',
+    'ba-pembentukan-edit',
+    'ba-pembentukan-update',
+    'ba-pembentukan-delete',
+    'laporan-list',
+    'laporan-create',
+    'laporan-store',
+    'laporan-edit',
+    'laporan-update',
+    'laporan-delete',
+    'unit-list',
+    'unit-create',
+    'unit-store',
+    'unit-edit',
+    'unit-update',
+    'unit-delete'
+  ])) {
+    checkRole('admin');
   }
 }
 
@@ -97,7 +145,27 @@ if (!isset($_GET['page'])) {
     case 'jadwal':
       $jadwal->index();
       break;
-
+    case 'fectch/jadwal':
+      $jadwal->fetchJadwal();
+      break;
+    case 'jadwal/create':
+      $jadwal->create();
+      break;
+    case 'jadwal/store':
+      $jadwal->store();
+      break;
+    case 'jadwal/data':
+      $jadwal->data();
+      break;
+    case 'jadwal/edit':
+      $jadwal->edit($_GET['id']);
+      break;
+    case 'jadwal/update':
+      $jadwal->update($_GET['id']); // Proses update user
+      break;
+    case 'jadwal/delete':
+      $jadwal->delete();
+      break;
     case 'tema':
       $tema->index();
       break;
