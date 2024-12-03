@@ -41,9 +41,6 @@ if (isset($_GET["harmonihub"])) {
     case 'index':
       $frontend->index();
       break;
-    case 'serikat':
-      $frontend->serikat();
-      break;
     case 'info-siru':
       $frontend->infoSiru();
       break;
@@ -64,7 +61,7 @@ if (isset($_GET['page'])) {
       'user-list', 'user-create', 'user-store', 'user-edit', 'user-update', 'user-delete',
       'info-siru-create', 'info-siru-store', 'info-siru-destroy', 'info-siru-edit', 'info-siru-update',
       'serikat', 'serikat-create', 'serikat-store', 'serikat-edit', 'serikat-update', 'serikat-destroy',
-      'anggota-serikat', 'anggota-serikat-store', 'anggota-serikat-edit', 'anggota-serikat-update', 'anggota-serikat-destroy',
+      'anggota-serikat','anggota-serikat-create', 'anggota-serikat-store', 'anggota-serikat-edit', 'anggota-serikat-update', 'anggota-serikat-destroy',
       'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
       'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
       'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete', 
@@ -185,6 +182,9 @@ if (!isset($_GET['page'])) {
       break;
     case 'anggota-serikat':
       $anggotaSerikat->index();
+      break;
+    case 'anggota-serikat-create':
+      $anggotaSerikat->create();
       break;
     case 'anggota-serikat-store':
       $anggotaSerikat->store();

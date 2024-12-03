@@ -14,7 +14,7 @@
                         </a>
                     </li>
                     <li class="nav-item flex-grow-1 d-flex justify-content-end" data-bs-toggle="tooltip" data-bs-placement="right" title="Serikat">
-                        <a class="nav-link" href="index.php?harmonihub=serikat">
+                        <a class="nav-link" href="#">
                             <i class="fas fa-handshake text-dark" style="font-size: 32px;"></i>
                         </a>
                     </li>
