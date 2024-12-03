@@ -10,6 +10,8 @@ if (isset($_SESSION['message'])) {
     echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"]);
     unset($_SESSION['message']);
 }
+
+$rolename = $_SESSION['role_name'];
 ?>
 
 <div class="content-wrapper">
@@ -18,7 +20,14 @@ if (isset($_SESSION['message'])) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Data Anggota Serikat Pekerja</h4>
-                    
+                    <?php
+                    if ($rolename == 'admin') { ?>
+                        <div style="float: right">
+                            <a href="index.php?page=anggota-serikat-create" class="btn btn-success btn-sm">
+                                Tambah Data
+                            </a>
+                        </div>
+                    <?php } ?>
                     <div class="table-responsive pt-3">
                         <table class="table table-bordered data-table">
                             <thead>

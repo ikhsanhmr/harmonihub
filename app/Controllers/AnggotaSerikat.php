@@ -30,7 +30,15 @@ use Respect\Validation\Exceptions\NestedValidationException;
             $serikats->execute();
             include "view/anggota-serikat/index.php";
         }
-
+        public function create()  {
+            $stmt = $this->db->prepare("select * from serikat");
+            $stmt->execute();
+            $serikats = $stmt->fetchAll();
+            $stmt2 = $this->db->prepare("select * from units");
+            $stmt2->execute();
+            $units = $stmt2->fetchAll();
+            include "view/anggota-serikat/create.php";
+        }
         public function store()  {
             if($_SERVER["REQUEST_METHOD"]  == "POST"){
                 if (!CSRF::validateToken($_POST['csrf_token'])) {
@@ -73,11 +81,11 @@ use Respect\Validation\Exceptions\NestedValidationException;
                     $success = $stmt->execute([$dataValidate['name'], $dataValidate['nip'],$unitId,$dataValidate['membership'], $dataValidate['noKta'],$dataValidate['serikatId'],$createdAt, $updatedAt]);
                     if ($success) {
                         $_SESSION['message'] = ['type' => 'success', 'text' => 'Sukses membuat Serikat Pekerja baru!'];
-                        header('Location: index.php?harmonihub=serikat');
+                        header('Location: index.php?page=anggota-serikat');
                         exit;
                     } else {
                         $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal membuat Serikat Pekerja!'];
-                        header('Location: index.php?harmonihub=serikat');
+                        header('Location: index.php?page=anggota-serikat-create');
                         exit;
                     }
                 }

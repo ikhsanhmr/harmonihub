@@ -41,9 +41,6 @@ if (isset($_GET["harmonihub"])) {
     case 'index':
       $frontend->index();
       break;
-    case 'serikat':
-      $frontend->serikat();
-      break;
     case 'info-siru':
       $frontend->infoSiru();
       break;
@@ -253,6 +250,9 @@ if (!isset($_GET['page'])) {
       break;
     case 'anggota-serikat':
       $anggotaSerikat->index();
+      break;
+    case 'anggota-serikat-create':
+      $anggotaSerikat->create();
       break;
     case 'anggota-serikat-store':
       $anggotaSerikat->store();
