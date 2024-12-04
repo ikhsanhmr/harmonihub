@@ -18,8 +18,20 @@ $rolename = $_SESSION['role_name'];
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" >
                     <h4 class="card-title">Data Anggota Serikat Pekerja</h4>
+                    <?php
+                    if ($rolename == 'admin') { ?>
+                           <div class="d-flex">
+                           <select class="form-control col-2" id="serikat_name" name="serikat_name" required>
+                                <option value="" selected disabled>Pilih Serikat</option>
+                                    <?php foreach ($dataSerikat as $s): ?>
+                                        <option id="select" value="<?php echo $s['id']; ?>"><?php echo $s['name']; ?></option>
+                                        <?php endforeach; ?>
+                                </select>
+                                <a href="" style="margin-left: 0.4rem;" class="btn btn-primary" id="export" type="submit">export ke pdf</a>
+                           </div>
+                    <?php } ?>
                     <?php
                     if ($rolename == 'admin') { ?>
                         <div style="float: right">
@@ -93,7 +105,7 @@ $rolename = $_SESSION['role_name'];
         const serikatId = this.getAttribute('data-id'); 
         Swal.fire({
             title: 'Apakah Anda yakin?',
-            text: 'Data serikat ini akan dihapus secara permanen!',
+            text: 'Data Anggota Serikat ini akan dihapus secara permanen!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -108,7 +120,15 @@ $rolename = $_SESSION['role_name'];
         });
     });
 });
-
+    const serikatName = document.getElementById("serikat_name");
+    document.addEventListener("DOMContentLoaded",()=>{
+        serikatName.addEventListener("change",()=>{
+            const selectedText = serikatName.options[serikatName.selectedIndex].text;
+            const exportPdf = document.getElementById("export");
+            exportPdf.innerHTML = `export anggota serikat dari serikat ${selectedText} ke pdf`;
+            exportPdf.setAttribute("href",`index.php?page=anggota-serikat-pdf&id_serikat=${serikatName.value}`)
+        })
+    })
 </script>
 <?php
 

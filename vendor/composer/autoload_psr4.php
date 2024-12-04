@@ -7,11 +7,16 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Svg\\' => array($vendorDir . '/dompdf/php-svg-lib/src/Svg'),
+    'Sabberworm\\CSS\\' => array($vendorDir . '/sabberworm/php-css-parser/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Respect\\Stringifier\\' => array($vendorDir . '/respect/stringifier/src'),
     'Models\\' => array($baseDir . '/app/Models'),
     'Migrations\\' => array($baseDir . '/migrations'),
+    'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'Libraries\\' => array($baseDir . '/app/Libraries'),
     'Helpers\\' => array($baseDir . '/app/Helpers'),
+    'FontLib\\' => array($vendorDir . '/dompdf/php-font-lib/src/FontLib'),
+    'Dompdf\\' => array($vendorDir . '/dompdf/dompdf/src'),
     'Controllers\\' => array($baseDir . '/app/Controllers'),
 );

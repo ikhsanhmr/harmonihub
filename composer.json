@@ -13,6 +13,7 @@
     "migrate": "php migrations/migrate.php"
   },
   "require": {
-    "respect/validation": "^2.3"
+    "respect/validation": "^2.3",
+    "dompdf/dompdf": "^3.0"
   }
 }

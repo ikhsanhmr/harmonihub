@@ -1,6 +1,8 @@
 <?php
     namespace Controllers;
 
+    use Dompdf\Dompdf;
+    use Dompdf\Options;
     use Helpers\Validation;
     use Libraries\CSRF;
     use Libraries\Database;
@@ -28,6 +30,11 @@ use Respect\Validation\Exceptions\NestedValidationException;
             ORDER BY ase.createdAt DESC
             ");
             $serikats->execute();
+            
+            
+            $stmt = $this->db->prepare("select * from serikat");
+            $stmt->execute();
+            $dataSerikat  = $stmt->fetchAll();
             include "view/anggota-serikat/index.php";
         }
         public function create()  {
@@ -186,6 +193,50 @@ use Respect\Validation\Exceptions\NestedValidationException;
                
             }
         }
+        public function pdf($id)  {
+            $stmt = $this->db->prepare("select ase.* , u.id , u.name as unit_name , s.id ,s.name as serikat_name from anggota_serikats ase
+            join serikat s on s.id = ase.serikatId 
+            join units u on u.id = ase.unitId
+            where ase.serikatId = ? ");
+            $stmt->execute([$id]);
+            $anggotaSerikat = $stmt->fetchAll();
+            $html = '<h2>Daftar Anggota Serikat: ' . htmlspecialchars($anggotaSerikat[0]['serikat_name']) . '</h2>';
+            $html .= '<table border="1" cellpadding="5" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Anggota</th>
+                                <th>Nama Unit</th>
+                                <th>No Nip</th>
+                                <th>Keanggotaan</th>
+                                <th>No Kta</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+            $no = 1;
+            foreach ($anggotaSerikat as $anggota) {
+                $html .= '<tr>
+                            <td>' . $no++ . '</td>
+                            <td>' . htmlspecialchars($anggota['name']) . '</td>
+                            <td>' . htmlspecialchars($anggota['unit_name']) . '</td>
+                            <td>' . htmlspecialchars($anggota['nip']) . '</td>
+                            <td>' . htmlspecialchars($anggota['membership']) . '</td>
+                            <td>' . htmlspecialchars($anggota['noKta']) . '</td>
+                        </tr>';
+            }
+
+            $html .= '</tbody></table>';
+            $options = new Options();
+            
+            $pdf = new Dompdf($options);
+
+            $pdf->loadHtml($html);
+            $pdf->setPaper("a4","landScape");
+            $pdf->render();
+            $pdf->stream("Anggota_Serikat_" . time() . ".pdf", array("Attachment" => 0));
+        }  
+        
     }
     
 

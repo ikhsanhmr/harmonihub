@@ -15,6 +15,8 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Svg\\' => 4,
+            'Sabberworm\\CSS\\' => 15,
         ),
         'R' => 
         array (
@@ -25,6 +27,7 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
         array (
             'Models\\' => 7,
             'Migrations\\' => 11,
+            'Masterminds\\' => 12,
         ),
         'L' => 
         array (
@@ -33,6 +36,14 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
         'H' => 
         array (
             'Helpers\\' => 8,
+        ),
+        'F' => 
+        array (
+            'FontLib\\' => 8,
+        ),
+        'D' => 
+        array (
+            'Dompdf\\' => 7,
         ),
         'C' => 
         array (
@@ -44,6 +55,14 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Svg\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
+        ),
+        'Sabberworm\\CSS\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
         ),
         'Respect\\Validation\\' => 
         array (
@@ -61,6 +80,10 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
         array (
             0 => __DIR__ . '/../..' . '/migrations',
         ),
+        'Masterminds\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
         'Libraries\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Libraries',
@@ -68,6 +91,14 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
         'Helpers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Helpers',
+        ),
+        'FontLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/php-font-lib/src/FontLib',
+        ),
+        'Dompdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
         ),
         'Controllers\\' => 
         array (
@@ -77,6 +108,7 @@ class ComposerStaticInit2c6aa084179d7def6b3e908ee60af07d
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

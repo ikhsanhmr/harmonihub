@@ -198,6 +198,9 @@ if (!isset($_GET['page'])) {
     case 'anggota-serikat-destroy':
       $anggotaSerikat->destroy($_GET['id']);
       break;
+    case 'anggota-serikat-pdf':
+      $anggotaSerikat->pdf($_GET["id_serikat"]);
+      break;
     case 'penilaian-pdp-list':
       $pdpController->index();
       break;
