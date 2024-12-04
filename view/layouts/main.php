@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>HarmoniHub</title>
+
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
@@ -20,8 +21,11 @@
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
+    <!-- fullcalender -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
     <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
     <link rel="shortcut icon" href="assets/images/favicon.png" />
+
     <!-- sweetalert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -105,6 +109,9 @@
     </div>
     <!-- container-scroller -->
 
+    <!-- fullcalender -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
     <!-- plugins:js -->
     <script src="assets/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
@@ -126,7 +133,6 @@
     <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('.data-table').DataTable();

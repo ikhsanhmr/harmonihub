@@ -34,8 +34,8 @@ if (isset($_GET['error'])) {
                             Tambah Data
                         </a>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+                    <div class="table-responsive pt-3">
+                        <table class="table table-bordered data-table">
                             <thead class="text-center">
                                 <tr>
                                     <th>No</th>
