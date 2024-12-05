@@ -54,6 +54,12 @@ if (!isset($_SESSION['user_id']) && $_GET['page'] !== 'login' && $_GET['page'] !
   exit();
 }
 
+if (isset($_SESSION['user_id']) && isset($_GET['page']) && $_GET['page'] === 'laporan-list') {
+  // Tetap di halaman laporan-list jika filter aktif
+  $laporanController->index();
+  exit();
+}
+
 // Middleware untuk cek role
 if (isset($_GET['page'])) {
   if (in_array($_GET['page'], [
@@ -305,8 +311,18 @@ if (!isset($_GET['page'])) {
     case 'ba-pembentukan-delete':
       $baController->destroy($_GET['id']);
       break;
+      // case 'laporan-list':
+      //   $laporanController->index();
+      //   break;
     case 'laporan-list':
-      $laporanController->index();
+      $startDate = $_GET['start_date'] ?? null;
+      $endDate = $_GET['end_date'] ?? null;
+
+      // Kirim parameter filter ke controller
+      $laporanController->index($startDate, $endDate);
+      break;
+    case 'export-pdf':
+      $laporanController->exportToPdf();
       break;
     case 'laporan-create':
       $laporanController->create();
