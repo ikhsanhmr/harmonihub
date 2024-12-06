@@ -44,6 +44,12 @@ if (isset($_GET["harmonihub"])) {
     case 'info-siru':
       $frontend->infoSiru();
       break;
+    case 'flyer':
+      $frontend->flyers();
+      break;
+    case 'video':
+      $frontend->videos();
+      break;
   }
   exit();
 }

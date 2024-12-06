@@ -13,26 +13,13 @@
                             <i class="fas fa-home text-dark" style="font-size: 32px;"></i>
                         </a>
                     </li>
-                    <li class="nav-item flex-grow-1 d-flex justify-content-end" data-bs-toggle="tooltip" data-bs-placement="right" title="Serikat">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-handshake text-dark" style="font-size: 32px;"></i>
-                        </a>
-                    </li>
+                  
                     <li class="nav-item flex-grow-1 d-flex justify-content-end" data-bs-toggle="tooltip" data-bs-placement="right" title="Info Siru">
                         <a class="nav-link" href="index.php?harmonihub=info-siru">
                             <img src="assets/frontend/img/infosirupng.png" alt="Logo" width="auto" height="32" class="d-inline-block align-text-top">
                         </a>
                     </li>
-                    <li class="nav-item flex-grow-1 d-flex justify-content-end" data-bs-toggle="tooltip" data-bs-placement="right" title="Lks Bipartit">
-                        <a class="nav-link" href="#">
-                            <img src="assets/frontend/img/lksbipartit.png" alt="Logo" width="auto" height="32" class="d-inline-block align-text-top">
-                        </a>
-                    </li>
-                    <li class="nav-item flex-grow-1 d-flex justify-content-end" data-bs-toggle="tooltip" data-bs-placement="right" title="User Management">
-                        <a class="nav-link" href="#">
-                            <img src="assets/frontend/img/user-management.png" alt="Logo" width="auto" height="32" class="d-inline-block align-text-top">
-                        </a>
-                    </li>
+
                     <li class="nav-item flex-grow-1 d-flex justify-content-end ">
                         <a href="index.php?page=login" class="btn text-white p-0 d-flex align-items-center" style="width: 8rem; background: orangered; font-weight: bold;">
                             <i class="fas fa-user-circle" style="font-size: 2rem;"></i> 

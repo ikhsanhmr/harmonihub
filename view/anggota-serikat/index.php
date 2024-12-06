@@ -29,7 +29,7 @@ $rolename = $_SESSION['role_name'];
                                         <option id="select" value="<?php echo $s['id']; ?>"><?php echo $s['name']; ?></option>
                                         <?php endforeach; ?>
                                 </select>
-                                <a href="" style="margin-left: 0.4rem;" class="btn btn-primary" id="export" type="submit">export ke pdf</a>
+                                <a href="" target="_blank" style="margin-left: 0.4rem;" class="btn btn-primary" id="export" type="submit">export ke pdf</a>
                            </div>
                     <?php } ?>
                     <?php

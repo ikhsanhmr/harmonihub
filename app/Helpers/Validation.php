@@ -30,7 +30,7 @@ final class Validation
             exit;
         }
 
-        $maxFileSize = 5 * 1024 * 1024; // 5MB
+        $maxFileSize = 100 * 1024 * 1024; // 100MB for videos
         if ($fileSize > $maxFileSize) {
             $_SESSION['message'] = ['type' => 'error', 'text' => 'Maksimal ukuran file 5MB.'];
             header("Location: $redirectPage");
