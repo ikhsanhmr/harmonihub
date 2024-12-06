@@ -2,8 +2,10 @@
 
 namespace Controllers;
 
+use Helpers\Validation;
 use Libraries\Database;
-
+use Respect\Validation\Exceptions\NestedValidationException;
+use Respect\Validation\Validator as v;
 class UnitController
 {
     private $db;
@@ -15,7 +17,7 @@ class UnitController
     }
     
     public function index(){
-        $stmt = $this->db->prepare("SELECT id, name
+        $stmt = $this->db->prepare("SELECT id, name,manager_unit
                                     FROM units
                                     ORDER BY createdAt DESC;");
         $stmt->execute();
@@ -32,15 +34,26 @@ class UnitController
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = $_POST['name'];
+            
+            $fields = [
+                "name"=>[
+                    'validator' => v::stringType()->notEmpty()->length(3, 40),
+                    'message' => 'Nama harus diisi dan antara 3 hingga 40 karakter.'
+                ],
+                "manager_unit"=>[
+                    'validator' => v::stringType()->notEmpty(),
+                    'message' => 'manager Unit harus diisi.'
+                ]
+                ];
+            $dataValidate = Validation::ValidatorInput($fields,"index.php?page=unit-create");
 
             $createdAt = date('Y-m-d H:i:s');
             $updatedAt = date('Y-m-d H:i:s');
 
-            $query = "INSERT INTO units (name, createdAt, updateAt) 
-                      VALUES (?, ?, ?)";
+            $query = "INSERT INTO units (name,manager_unit, createdAt, updateAt) 
+                      VALUES (?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $success = $stmt->execute([$name, $createdAt, $updatedAt]);
+            $success = $stmt->execute([$dataValidate["name"],$dataValidate["manager_unit"], $createdAt, $updatedAt]);
 
             if ($success) {
                 $_SESSION['message'] = ['type' => 'success', 'text' => 'Unit created successfully!'];
@@ -66,13 +79,23 @@ class UnitController
     public function update($id)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $name = $_POST['name'];
+            $fields = [
+                "name"=>[
+                    'validator' => v::stringType()->notEmpty()->length(3, 40),
+                    'message' => 'Nama harus diisi dan antara 3 hingga 40 karakter.'
+                ],
+                "manager_unit"=>[
+                    'validator' => v::stringType()->notEmpty(),
+                    'message' => 'manager Unit harus diisi.'
+                ]
+                ];
+            $dataValidate = Validation::ValidatorInput($fields,"index.php?page=unit-create");
 
             $updatedAt = date('Y-m-d H:i:s');
 
-            $query = "UPDATE units SET name = ?, updateAt = ? WHERE id = ?";
+            $query = "UPDATE units SET name = ?,manager_unit=?, updateAt = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
-            $success = $stmt->execute([$name, $updatedAt, $id]);
+            $success = $stmt->execute([$dataValidate["name"],$dataValidate["manager_unit"], $updatedAt, $id]);
 
             if ($success) {
                 $_SESSION['message'] = ['type' => 'success', 'text' => 'Unit updated successfully!'];

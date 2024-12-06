@@ -1,20 +1,17 @@
 <?php
 ob_start();
+
+use Helpers\AlertHelper;
+if (isset($_SESSION['message'])) {
+    $type = $_SESSION["message"]["type"];
+    $title = ($type === "error") ? "ERROR" : "SUKSES"; 
+    echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"]);
+    unset($_SESSION['message']);
+}
+
 ?>
 
 <div class="content-wrapper">
-    <?php
-    if (isset($_SESSION['message'])) {
-        $message = $_SESSION['message'];
-        $messageClass = $message['type'] == 'success' ? 'alert-success' : 'alert-danger';
-    ?>
-        <div class="alert <?php echo $messageClass; ?>" role="alert">
-            <?php echo $message['text']; ?>
-        </div>
-    <?php
-        unset($_SESSION['message']);
-    }
-    ?>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -31,6 +28,7 @@ ob_start();
                                 <tr class="text-center">
                                     <th class="text-center" width="50">No.</th>
                                     <th>Nama Unit</th>
+                                    <th>Nama Manager</th>
                                     <th class="text-center" width="100">Aksi</th>
                                 </tr>
                             </thead>
@@ -41,6 +39,7 @@ ob_start();
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
                                         <td><?php echo htmlspecialchars($unit['name']); ?></td>
+                                        <td><?php echo htmlspecialchars($unit['manager_unit']); ?></td>
                                         <td>
                                             <a href="index.php?page=unit-edit&id=<?php echo $unit['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a href="index.php?page=unit-delete&id=<?php echo $unit['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>

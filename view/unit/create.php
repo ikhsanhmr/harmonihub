@@ -1,6 +1,13 @@
 <?php
 
 ob_start(); // Mulai output buffering
+use Helpers\AlertHelper;
+if (isset($_SESSION['message'])) {
+    $type = $_SESSION["message"]["type"];
+    $title = ($type === "error") ? "ERROR" : "SUKSES"; 
+    echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"]);
+    unset($_SESSION['message']);
+}
 
 ?>
 
@@ -16,6 +23,10 @@ ob_start(); // Mulai output buffering
                         <div class="form-group">
                             <label for="name">Nama Unit</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="manager_unit">Manager Unit</label>
+                            <input type="text" class="form-control" id="manager_unit" name="manager_unit" placeholder="Masukkan Manager Unit" required>
                         </div>
 
                         <div class="form-group">

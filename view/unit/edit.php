@@ -9,13 +9,17 @@ ob_start(); // Mulai output buffering
         <div class="col-md-6 offset-3 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Tambah Unit</h4>
+                    <h4 class="card-title">Edit Unit</h4>
 
                     <form action="index.php?page=unit-update&id=<?php echo $unit['id']; ?>" method="POST">
 
                         <div class="form-group">
                             <label for="name">Nama Unit</label>
                             <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($unit['name']); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="manager_unit">Nama Unit</label>
+                            <input type="text" class="form-control" id="manager_unit" name="manager_unit" value="<?php echo htmlspecialchars($unit['manager_unit']); ?>" required>
                         </div>
 
                         <div class="form-group">
