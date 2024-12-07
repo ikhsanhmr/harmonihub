@@ -62,7 +62,7 @@ $rolename = $_SESSION['role_name'];
                     <span class="menu-title">LKS Bipartit</span>
                     <i class="menu-arrow"></i>
                 </a>
-                <div class="collapse <?= in_array($current_page, ['ba-pembentukan-list', 'jadwal', 'tema', 'laporan-list']) ? 'show' : '' ?>" id="lks_bipartit">
+                <div class="collapse <?= in_array($current_page, ['ba-pembentukan-list', 'jadwal', 'tema', 'tim', 'laporan-list']) ? 'show' : '' ?>" id="lks_bipartit">
                     <ul class="nav flex-column sub-menu">
                         <li class="nav-item <?= $current_page == 'ba-pembentukan-list' ? 'active' : '' ?>">
                             <a class="nav-link" href="index.php?page=ba-pembentukan-list">BA Pembentukan</a>
@@ -72,6 +72,9 @@ $rolename = $_SESSION['role_name'];
                         </li>
                         <li class="nav-item <?= $current_page == 'tema' ? 'active' : '' ?>">
                             <a class="nav-link" href="index.php?page=tema">Tema</a>
+                        </li>
+                        <li class="nav-item <?= $current_page == 'tim' ? 'active' : '' ?>">
+                            <a class="nav-link" href="index.php?page=tim">Tim</a>
                         </li>
                         <li class="nav-item <?= $current_page == 'laporan-list' ? 'active' : '' ?>">
                             <a class="nav-link" href="index.php?page=laporan-list">Laporan</a>

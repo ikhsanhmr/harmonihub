@@ -12,6 +12,7 @@ use Controllers\LksBipartit\BaPembentukan;
 use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
+use Controllers\LksBipartit\Tim;
 use Controllers\PenilaianPdpController;
 use Controllers\ProfileController;
 use Controllers\Serikats;
@@ -32,6 +33,7 @@ $baController = new BaPembentukan();
 $laporanController = new Laporan();
 $unitController = new UnitController();
 $profileContoller = new ProfileController();
+$timController = new Tim();
 
 session_start();
 
@@ -125,7 +127,9 @@ if (isset($_GET['page'])) {
     'unit-store',
     'unit-edit',
     'unit-update',
-    'unit-delete'
+    'unit-delete',
+    'tim',
+    'tim/create'
   ])) {
     checkRole('admin');
   }
@@ -362,6 +366,24 @@ if (!isset($_GET['page'])) {
       break;
     case 'unit-delete':
       $unitController->destroy($_GET['id']);
+      break;
+    case 'tim':
+      $timController->index();
+      break;
+    case 'tim/create':
+      $timController->create();
+      break;
+    case 'tim/store':
+      $timController->store();
+      break;
+    case 'tim/edit':
+      $timController->edit($_GET['id']);
+      break;
+    case 'tim/update':
+      $timController->update($_GET['id']); // Proses update user
+      break;
+    case 'tim/delete':
+      $timController->delete();
       break;
     default:
       // Aksi default untuk page yang tidak dikenali
