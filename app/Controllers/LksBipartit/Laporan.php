@@ -42,73 +42,77 @@ class Laporan
     }
 
     public function exportToPdf()
-{
-    // Ambil filter tanggal dari URL
-    $start_date = $_GET['start_date'] ?? null;
-    $end_date = $_GET['end_date'] ?? null;
+    {
+        $start_date = $_GET['start_date'] ?? null;
+        $end_date = $_GET['end_date'] ?? null;
 
-    // Query SQL dengan filter tanggal (jika ada)
-    $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
-            FROM laporan_lks_bipartit l
-            JOIN units u ON l.unit_id = u.id";
+        $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
+        FROM laporan_lks_bipartit l
+        JOIN units u ON l.unit_id = u.id";
 
-    $params = [];
-    if ($start_date && $end_date) {
-        $sql .= " WHERE l.tanggal BETWEEN :start_date AND :end_date";
-        $params['start_date'] = $start_date;
-        $params['end_date'] = $end_date;
+        $params = [];
+        if ($start_date && $end_date) {
+            $sql .= " WHERE l.tanggal BETWEEN :start_date AND :end_date";
+            $params['start_date'] = $start_date;
+            $params['end_date'] = $end_date;
+        }
+
+        $sql .= " ORDER BY l.created_at DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        $laporans = $stmt->fetchAll();
+
+        // Query untuk data Ketua
+        $sqlKetua = "SELECT nama_pegawai, nip_pegawai, peran FROM tim_lks_bipartit WHERE peran = 'Ketua' LIMIT 1";
+        $stmtKetua = $this->db->prepare($sqlKetua);
+        $stmtKetua->execute();
+        $ketua = $stmtKetua->fetch(); // Mengambil satu data Ketua
+
+        // Mulai Membuat PDF
+        $html = '<h2 style="text-align: center;">Laporan LKS Bipartit</h2>';
+        if ($start_date && $end_date) {
+            $html .= '<p><strong>Periode:</strong> ' . date('d-m-Y', strtotime($start_date)) . ' s/d ' . date('d-m-Y', strtotime($end_date)) . '</p>';
+        }
+        $html .= '<table border="1" cellpadding="10" cellspacing="0" style="width:100%;">';
+        $html .= '<tr><th>No.</th><th>Unit</th><th>Tanggal</th><th>Topik Bahasan</th><th>Latar Belakang</th><th>Rekomendasi</th><th>Tanggal Tindak Lanjut</th><th>Uraian Tindak Lanjut</th></tr>';
+
+        $no = 1;
+        foreach ($laporans as $laporan) {
+            $html .= '<tr>';
+            $html .= '<td>' . $no++ . '</td>';
+            $html .= '<td>' . htmlspecialchars($laporan['unit_name']) . '</td>';
+            $html .= '<td>' . date('d-m-Y', strtotime($laporan['tanggal'])) . '</td>';
+            $html .= '<td>' . htmlspecialchars($laporan['topik_bahasan']) . '</td>';
+            $html .= '<td>' . htmlspecialchars($laporan['latar_belakang']) . '</td>';
+            $html .= '<td>' . htmlspecialchars($laporan['rekomendasi']) . '</td>';
+            $html .= '<td>' . date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])) . '</td>';
+            $html .= '<td>' . htmlspecialchars($laporan['uraian_tindak_lanjut']) . '</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
+
+        // Tambahkan bagian untuk Ketua
+        if ($ketua) {
+            $html .= '<h5 style="text-align: right;">KETUA TIM LKS BIPARTIT <br> PT PLN (PERSERO) UID S2JB</h5><br><br> ';
+            $html .= '<p style="text-align: right;"><strong>' . htmlspecialchars($ketua['nama_pegawai']) . '</strong></p>';
+        } else {
+            $html .= '<p><strong>Data Ketua tidak ditemukan.</strong></p>';
+        }
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+
+        $dompdf->stream("laporan_lks_bipartit.pdf", array("Attachment" => 0));
     }
-
-    $sql .= " ORDER BY l.created_at DESC";
-
-    // Eksekusi query
-    $stmt = $this->db->prepare($sql);
-    $stmt->execute($params);
-    $laporans = $stmt->fetchAll();
-
-    // HTML untuk laporan PDF
-    $html = '<h1>Laporan LKS Bipartit</h1>';
-    if ($start_date && $end_date) {
-        $html .= '<p><strong>Periode:</strong> ' . date('d-m-Y', strtotime($start_date)) . ' s/d ' . date('d-m-Y', strtotime($end_date)) . '</p>';
-    }
-    $html .= '<table border="1" cellpadding="10" cellspacing="0" style="width:100%;">';
-    $html .= '<tr><th>No.</th><th>Unit</th><th>Tanggal</th><th>Topik Bahasan</th><th>Latar Belakang</th><th>Rekomendasi</th><th>Tanggal Tindak Lanjut</th><th>Uraian Tindak Lanjut</th></tr>';
-
-    $no = 1;
-    foreach ($laporans as $laporan) {
-        $html .= '<tr>';
-        $html .= '<td>' . $no++ . '</td>';
-        $html .= '<td>' . htmlspecialchars($laporan['unit_name']) . '</td>';
-        $html .= '<td>' . date('d-m-Y', strtotime($laporan['tanggal'])) . '</td>';
-        $html .= '<td>' . htmlspecialchars($laporan['topik_bahasan']) . '</td>';
-        $html .= '<td>' . htmlspecialchars($laporan['latar_belakang']) . '</td>';
-        $html .= '<td>' . htmlspecialchars($laporan['rekomendasi']) . '</td>';
-        $html .= '<td>' . date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])) . '</td>';
-        $html .= '<td>' . htmlspecialchars($laporan['uraian_tindak_lanjut']) . '</td>';
-        $html .= '</tr>';
-    }
-
-    $html .= '</table>';
-
-    // Inisialisasi DomPDF
-    $options = new Options();
-    $options->set('isHtml5ParserEnabled', true);
-    $options->set('isPhpEnabled', true);
-    $dompdf = new Dompdf($options);
-
-    // Load HTML ke DomPDF
-    $dompdf->loadHtml($html);
-
-    // Atur ukuran dan orientasi halaman
-    $dompdf->setPaper('A4', 'portrait');
-
-    // Render PDF (first pass)
-    $dompdf->render();
-
-    // Output the generated PDF (pdf download)
-    $dompdf->stream("laporan_lks_bipartit.pdf", array("Attachment" => 0)); // 0 untuk tampilkan di browser, 1 untuk download
-}
-
 
     public function create()
     {
