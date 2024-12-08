@@ -30,7 +30,8 @@ ob_start();
                             <thead>
                                 <tr class="text-center">
                                     <th class="text-center" width="50">No.</th>
-                                    <th>Nama BA Pembentukan</th>
+                                    <th>Keterangan</th>
+                                    <th>Dokumen Berita Acara</th>
                                     <th class="text-center" width="100">Aksi</th>
                                 </tr>
                             </thead>
@@ -41,6 +42,13 @@ ob_start();
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
                                         <td><?php echo htmlspecialchars($ba['name']); ?></td>
+                                        <td class="text-center">
+                                            <?php if (!empty($ba['dokumen'])): ?>
+                                                <a href="uploads/dokumen/<?= htmlspecialchars($ba['dokumen']); ?>" target="_blank">Preview</a>
+                                            <?php else: ?>
+                                                No Document
+                                            <?php endif; ?>
+                                        </td>
                                         <td>
                                             <a href="index.php?page=ba-pembentukan-edit&id=<?php echo $ba['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a href="index.php?page=ba-pembentukan-delete&id=<?php echo $ba['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>

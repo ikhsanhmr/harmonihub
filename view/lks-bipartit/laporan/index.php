@@ -44,7 +44,7 @@ ob_start();
                     </div>
                     <div style="float: right">
                         <a href="index.php?page=laporan-create" class="btn btn-success btn-sm">Tambah Data</a>
-                        <a href="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>" class="btn btn-info btn-sm">Export PDF</a>
+                        <a href="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>" class="btn btn-info btn-sm" target="_blank">Export PDF</a>
                     </div>
 
                     <div class="table-responsive pt-3">

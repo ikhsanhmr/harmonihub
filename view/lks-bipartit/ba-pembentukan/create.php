@@ -11,10 +11,14 @@ ob_start(); // Mulai output buffering
                 <div class="card-body">
                     <h4 class="card-title">Tambah BA Pembentukan</h4>
 
-                    <form action="index.php?page=ba-pembentukan-store" method="POST">
+                    <form action="index.php?page=ba-pembentukan-store" method="POST" enctype="multipart/form-data">
 
                         <div class="form-group">
-                            <label for="name">Nama BA Pembentukan</label>
+                            <label for="dokumen">Dokumen Berita Acara</label>
+                            <input type="file" class="form-control" name="dokumen" id="dokumen" accept=".pdf" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Keterangan</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan nama" required>
                         </div>
 
