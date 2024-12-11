@@ -1,20 +1,17 @@
 <?php
+
+use Helpers\AlertHelper;
+
 ob_start();
+if (isset($_SESSION['message'])) {
+    $type = $_SESSION["message"]["type"];
+    $title = ($type === "error") ? "ERROR" : "SUKSES"; 
+    echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"]);
+    unset($_SESSION['message']);
+}
 ?>
 
 <div class="content-wrapper">
-    <?php
-    if (isset($_SESSION['message'])) {
-        $message = $_SESSION['message'];
-        $messageClass = $message['type'] == 'success' ? 'alert-success' : 'alert-danger';
-    ?>
-        <div class="alert <?php echo $messageClass; ?>" role="alert">
-            <?php echo $message['text']; ?>
-        </div>
-    <?php
-        unset($_SESSION['message']);
-    }
-    ?>
 
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
@@ -44,7 +41,6 @@ ob_start();
                     </div>
                     <div style="float: right">
                         <a href="index.php?page=laporan-create" class="btn btn-success btn-sm">Tambah Data</a>
-                        <a href="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>" class="btn btn-info btn-sm" target="_blank">Export PDF</a>
                     </div>
 
                     <div class="table-responsive pt-3">
@@ -57,8 +53,8 @@ ob_start();
                                     <th>Topik Bahasan</th>
                                     <th>Latar Belakang</th>
                                     <th>Rekomendasi</th>
-                                    <th>Tanggal <br> Tindak Lanjut</th>
-                                    <th>Uraian <br> Tindak Lanjut</th>
+                                    <th>Tanggal Tindak Lanjut</th>
+                                    <th>Uraian Tindak Lanjut</th>
                                     <th class="text-center" width="100">Aksi</th>
                                 </tr>
                             </thead>
@@ -70,8 +66,8 @@ ob_start();
                                             <td><?php echo htmlspecialchars($laporan['unit_name']); ?></td>
                                             <td><?php echo date('d-m-Y', strtotime($laporan['tanggal'])); ?></td>
                                             <td><?php echo htmlspecialchars($laporan['topik_bahasan']); ?></td>
-                                            <td><?php echo htmlspecialchars($laporan['latar_belakang']); ?></td>
-                                            <td><?php echo htmlspecialchars($laporan['rekomendasi']); ?></td>
+                                            <td><?php echo htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['latar_belakang']), 0, 7))) . (str_word_count($laporan['latar_belakang']) > 7 ? '...' : ''); ?></td>
+                                            <td><?php echo htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['rekomendasi']), 0, 7))) . (str_word_count($laporan['rekomendasi']) > 7 ? '...' : ''); ?></td>
                                             <td><?php echo date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])); ?></td>
                                             <td><?php echo htmlspecialchars($laporan['uraian_tindak_lanjut']); ?></td>
                                             <td class="text-center">
@@ -91,12 +87,71 @@ ob_start();
                             </tbody>
                         </table>
                     </div>
+                    <h1 style="margin-top: 2rem;" class="card-title text-center">Export to PDF</h1>
+                    <p class="text-danger text-center">sebelum export , filter Tanggal Jadwal yang akan di print , jika Jadwal hanya dilakukan sehari , maka samakan antara Tanggal mulai dan Tanggal selesai</p>  
+                    <form id="form" method="POST" class="d-flex justify-content-center" action="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>">
+                            <div class="row flex-grow-1">
+                                <input type="hidden" name="page" value="laporan-list">
+                                <div class="col-md-6">
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="time_start">Waktu Mulai</label>
+                                        <input type="text" name="time_start" id="time_start" class="form-control"
+                                            value="<?php echo htmlspecialchars($_GET['waktu'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="time_end">Waktu Selesai</label>
+                                        <input type="text" name="time_end" id="time_end" class="form-control"
+                                            value="<?php echo htmlspecialchars($_GET['waktu'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="place">Tempat</label>
+                                        <input type="text" name="place" id="place" class="form-control"
+                                            value="<?php echo htmlspecialchars($_GET['tempat'] ?? ''); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="agenda">Agenda</label>
+                                        <input type="text" name="agenda" id="agenda" class="form-control"
+                                            value="<?php echo htmlspecialchars($_GET['agenda'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="member">Peserta</label>
+                                        <input type="text" name="member" id="member" class="form-control"
+                                            value="<?php echo htmlspecialchars($_GET['peserta'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 2rem;" class="col-md-12">
+                                    <button type="button"  onclick="submitFormWithParams()" style="left: 50%; transform: translateX(-50%);position: relative; margin-top:1rem;" class="btn btn-info">Export PDF</button>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                    </form>
+                  
+                  
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    function submitFormWithParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Dapatkan form
+        const form = document.getElementById('form');
+        
+        // Modifikasi action form untuk menambahkan parameter URL
+        form.action = form.action + '?' + urlParams.toString();
+        
+        // Buka form di tab baru
+        const formAction = form.action; // Ambil URL action
+        const newTab = window.open(formAction, '_blank');
+        
+        form.target = newTab.name;
+        form.submit();
+    }
+</script>
 <?php
 $content = ob_get_clean();
 include 'view/layouts/main.php';

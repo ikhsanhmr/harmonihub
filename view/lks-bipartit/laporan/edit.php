@@ -28,17 +28,17 @@ ob_start(); // Mulai output buffering
                                 </div>
                                 <div class="form-group">
                                     <label for="topik_bahasan">Topik Bahasan</label>
-                                    <textarea name="topik_bahasan" id="topik_bahasan" class="form-control"><?php echo htmlspecialchars($laporan['topik_bahasan']); ?></textarea>
+                                    <textarea rows="6" cols="20" name="topik_bahasan" id="topik_bahasan" class="form-control"><?php echo htmlspecialchars($laporan['topik_bahasan']); ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="latar_belakang">Latar Belakang</label>
-                                    <textarea name="latar_belakang" id="latar_belakang" class="form-control"><?php echo htmlspecialchars($laporan['latar_belakang']); ?></textarea>
+                                    <textarea rows="6" cols="20" name="latar_belakang" id="latar_belakang" class="form-control"><?php echo htmlspecialchars($laporan['latar_belakang']); ?></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
                             <div class="form-group">
                                     <label for="rekomendasi">Rekomendasi</label>
-                                    <input type="text" class="form-control" id="rekomendasi" name="rekomendasi" value="<?php echo htmlspecialchars($laporan['rekomendasi']); ?>" required>
+                                    <textarea rows="6" cols="20" class="form-control" id="rekomendasi" name="rekomendasi" required><?php echo htmlspecialchars($laporan['rekomendasi']); ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_tindak_lanjut">Tanggal Tindak Lanjut</label>

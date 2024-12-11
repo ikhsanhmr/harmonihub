@@ -200,33 +200,34 @@
             where ase.serikatId = ? ");
             $stmt->execute([$id]);
             $anggotaSerikat = $stmt->fetchAll();
-            $html = '<h2>Daftar Anggota Serikat: ' . htmlspecialchars($anggotaSerikat[0]['serikat_name']) . '</h2>';
-            $html .= '<table border="1" cellpadding="5" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Anggota</th>
-                                <th>Nama Unit</th>
-                                <th>No Nip</th>
-                                <th>Keanggotaan</th>
-                                <th>No Kta</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
+            $html = '<h2 style="font-family: Arial, sans-serif;text-align:center;">Daftar Anggota Serikat: ' . htmlspecialchars($anggotaSerikat[0]['serikat_name']) . '</h2>';
+            $html .= '<table border="1" style="font-family: Arial, sans-serif; width: 100%; table-layout: fixed;" cellpadding="5" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="width: 16.66%;">No</th>
+                            <th style="width: 16.66%;">Nama Anggota</th>
+                            <th style="width: 16.66%;">Nama Unit</th>
+                            <th style="width: 16.66%;">No Nip</th>
+                            <th style="width: 16.66%;">Keanggotaan</th>
+                            <th style="width: 16.66%;">No Kta</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
 
             $no = 1;
             foreach ($anggotaSerikat as $anggota) {
-                $html .= '<tr>
-                            <td>' . $no++ . '</td>
-                            <td>' . htmlspecialchars($anggota['name']) . '</td>
-                            <td>' . htmlspecialchars($anggota['unit_name']) . '</td>
-                            <td>' . htmlspecialchars($anggota['nip']) . '</td>
-                            <td>' . htmlspecialchars($anggota['membership']) . '</td>
-                            <td>' . htmlspecialchars($anggota['noKta']) . '</td>
-                        </tr>';
-            }
+            $html .= '<tr>
+                        <td style="width: 16.66%;text-align:center;">' . $no++ . '</td>
+                        <td style="width: 16.66%;text-align:center;">' . htmlspecialchars($anggota['name']) . '</td>
+                        <td style="width: 16.66%;text-align:center;">' . htmlspecialchars($anggota['unit_name']) . '</td>
+                        <td style="width: 16.66%;text-align:center;">' . htmlspecialchars($anggota['nip']) . '</td>
+                        <td style="width: 16.66%;text-align:center;">' . htmlspecialchars($anggota['membership']) . '</td>
+                        <td style="width: 16.66%;text-align:center;">' . htmlspecialchars($anggota['noKta']) . '</td>
+                    </tr>';
+                }
 
             $html .= '</tbody></table>';
+
             $options = new Options();
             
             $pdf = new Dompdf($options);

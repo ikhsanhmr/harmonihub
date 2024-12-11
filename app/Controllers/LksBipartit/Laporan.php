@@ -2,10 +2,14 @@
 
 namespace Controllers\LksBipartit;
 
+use DateTime;
+use Helpers\Validation;
 use Libraries\Database;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use IntlDateFormatter;
+use Respect\Validation\Exceptions\NestedValidationException;
+use Respect\Validation\Validator as v;
 class Laporan
 {
     private $db;
@@ -45,17 +49,55 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
+        
+        $fields = [
+            "time_start"=>[
+                'validator' => v::stringType()->notEmpty()->length(2, 40),
+                'message' => 'waktu mulai harus Format String Seperti (10:00 wib).'
+            ],
+            "time_end"=>[
+                'validator' => v::stringType()->notEmpty()->length(2, 40),
+                'message' => 'waktu selesai harus Format String Seperti (10:00 wib / selesai).'
+            ],
+            "place"=>[
+                'validator' => v::stringType()->notEmpty()->length(2, 40),
+                'message' => 'Tempat harus Format String dengan minimal 2 huruf.'
+            ],
+            "agenda"=>[
+                'validator' => v::stringType()->notEmpty()->length(2, 40),
+                'message' => 'Agenda harus Format String dengan minimal 2 huruf.'
+            ],
+            "member"=>[
+                'validator' => v::stringType()->notEmpty(),
+                'message' => 'Anggota harus diisi dengan Format String.'
+            ],
 
+
+            ];
+        $dataValidate = Validation::ValidatorInput($fields,"index.php?page=laporan-list");
+
+        $dateTable= "";
+        $fmt = new IntlDateFormatter(
+            'id_ID', // Locale untuk bahasa Indonesia
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE
+        );
         $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
         FROM laporan_lks_bipartit l
         JOIN units u ON l.unit_id = u.id";
 
         $params = [];
         if ($start_date && $end_date) {
-            $sql .= " WHERE l.tanggal BETWEEN :start_date AND :end_date";
-            $params['start_date'] = $start_date;
-            $params['end_date'] = $end_date;
+            if ($start_date == $end_date) {
+                $dateTable = $fmt->format(new DateTime($start_date));
+            } else {
+                $dateTable = $fmt->format(new DateTime($start_date)) . ' s/d ' .        $fmt->format(new DateTime($end_date));
+                $sql .= " WHERE l.tanggal BETWEEN :start_date AND :end_date";
+                $params['start_date'] = $start_date;
+                $params['end_date'] = $end_date;
+            }
         }
+        
 
         $sql .= " ORDER BY l.created_at DESC";
 
@@ -68,37 +110,60 @@ class Laporan
         $stmtKetua = $this->db->prepare($sqlKetua);
         $stmtKetua->execute();
         $ketua = $stmtKetua->fetch(); // Mengambil satu data Ketua
-
+        
+        
         // Mulai Membuat PDF
-        $html = '<h2 style="text-align: center;">Laporan LKS Bipartit</h2>';
+        $html = '<h3 style="text-align: center;font-family: Arial, sans-serif;">
+        LAPORAN PROGRESS KEGIATAN DAN TINDAK LANJUT LKS BIPARTIT<br>
+        PT PLN (PERSERO) UNIT INDUK DISTRIBUSI SUMATERA SELATAN, JAMBI, DAN BENGKULU<br>
+        
+        BULAN NOVEMBER TAHUN 2024</h3>';
+        
+       
         if ($start_date && $end_date) {
-            $html .= '<p><strong>Periode:</strong> ' . date('d-m-Y', strtotime($start_date)) . ' s/d ' . date('d-m-Y', strtotime($end_date)) . '</p>';
+            
+            $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Hari dan Tanggal:</strong> ' .  $dateTable . '</p>';
         }
-        $html .= '<table border="1" cellpadding="10" cellspacing="0" style="width:100%;">';
-        $html .= '<tr><th>No.</th><th>Unit</th><th>Tanggal</th><th>Topik Bahasan</th><th>Latar Belakang</th><th>Rekomendasi</th><th>Tanggal Tindak Lanjut</th><th>Uraian Tindak Lanjut</th></tr>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Waktu:</strong> ' .$dataValidate['time_start'] .' - ' . $dataValidate['time_end'] . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Tempat:</strong> ' . $dataValidate['place'] . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Agenda:</strong> ' . $dataValidate['agenda'] . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Peserta:</strong> ' . $dataValidate['member'] . '</p>';
+        $html .= '<table border="1" style="width:100%;">';
+        $html .= ' <tr>
+            <th rowspan="2">No.</th>
+            <th rowspan="2">Tanggal Pelaksanaan</th>
+            <th rowspan="2">Topik Bahasan</th>
+            <th rowspan="2">Latar Belakang Bahasan</th>
+            <th rowspan="2">Rekomendasi</th>
+            <th colspan="2">Tindak Lanjut</th> <!-- Gabungkan dua kolom di bawah Tindak Lanjut -->
+        </tr>
+        <tr>
+            <th>Tanggal</th> 
+            <th>Uraian</th> 
+        </tr>';
 
         $no = 1;
         foreach ($laporans as $laporan) {
-            $html .= '<tr>';
-            $html .= '<td>' . $no++ . '</td>';
-            $html .= '<td>' . htmlspecialchars($laporan['unit_name']) . '</td>';
-            $html .= '<td>' . date('d-m-Y', strtotime($laporan['tanggal'])) . '</td>';
-            $html .= '<td>' . htmlspecialchars($laporan['topik_bahasan']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($laporan['latar_belakang']) . '</td>';
-            $html .= '<td>' . htmlspecialchars($laporan['rekomendasi']) . '</td>';
-            $html .= '<td>' . date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])) . '</td>';
-            $html .= '<td>' . htmlspecialchars($laporan['uraian_tindak_lanjut']) . '</td>';
+            $html .= '<tr style="font-family: Arial, sans-serif;">';
+            $html .= '<td style="padding:0.8rem;">' . $no++ . '</td>';
+            $html .= '<td style="padding:0.8rem;">' .$fmt->format(new DateTime($laporan["tanggal"]))  . '</td>';
+            $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['topik_bahasan']) . '</td>';
+            $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['latar_belakang']) . '</td>';
+            $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['rekomendasi']) . '</td>';
+            $html .= '<td style="padding:0.8rem;">' . $fmt->format(new DateTime($laporan["tanggal_tindak_lanjut"])). '</td>';
+            $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['uraian_tindak_lanjut']) . '</td>';
             $html .= '</tr>';
         }
         $html .= '</table>';
 
         // Tambahkan bagian untuk Ketua
         if ($ketua) {
-            $html .= '<h5 style="text-align: right;">KETUA TIM LKS BIPARTIT <br> PT PLN (PERSERO) UID S2JB</h5><br><br> ';
-            $html .= '<p style="text-align: right;"><strong>' . htmlspecialchars($ketua['nama_pegawai']) . '</strong></p>';
+            $html .= '<h5 style="text-align: right;font-family: Arial, sans-serif;">KETUA TIM LKS BIPARTIT <br> PT PLN (PERSERO) UID S2JB</h5><br><br> ';
+            $html .= '<p style="text-align: right;font-family: Arial, sans-serif;"><strong>' . htmlspecialchars($ketua['nama_pegawai']) . '</strong></p>';
         } else {
             $html .= '<p><strong>Data Ketua tidak ditemukan.</strong></p>';
         }
+        $_SESSION['message'] = ['type' => 'success', 'text' => 'Laporan LKS Bipartit To Pdf!'];
 
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
@@ -107,7 +172,7 @@ class Laporan
 
         $dompdf->loadHtml($html);
 
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper('A3', 'landscape');
 
         $dompdf->render();
 
