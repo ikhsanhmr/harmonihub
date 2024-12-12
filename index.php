@@ -129,7 +129,7 @@ if (isset($_GET['page'])) {
     'unit-update',
     'unit-delete',
     'tim',
-    'tim/create'
+    'tim/create',
   ])) {
     checkRole('admin');
   }
@@ -302,6 +302,9 @@ if (!isset($_GET['page'])) {
       break;
     case 'penilaian-pdp-delete':
       $pdpController->destroy($_GET['id']);
+      break;
+    case 'penilaian-pdp-exportpdf';
+      $pdpController->exportToPdf();
       break;
     case 'ba-pembentukan-list':
       $baController->index();

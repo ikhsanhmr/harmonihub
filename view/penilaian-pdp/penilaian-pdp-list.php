@@ -23,6 +23,7 @@ ob_start(); // Mulai output buffering
                 <div class="card-body">
                     <h4 class="card-title">Data Penilaian PDP</h4>
                     <div style="float: right">
+                        <a href="index.php?page=penilaian-pdp-exportpdf" class="btn btn-info btn-sm" target="_blank">Export PDF</a>
                         <a href="index.php?page=penilaian-pdp-create" class="btn btn-success btn-sm">
                             Tambah Data
                         </a>
