@@ -331,7 +331,7 @@ if (!isset($_GET['page'])) {
       // Kirim parameter filter ke controller
       $laporanController->index($startDate, $endDate);
       break;
-    case 'export-pdf':
+    case 'laporan-export-pdf':
       $laporanController->exportToPdf();
       break;
     case 'laporan-create':

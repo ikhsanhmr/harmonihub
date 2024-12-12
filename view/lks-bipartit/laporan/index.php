@@ -33,8 +33,22 @@ if (isset($_SESSION['message'])) {
                                     <input type="date" name="end_date" id="end_date" class="form-control"
                                            value="<?php echo htmlspecialchars($_GET['end_date'] ?? ''); ?>">
                                 </div>
-                                <div class="col-md-2 d-flex align-items-end">
-                                    <button type="submit" class="btn btn-primary btn-block">Filter</button>
+                              
+                            </div>
+                            <div style="margin-top: 2rem;" class="row">
+                            <div class="col-md-5">
+                                <label class=" text-black col-form-label" for="unit">Unit</label>
+                                <select class="form-control" id="unit" name="unit" required>
+                                        <option value="" selected disabled>Pilih Unit</option>
+                                        <?php foreach ($units as $unit): ?>
+                                            <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?php echo $unit['name']; ?></option>
+                                        <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-md-5 d-flex flex-column align-items-center justify-content-end">
+                                <p class="text-danger">filter unit atau tanggal untuk mempermudah pencarian </p>
+                                    <button type="submit" class="col-md-3 btn btn-primary btn-block">Filter</button>
+                                    
                                 </div>
                             </div>
                         </form>
@@ -89,7 +103,7 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <h1 style="margin-top: 2rem;" class="card-title text-center">Export to PDF</h1>
                     <p class="text-danger text-center">sebelum export , filter Tanggal Jadwal yang akan di print , jika Jadwal hanya dilakukan sehari , maka samakan antara Tanggal mulai dan Tanggal selesai</p>  
-                    <form id="form" method="POST" target="_blank" class="d-flex justify-content-center" action="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>">
+                    <form id="form" method="POST" target="_blank" class="d-flex justify-content-center" action="index.php?page=laporan-export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>&unit=<?=$_GET['unit'] ??""?>">
                     <input type="hidden" name="page" value="laporan-list">
                             <div class="row flex-grow-1">
                                 <input type="hidden" name="page" value="laporan-list">

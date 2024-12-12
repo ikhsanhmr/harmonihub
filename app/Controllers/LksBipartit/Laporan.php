@@ -24,12 +24,13 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
+        $unit = $_GET['unit'] ?? null;
 
         $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
             FROM laporan_lks_bipartit l
-            JOIN units u ON l.unit_id = u.id";
+            JOIN units u ON l.unit_id = u.id where u.id  = ?";
 
-        $params = [];
+        $params = [$unit];
         if ($start_date && $end_date) {
             $sql .= " WHERE l.tanggal BETWEEN :start_date AND :end_date";
             $params['start_date'] = $start_date;
@@ -37,10 +38,15 @@ class Laporan
         }
 
         $sql .= " ORDER BY l.created_at DESC";
-
+        
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $laporans = $stmt->fetchAll();
+
+        $stmt = $this->db->prepare("select id , name from units");
+        $stmt->execute();
+        $units = $stmt->fetchAll();
+        
 
         include 'view/lks-bipartit/laporan/index.php';
     }
@@ -49,6 +55,7 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
+        $unit = $_GET['unit'] ?? null;
         $time_start = $_POST["time_start"];
         $time_end = $_POST["time_end"];
         $place = $_POST["place"];
@@ -85,9 +92,9 @@ class Laporan
         $laporans = $stmt->fetchAll();
 
         // Query untuk data Ketua
-        $sqlKetua = "SELECT nama_pegawai, nip_pegawai, peran FROM tim_lks_bipartit WHERE peran = 'Ketua' LIMIT 1";
+        $sqlKetua = "SELECT tlb.nama_pegawai as nama_pegawai, tlb.nip_pegawai as nip_pegawai, tlb.peran as peran FROM tim_lks_bipartit tlb  join units u on tlb.unitId = u.id WHERE tlb.peran = 'Ketua' and tlb.unitId = ? LIMIT 1 ";
         $stmtKetua = $this->db->prepare($sqlKetua);
-        $stmtKetua->execute();
+        $stmtKetua->execute([$unit]);
         $ketua = $stmtKetua->fetch(); // Mengambil satu data Ketua
         
         

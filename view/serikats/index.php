@@ -57,7 +57,7 @@ if (isset($_SESSION['message'])) {
                                                 <a href="index.php?page=serikat-edit&id=<?php echo $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                                 <form action="index.php?page=serikat-destroy&id=<?php echo $serikat['id']; ?>" 
                                                     id="delete-<?php echo $serikat['id']; ?>" method="post" style="display:inline;">
-                                                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                                    <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                     <button type="button" class="btn btn-danger btn-sm delete-btn" 
                                                             data-id="<?php echo $serikat['id']; ?>">
                                                         Delete
