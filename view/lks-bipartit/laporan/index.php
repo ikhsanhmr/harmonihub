@@ -6,7 +6,7 @@ ob_start();
 if (isset($_SESSION['message'])) {
     $type = $_SESSION["message"]["type"];
     $title = ($type === "error") ? "ERROR" : "SUKSES"; 
-    echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"]);
+    echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"],2500);
     unset($_SESSION['message']);
 }
 ?>
@@ -89,7 +89,8 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <h1 style="margin-top: 2rem;" class="card-title text-center">Export to PDF</h1>
                     <p class="text-danger text-center">sebelum export , filter Tanggal Jadwal yang akan di print , jika Jadwal hanya dilakukan sehari , maka samakan antara Tanggal mulai dan Tanggal selesai</p>  
-                    <form id="form" method="POST" class="d-flex justify-content-center" action="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>">
+                    <form id="form" method="POST" target="_blank" class="d-flex justify-content-center" action="index.php?page=export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>">
+                    <input type="hidden" name="page" value="laporan-list">
                             <div class="row flex-grow-1">
                                 <input type="hidden" name="page" value="laporan-list">
                                 <div class="col-md-6">
@@ -121,7 +122,7 @@ if (isset($_SESSION['message'])) {
                                             value="<?php echo htmlspecialchars($_GET['peserta'] ?? ''); ?>">
                                     </div>
                                     <div style="margin-top: 2rem;" class="col-md-12">
-                                    <button type="button"  onclick="submitFormWithParams()" style="left: 50%; transform: translateX(-50%);position: relative; margin-top:1rem;" class="btn btn-info">Export PDF</button>
+                                    <button type="submit" style="left: 50%; transform: translateX(-50%);position: relative; margin-top:1rem;" class="btn btn-info">Export PDF</button>
                                     </div>
                                 </div>
                                
@@ -134,24 +135,7 @@ if (isset($_SESSION['message'])) {
         </div>
     </div>
 </div>
-<script>
-    function submitFormWithParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        // Dapatkan form
-        const form = document.getElementById('form');
-        
-        // Modifikasi action form untuk menambahkan parameter URL
-        form.action = form.action + '?' + urlParams.toString();
-        
-        // Buka form di tab baru
-        const formAction = form.action; // Ambil URL action
-        const newTab = window.open(formAction, '_blank');
-        
-        form.target = newTab.name;
-        form.submit();
-    }
-</script>
+
 <?php
 $content = ob_get_clean();
 include 'view/layouts/main.php';

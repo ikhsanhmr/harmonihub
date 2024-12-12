@@ -49,32 +49,11 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
-        
-        $fields = [
-            "time_start"=>[
-                'validator' => v::stringType()->notEmpty()->length(2, 40),
-                'message' => 'waktu mulai harus Format String Seperti (10:00 wib).'
-            ],
-            "time_end"=>[
-                'validator' => v::stringType()->notEmpty()->length(2, 40),
-                'message' => 'waktu selesai harus Format String Seperti (10:00 wib / selesai).'
-            ],
-            "place"=>[
-                'validator' => v::stringType()->notEmpty()->length(2, 40),
-                'message' => 'Tempat harus Format String dengan minimal 2 huruf.'
-            ],
-            "agenda"=>[
-                'validator' => v::stringType()->notEmpty()->length(2, 40),
-                'message' => 'Agenda harus Format String dengan minimal 2 huruf.'
-            ],
-            "member"=>[
-                'validator' => v::stringType()->notEmpty(),
-                'message' => 'Anggota harus diisi dengan Format String.'
-            ],
-
-
-            ];
-        $dataValidate = Validation::ValidatorInput($fields,"index.php?page=laporan-list");
+        $time_start = $_POST["time_start"];
+        $time_end = $_POST["time_end"];
+        $place = $_POST["place"];
+        $agenda = $_POST["agenda"];
+        $member = $_POST["member"];
 
         $dateTable= "";
         $fmt = new IntlDateFormatter(
@@ -124,10 +103,10 @@ class Laporan
             
             $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Hari dan Tanggal:</strong> ' .  $dateTable . '</p>';
         }
-        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Waktu:</strong> ' .$dataValidate['time_start'] .' - ' . $dataValidate['time_end'] . '</p>';
-        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Tempat:</strong> ' . $dataValidate['place'] . '</p>';
-        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Agenda:</strong> ' . $dataValidate['agenda'] . '</p>';
-        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Peserta:</strong> ' . $dataValidate['member'] . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Waktu:</strong> ' .$time_start .' - ' . $time_end . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Tempat:</strong> ' . $place . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Agenda:</strong> ' . $agenda . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Peserta:</strong> ' . $member . '</p>';
         $html .= '<table border="1" style="width:100%;">';
         $html .= ' <tr>
             <th rowspan="2">No.</th>
@@ -163,8 +142,7 @@ class Laporan
         } else {
             $html .= '<p><strong>Data Ketua tidak ditemukan.</strong></p>';
         }
-        $_SESSION['message'] = ['type' => 'success', 'text' => 'Laporan LKS Bipartit To Pdf!'];
-
+        
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
