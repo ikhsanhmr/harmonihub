@@ -1,6 +1,12 @@
 <?php
 
+use Helpers\AlertHelper;
+
 ob_start(); // Mulai output buffering
+
+if (isset($_GET['error']) && $_GET['error'] == 1) {
+    echo AlertHelper::showAlert('error', 'Gagal Export PDF!', 'Semua inputan filter wajib disini');
+}
 
 ?>
 
@@ -23,7 +29,9 @@ ob_start(); // Mulai output buffering
                 <div class="card-body">
                     <h4 class="card-title">Data Penilaian PDP</h4>
                     <div style="float: right">
-                        <a href="index.php?page=penilaian-pdp-exportpdf" class="btn btn-info btn-sm" target="_blank">Export PDF</a>
+                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#exportPDF">Export PDF</button>
+                        <!-- <a href="index.php?page=penilaian-pdp-exportpdf" class="btn btn-info btn-sm" target="_blank">Export PDF</a> -->
                         <a href="index.php?page=penilaian-pdp-create" class="btn btn-success btn-sm">
                             Tambah Data
                         </a>
@@ -76,6 +84,47 @@ ob_start(); // Mulai output buffering
         </div>
     </div>
 </div>
+<div class="modal fade" id="exportPDF" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel-2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel-2">Filter Data</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="index.php?page=penilaian-pdp-exportpdf" method="POST" target="_blank">
+                    <!-- <form action=""> -->
+                    <div class="form-group">
+                        <label for="unit_id">Unit</label>
+                        <select class="form-control" id="unit_id" name="unit">
+                            <option value="" selected disabled>Pilih Unit</option>
+                            <?php foreach ($units as $unit): ?>
+                                <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="strat_tgl_penilaian">Tanggal Mulai</label>
+                        <input type="date" class="form-control form-control-sm" name="start_date" id="strat_tgl_penilaian">
+                    </div>
+                    <div class="form-group">
+                        <label for="end_tgl_penilaian">Tanggal Akhir</label>
+                        <input type="date" class="form-control form-control-sm" name="end_date" id="end_tgl_penilaian">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-info btn-sm" target="_blank">Export</button>
+                        <!-- <a href="index.php?page=penilaian-pdp-exportpdf" class="btn btn-info btn-sm" target="_blank">Export</a> -->
+                        <button type="button" class="btn btn-warning btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Ends -->
 
 <?php
 $content = ob_get_clean(); // Simpan buffer ke dalam variabel $content
