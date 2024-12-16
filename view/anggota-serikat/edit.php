@@ -18,7 +18,7 @@ if (isset($_SESSION['message'])) {
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Edit Data Serikat Pekerja</h4>
+                    <h4 class="card-title">Edit Serikat</h4>
                     <form action="index.php?page=anggota-serikat-update&id=<?php echo $anggotaSerikat['id']; ?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?php echo CSRF::generateToken(); ?>">
                         <div class="row">

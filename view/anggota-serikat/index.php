@@ -19,7 +19,7 @@ $rolename = $_SESSION['role_name'];
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body" >
-                    <h4 class="card-title">Data Anggota Serikat Pekerja</h4>
+                    <h4 class="card-title">Data Serikat</h4>
                     <?php
                     if ($rolename == 'admin') { ?>
                            <div class="d-flex">

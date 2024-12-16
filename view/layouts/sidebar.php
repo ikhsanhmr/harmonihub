@@ -53,7 +53,7 @@ $rolename = $_SESSION['role_name'];
             <li class="nav-item <?= $current_page == 'anggota-serikat' ? 'active' : '' ?>">
                 <a class="nav-link" href="index.php?page=anggota-serikat">
                     <i class="icon-map menu-icon"></i>
-                    <span class="menu-title">Anggota Serikat</span>
+                    <span class="menu-title">Serikat</span>
                 </a>
             </li>
             <li class="nav-item <?= in_array($current_page, ['ba-pembentukan-list', 'jadwal', 'tema', 'laporan-list']) ? 'active' : '' ?>">
