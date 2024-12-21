@@ -3,7 +3,6 @@
 ob_start(); // Mulai output buffering
 
 use Helpers\AlertHelper;
-use Libraries\CSRF;
 
 if (isset($_SESSION['message'])) {
     $type = $_SESSION["message"]["type"];
@@ -20,7 +19,7 @@ if (isset($_SESSION['message'])) {
                 <div class="card-body">
                     <h4 class="card-title">Update Info Siru</h4>
                     <form action="index.php?page=info-siru-update&id=<?php echo $infoSiru["id"];?>" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="<?php echo CSRF::generateToken(); ?>">
+                    <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                         <div class="row">
                            
                             <div class="col-md-6">

@@ -27,24 +27,28 @@ class Laporan
         $unit = $_GET['unit'] ?? null;
         $params = [];
 
-        if($unit !== null){
-            $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
-                FROM laporan_lks_bipartit l
-                JOIN units u ON l.unit_id = u.id where u.id = :unit";
-            $params = ['unit'=>$unit];
-        }else{
-            $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
-                FROM laporan_lks_bipartit l
-                JOIN units u ON l.unit_id = u.id";
-            $params =[];
+        $sql = "SELECT l.id, 
+                    u.name AS unit_name, 
+                    l.tanggal, 
+                    l.topik_bahasan, 
+                    l.latar_belakang, 
+                    l.rekomendasi, 
+                    l.tanggal_tindak_lanjut, 
+                    l.uraian_tindak_lanjut
+            FROM laporan_lks_bipartit l
+            JOIN units u ON l.unit_id = u.id";
+
+            
+        if ($unit !== null) {
+            $sql .= " where u.id = :unit";
+            $params['unit'] = $unit;
         }
-        
        
         if ($start_date && $end_date) {
-            if(strpos($sql , "where") !==false){
-                $sql .= "and l.tanggal BETWEEN :start_date AND :end_date";
+            if(strpos(strtolower($sql) , "where") !==false){
+                $sql .= " and l.tanggal BETWEEN :start_date AND :end_date";
             }else{
-                $sql .= "where l.tanggal BETWEEN :start_date AND :end_date";
+                $sql .= " where l.tanggal BETWEEN :start_date AND :end_date";
             }
             $params['start_date'] = $start_date;
             $params['end_date'] = $end_date;

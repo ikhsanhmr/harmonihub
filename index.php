@@ -10,6 +10,7 @@ use Controllers\FrontendController;
 use Controllers\InfoSiru;
 use Controllers\LksBipartit\BaPembentukan;
 use Controllers\LksBipartit\Jadwal;
+use Controllers\LksBipartit\Monitor;
 use Controllers\LksBipartit\TemaController;
 use Controllers\LksBipartit\Laporan;
 use Controllers\LksBipartit\Tim;
@@ -34,7 +35,7 @@ $laporanController = new Laporan();
 $unitController = new UnitController();
 $profileContoller = new ProfileController();
 $timController = new Tim();
-
+$monitor = new Monitor();
 session_start();
 
 if (isset($_GET["harmonihub"])) {
@@ -130,6 +131,9 @@ if (isset($_GET['page'])) {
     'unit-delete',
     'tim',
     'tim/create',
+    'monitor',
+    'monitor-create',
+    'monitor-store',
   ])) {
     checkRole('admin');
   }
@@ -352,6 +356,7 @@ if (!isset($_GET['page'])) {
     case 'laporan-delete':
       $laporanController->destroy($_GET['id']);
       break;
+   
     case 'unit-list':
       $unitController->index();
       break;
@@ -387,6 +392,24 @@ if (!isset($_GET['page'])) {
       break;
     case 'tim/delete':
       $timController->delete();
+      break;
+    case 'monitor':
+      $monitor->index();
+      break;
+    case 'monitor-create':
+      $monitor->create();
+      break;
+    case 'monitor-store':
+      $monitor->store();
+      break;
+    case 'monitor-jadwal-create':
+      $monitor->jadwalCreate($_GET['id']);
+      break;
+    case 'monitor-jadwal-store':
+      $monitor->jadwalStore($_GET['id']);
+      break;
+    case 'monitor-destroy':
+      $monitor->destroy($_GET["id"]);
       break;
     default:
       // Aksi default untuk page yang tidak dikenali

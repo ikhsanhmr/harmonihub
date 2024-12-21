@@ -50,7 +50,7 @@
             if($_SERVER["REQUEST_METHOD"]  == "POST"){
                 if (!CSRF::validateToken($_POST['csrf_token'])) {
                     $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid CSRF token!'];
-                    header("Location: index.php?harmonihub=serikat");
+                    header("Location: index.php?page=anggota-serikat");
                     exit;
                 }
                 $unitId = $_POST["unitId"]; 
@@ -69,7 +69,7 @@
                     ],
                     'noKta' => [
                         'validator' => v::stringType()->notEmpty()->length(2, 20),
-                        'message' => 'Nomor KTA harus diisi dan antara 5 hingga 20 karakter.'
+                        'message' => 'Nomor KTA harus diisi dan antara 2 hingga 20 karakter.'
                     ],
                     'serikatId' => [
                         'validator' => v::stringType()->notEmpty(),
@@ -77,7 +77,7 @@
                     ],
                 ]; 
 
-                $dataValidate = Validation::ValidatorInput($fields,"index.php?harmonihub=serikat");
+                $dataValidate = Validation::ValidatorInput($fields,"index.php?page=anggota-serikat");
                 
                     $createdAt = date('Y-m-d H:i:s');
                     $updatedAt = date('Y-m-d H:i:s');
@@ -87,11 +87,11 @@
 
                     $success = $stmt->execute([$dataValidate['name'], $dataValidate['nip'],$unitId,$dataValidate['membership'], $dataValidate['noKta'],$dataValidate['serikatId'],$createdAt, $updatedAt]);
                     if ($success) {
-                        $_SESSION['message'] = ['type' => 'success', 'text' => 'Sukses membuat Serikat Pekerja baru!'];
+                        $_SESSION['message'] = ['type' => 'success', 'text' => 'Sukses membuat Serikat '];
                         header('Location: index.php?page=anggota-serikat');
                         exit;
                     } else {
-                        $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal membuat Serikat Pekerja!'];
+                        $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal membuat Serikat '];
                         header('Location: index.php?page=anggota-serikat-create');
                         exit;
                     }
@@ -134,7 +134,7 @@
                     ],
                     'noKta' => [
                         'validator' => v::stringType()->notEmpty()->length(2, 20),
-                        'message' => 'Nomor KTA harus diisi dan antara 5 hingga 20 karakter.'
+                        'message' => 'Nomor KTA harus diisi dan antara 2 hingga 20 karakter.'
                     ],
                     'serikatId' => [
                         'validator' => v::stringType()->notEmpty(),

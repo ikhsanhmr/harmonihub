@@ -18,42 +18,9 @@ if (isset($_SESSION['message'])) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Laporan LKS Bipartit</h4>
-                    <div class="mb-4">
-                        <!-- Form Filter -->
-                        <form method="GET" action="">
-                            <div class="row">
-                            <input type="hidden" name="page" value="laporan-list">
-                                <div class="col-md-5">
-                                    <label for="start_date">Tanggal Mulai</label>
-                                    <input type="date" name="start_date" id="start_date" class="form-control"
-                                           value="<?php echo htmlspecialchars($_GET['start_date'] ?? ''); ?>">
-                                </div>
-                                <div class="col-md-5">
-                                    <label for="end_date">Tanggal Selesai</label>
-                                    <input type="date" name="end_date" id="end_date" class="form-control"
-                                           value="<?php echo htmlspecialchars($_GET['end_date'] ?? ''); ?>">
-                                </div>
-                              
-                            </div>
-                            <div style="margin-top: 2rem;" class="row">
-                            <div class="col-md-5">
-                                <label class=" text-black col-form-label" for="unit">Unit</label>
-                                <select class="form-control" id="unit" name="unit" required>
-                                        <option value="" selected disabled>Pilih Unit</option>
-                                        <?php foreach ($units as $unit): ?>
-                                            <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?php echo $unit['name']; ?></option>
-                                        <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-md-5 d-flex flex-column align-items-center justify-content-end">
-                                <p class="text-danger">filter unit atau tanggal untuk mempermudah pencarian </p>
-                                    <button type="submit" class="col-md-3 btn btn-primary btn-block">Filter</button>
-                                    
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     <div style="float: right">
+                        <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#exportPDF">Filter</button>
                         <a href="index.php?page=laporan-create" class="btn btn-success btn-sm">Tambah Data</a>
                     </div>
 
@@ -149,6 +116,57 @@ if (isset($_SESSION['message'])) {
         </div>
     </div>
 </div>
+<!-- modal start -->
+<div class="modal fade" id="exportPDF" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel-2" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel-2">Filter Data</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            <form method="GET" action="">
+                            <div class="row">
+                            <input type="hidden" name="page" value="laporan-list">
+                                <div class="col-md-12">
+                                    <label for="start_date">Tanggal Mulai</label>
+                                    <input type="date" name="start_date" id="start_date" class="form-control"
+                                           value="<?php echo htmlspecialchars($_GET['start_date'] ?? ''); ?>">
+                                </div>
+                                <div style="margin: 1rem 0;" class="col-md-12">
+                                    <label for="end_date">Tanggal Selesai</label>
+                                    <input type="date" name="end_date" id="end_date" class="form-control"
+                                           value="<?php echo htmlspecialchars($_GET['end_date'] ?? ''); ?>">
+                                </div>
+                              
+                            </div>
+                            <div style="margin-top: 2rem;" class="row">
+                            <div class="col-md-12">
+                                <label class=" text-black col-form-label" for="unit">Unit</label>
+                                <select class="form-control" id="unit" name="unit" required>
+                                        <option value="" selected disabled>Pilih Unit</option>
+                                        <?php foreach ($units as $unit): ?>
+                                            <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?php echo $unit['name']; ?></option>
+                                        <?php endforeach; ?>
+                                </select>
+                            </div>
+                            </div>
+                            <div style="margin-top: 2rem;" class="row">
+                                <div class="col-md-12 d-flex flex-column align-items-center justify-content-end">
+                                    <p class="text-danger">filter unit atau tanggal untuk mempermudah pencarian </p>
+                                        <button type="submit" class="col-md-3 btn btn-primary btn-block">Filter</button>
+                                    
+                                </div>
+                            </div>
+                        </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Ends -->
 
 <?php
 $content = ob_get_clean();

@@ -79,6 +79,9 @@ $rolename = $_SESSION['role_name'];
                         <li class="nav-item <?= $current_page == 'laporan-list' ? 'active' : '' ?>">
                             <a class="nav-link" href="index.php?page=laporan-list">Laporan</a>
                         </li>
+                        <li class="nav-item <?= $current_page == 'monitor' ? 'active' : '' ?>">
+                            <a class="nav-link" href="index.php?page=monitor">Monitor</a>
+                        </li>
                     </ul>
                 </div>
             </li>
