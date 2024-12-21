@@ -41,8 +41,13 @@
                 }
                 $sender = $_SESSION["user_id"];
                 $type = $_POST['type'];
+
+                if($type == "video"){
+                    $filePath = Validation::ValidatorVideo($_FILES["filePath"],"uploads/info-siru/","index.php?page=info-siru-create");
+                }else{
+                    $filePath = Validation::ValidatorFile($_FILES["filePath"],"uploads/info-siru/","index.php?page=info-siru-create");
+                }
             
-                $filePath = Validation::ValidatorFile($_FILES["filePath"],"uploads/info-siru/","index.php?page=info-siru-create");
                 
             
                 $createdAt = date('Y-m-d H:i:s');
