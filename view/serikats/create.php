@@ -31,8 +31,6 @@ if (isset($_SESSION['message'])) {
                                     name="name" autocomplete="name" placeholder="Masukkan Nama" require>
                                   
                                 </div>
-                               
-                               
                                 <div class="form-group">
                                     <label for="logoPath">Logo</label>
                                     <input type="file" class="form-control" id="logoPath" name="logoPath">
