@@ -28,7 +28,7 @@ use Libraries\Database;
             $video->execute(["video"]);
             $videos = $video->fetchAll();
 
-            include "view/frontend/infoSiru.php";
+            include "view/frontend/InfoSiru.php";
         }
 
         public function flyers()  {
