@@ -34,7 +34,7 @@ if (isset($_SESSION['message'])) {
                                
                                
                                 <div class="form-group">
-                                    <label for="logoPath">logoPath</label>
+                                    <label for="logoPath">Logo</label>
                                     <input type="file" class="form-control" id="logoPath" name="logoPath">
                                 </div>
                             </div>

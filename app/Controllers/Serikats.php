@@ -69,7 +69,7 @@
             if($_SERVER["REQUEST_METHOD"] === "POST"){
                 if(!CSRF::validateToken($_POST["csrf_token"])){
                     $_SESSION['message'] = ['type' => 'error', 'text' => 'Invalid CSRF token!'];
-                    header("Location: index.php?page=serikat-edit");
+                    header("Location: index.php?page=serikat-edit&id=$id");
                     exit;
                 }
                 $fields = [
@@ -85,7 +85,7 @@
                     unlink($serikat['logoPath']);
                 } 
                 $dataValidate = Validation::ValidatorInput($fields,"index.php?page=serikat-edit");
-                $file = Validation::ValidatorFile($_FILES["logoPath"],"uploads/serikat/","index.php?page=serikat-edit");
+                $file = Validation::ValidatorFile($_FILES["logoPath"],"uploads/serikat/","index.php?page=serikat-edit&id=$id");
 
                 $updatedAt = date('Y-m-d H:i:s');
                 
@@ -98,7 +98,7 @@
                     exit;
                 } else {
                     $_SESSION['message'] = ['type' => 'error', 'text' => 'Gagal Mengubah Serikat !'];
-                    header('Location: index.php?page=serikat-create');
+                    header('Location: index.php?page=serikat-edit&id=$id');
                     exit;
                 }
             }
@@ -117,7 +117,7 @@
                 if($serikat && !empty($serikat["logoPath"]) && file_exists($serikat["logoPath"])){
                     unlink($serikat["logoPath"]);
                 }
-                try {
+                try {   
                     $stmt = $this->db->prepare("DELETE FROM serikat WHERE id = ?");
                     $stmt->execute([$id]);
                     $_SESSION['message'] = ['type' => 'success', 'text' => 'Data Serikat berhasil dihapus!'];
@@ -127,8 +127,6 @@
                     } else {
                         $_SESSION['message'] = ['type' => 'error', 'text' => 'Terjadi kesalahan: ' . $e->getMessage()];
                     }
-                    header("Location: index.php?page=serikat");
-                    exit;
                 }
 
                 header('Location: index.php?page=serikat');

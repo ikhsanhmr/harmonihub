@@ -41,7 +41,7 @@ if (isset($_SESSION['message'])) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="filePath">filePath</label>
+                                    <label for="filePath">Upload Konten</label>
                                     <input type="file" class="form-control" id="filePath" name="filePath">
                                 </div>
                             </div>
