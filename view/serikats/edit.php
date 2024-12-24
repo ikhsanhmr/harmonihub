@@ -28,7 +28,7 @@ if (isset($_SESSION['message'])) {
                                 <div class="form-group">
                                     <label for="name">Nama</label>
                                     <input type="text" value="<?php echo $serikat["name"]?>" class="form-control" id="name" 
-                                    name="name" autocomplete="name" placeholder="Masukkan Nama">
+                                    name="name" autocomplete="name" placeholder="Masukkan Nama" require>
                                   
                                 </div>
                                

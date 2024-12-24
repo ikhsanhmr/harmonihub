@@ -18,7 +18,7 @@ ob_start(); // Mulai output buffering
                             <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($unit['name']); ?>" required>
                         </div>
                         <div class="form-group">
-                            <label for="manager_unit">Nama Unit</label>
+                            <label for="manager_unit">Manager Unit</label>
                             <input type="text" class="form-control" id="manager_unit" name="manager_unit" value="<?php echo htmlspecialchars($unit['manager_unit']); ?>" required>
                         </div>
 
