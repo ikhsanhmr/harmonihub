@@ -28,14 +28,14 @@ if (isset($_SESSION['message'])) {
                                 <div class="form-group">
                                     <label for="name">Nama</label>
                                     <input type="text" class="form-control" id="name" 
-                                    name="name" autocomplete="name" placeholder="Masukkan Nama">
+                                    name="name" autocomplete="name" placeholder="Masukkan Nama" require>
                                   
                                 </div>
                                
                                
                                 <div class="form-group">
-                                    <label for="logoPath">logoPath</label>
-                                    <input type="file" class="form-control" id="logoPath" name="logoPath">
+                                    <label for="logoPath">Logo</label>
+                                    <input type="file" class="form-control" id="logoPath" name="logoPath" require>
                                 </div>
                             </div>
                           
