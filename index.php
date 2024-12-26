@@ -6,6 +6,7 @@ require_once __DIR__ . '/app/Libraries/middleware.php';
 use Controllers\AnggotaSerikat;
 use Controllers\AuthController;
 use Controllers\Dashboard;
+use Controllers\DokumenController;
 use Controllers\FrontendController;
 use Controllers\InfoSiru;
 use Controllers\LksBipartit\BaPembentukan;
@@ -36,6 +37,7 @@ $unitController = new UnitController();
 $profileContoller = new ProfileController();
 $timController = new Tim();
 $monitor = new Monitor();
+$dokumen = new DokumenController();
 session_start();
 
 if (isset($_GET["harmonihub"])) {
@@ -134,6 +136,10 @@ if (isset($_GET['page'])) {
     'monitor',
     'monitor-create',
     'monitor-store',
+    'dokumen',
+    'dokumen/create',
+    'dokumen/store',
+    'dokumen/delete',
   ])) {
     checkRole('admin');
   }
@@ -410,6 +416,27 @@ if (!isset($_GET['page'])) {
       break;
     case 'monitor-destroy':
       $monitor->destroy($_GET["id"]);
+      break;
+    case 'dokumen':
+      $dokumen->index();
+      break;
+    case 'dokumen/create':
+      $dokumen->create();
+      break;
+    case 'dokumen/store':
+      $dokumen->store();
+      break;
+    case 'dokumen=edit':
+      if (isset($_GET['id_dokumen'])) {
+        $dokumen->edit();  // Panggil metode edit dengan ID
+      }
+      break;
+    //membuat case untuk dokuemn update
+    case 'dokumen/update':
+      $dokumen->update($_GET['id_dokumen']);
+      break;
+    case 'dokumen/delete':
+      $dokumen->destroy();
       break;
     default:
       // Aksi default untuk page yang tidak dikenali

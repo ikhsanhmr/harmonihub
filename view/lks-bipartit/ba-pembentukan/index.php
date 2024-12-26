@@ -1,7 +1,6 @@
 <?php
 ob_start();
 ?>
-
 <div class="content-wrapper">
     <?php
     if (isset($_SESSION['message'])) {

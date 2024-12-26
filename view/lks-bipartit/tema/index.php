@@ -68,50 +68,7 @@ if (isset($_GET['error'])) {
             </div>
         </div>
     </div>
-
-    <!-- Tampilkan notifikasi jika sukses menambah data -->
-    <?php if ($successMessage): ?>
-        <script>
-            Swal.fire({
-                position: "top-end",
-                title: 'Sukses!',
-                text: 'Data baru berhasil ditambahkan.',
-                icon: "success",
-                showConfirmButton: false,
-                confirmButtonText: "Ok",
-                timer: 1000
-
-            }).then((result) => {
-                // Jika timer selesai, hapus parameter success=1 dari URL
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    // Hapus parameter success=1 dari URL
-                    const url = new URL(window.location.href);
-                    url.searchParams.delete('success');
-                    window.history.replaceState({}, '', url); // Mengupdate URL tanpa reload
-                }
-            });
-        </script>
-    <?php endif; ?>
-
     <script>
-        function confirmDelete(id) {
-            Swal.fire({
-                title: 'Anda yakin?',
-                text: "Data ini akan dihapus secara permanen!",
-                // icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect ke URL untuk menghapus data
-                    window.location.href = `index.php?page=tema&delete=${id}`;
-                }
-            });
-        }
-
         // Tambahkan Event Listener pada tombol hapus
         document.querySelectorAll('#delete').forEach((button) => {
             button.addEventListener('click', function() {
@@ -130,13 +87,13 @@ if (isset($_GET['error'])) {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Submit formulir jika pengguna mengonfirmasi
+                        window.location.href = `index.php?page=tema&delete=${id}`;
                         form.submit();
                     }
                 });
             });
         });
     </script>
-
     <?php
     $content = ob_get_clean(); // Simpan buffer ke dalam variabel $content
     include 'view/layouts/main.php'; // Sertakan layout utama

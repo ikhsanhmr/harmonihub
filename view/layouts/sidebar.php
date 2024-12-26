@@ -91,6 +91,12 @@ $rolename = $_SESSION['role_name'];
                     <span class="menu-title">Penilaian PDP Lain</span>
                 </a>
             </li>
+            <li class="nav-item <?= $current_page == 'dokumen' ? 'active' : '' ?>">
+                <a class="nav-link" href="index.php?page=dokumen">
+                    <i class="mdi mdi-file-document menu-icon"></i>
+                    <span class="menu-title">Dokumen</span>
+                </a>
+            </li>
         <?php
         }
         ?>
