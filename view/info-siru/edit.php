@@ -39,7 +39,36 @@ if (isset($_SESSION['message'])) {
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="filePath">Upload Konten</label>
+                                    <label style="display: block;" for="filePath">Upload Konten</label>
+                                    <?php if ($infoSiru['filePath']): ?>
+                                                    <?php if($infoSiru["type"]=== "video"):?>
+                                                        <p>konten saat ini :</p>
+                                                        <video class="card-img-top" controls height="100" width="20">
+                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/mp4">
+                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/webm">
+                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/ogg">
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                        <?php else:?>
+                                                            <p>konten saat ini :</p>
+                                                            <img style="width: 10rem; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" src="<?php echo $infoSiru['filePath']; ?>" alt="Profile Picture" data-bs-toggle="modal" data-bs-target="#flyerModal-<?php echo $infoSiru["id"];?>">
+                                                            <div class="modal fade" id="flyerModal-<?php echo $infoSiru["id"];?>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <img src="<?php echo $infoSiru['filePath']; ?>" style="width: auto; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" class="img-fluid" alt="Flyer">
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif?>
+                                                   
+                                                <?php else: ?>
+                                                    <span>No Picture</span>
+                                                <?php endif; ?>
                                     <input type="file" class="form-control" id="filePath" name="filePath">
                                 </div>
                             </div>

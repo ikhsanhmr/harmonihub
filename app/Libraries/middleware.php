@@ -13,7 +13,7 @@ function checkRole($role)
         exit();
     }
 
-    if (!isset($_SESSION['role'])) {
+    if (!isset($_SESSION['role_name'])) {
         $userId = $_SESSION['user_id'];
         $db = new Libraries\Database();
 
@@ -25,7 +25,7 @@ function checkRole($role)
         $result = $db->fetch($sql, $params);
 
         if ($result) {
-            $_SESSION['role'] = $result['role_name'];
+            $_SESSION['role_name'] = $result['role_name'];
         } else {
             echo "<script>
                 alert('Anda tidak memiliki akses!');
@@ -35,7 +35,7 @@ function checkRole($role)
         }
     }
 
-    $userRole = $_SESSION['role'];
+    $userRole = $_SESSION['role_name'];
 
     if ($userRole !== $role) {
         echo "<script>

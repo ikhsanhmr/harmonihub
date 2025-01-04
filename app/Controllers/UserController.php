@@ -16,10 +16,9 @@ class UserController
 
     public function index()
     {
-        $stmt = $this->db->prepare("SELECT u.id, u.name, u.username, u.email, u.profile_picture, u.created_at, u.updated_at, r.role_name as role_name, s.name as serikat_name 
+        $stmt = $this->db->prepare("SELECT u.id, u.name, u.username,u.tim, u.email, u.profile_picture, u.created_at, u.updated_at, r.role_name as role_name
                                     FROM users u 
                                     JOIN roles r ON u.role_id = r.id
-                                    JOIN serikat s ON u.serikat_id = s.id
                                     ORDER BY u.created_at DESC;");
         $stmt->execute();
         $users = $stmt->fetchAll();
@@ -37,6 +36,11 @@ class UserController
         $stmt->execute();
         $serikats = $stmt->fetchAll();
 
+        
+        $stmt = $this->db->prepare("SELECT id, name FROM units");
+        $stmt->execute();
+        $units = $stmt->fetchAll();
+
         include 'view/user/user-create.php';
     }
 
@@ -45,7 +49,7 @@ class UserController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role_id = $_POST['role_id'];
-            $serikat_id = $_POST['serikat_id'];
+            $tim = $_POST['tim'];
             $name = $_POST['name'];
             $username = $_POST['username'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -62,10 +66,10 @@ class UserController
             $updatedAt = date('Y-m-d H:i:s');
 
             // Query Insert
-            $query = "INSERT INTO users (role_id, serikat_id, name, username, password, email, profile_picture, created_at, updated_at) 
+            $query = "INSERT INTO users (role_id, tim, name, username, password, email, profile_picture, created_at, updated_at) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $success = $stmt->execute([$role_id, $serikat_id, $name, $username, $password, $email, $profile_picture, $createdAt, $updatedAt]);
+            $success = $stmt->execute([$role_id, $tim, $name, $username, $password, $email, $profile_picture, $createdAt, $updatedAt]);
 
             // Simpan pesan status ke session
             if ($success) {
@@ -83,17 +87,22 @@ class UserController
     // Menampilkan form edit user
     public function edit($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT users.* ,r.id as role_id, r.role_name as role_name FROM users join roles r on r.id = users.role_id WHERE users.id = ?");
         $stmt->execute([$id]);
         $user = $stmt->fetch();
 
         $stmt = $this->db->prepare("SELECT id, role_name FROM roles");
         $stmt->execute();
         $roles = $stmt->fetchAll();
-
+        
         $stmt = $this->db->prepare("SELECT id, name FROM serikat");
         $stmt->execute();
         $serikats = $stmt->fetchAll();
+
+        
+        $stmt = $this->db->prepare("SELECT id, name FROM units");
+        $stmt->execute();
+        $units = $stmt->fetchAll();
 
         include 'view/user/user-edit.php';
     }
@@ -103,7 +112,7 @@ class UserController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $role_id = $_POST['role_id'];
-            $serikat_id = $_POST['serikat_id'];
+            $tim = $_POST['tim'];
             $name = $_POST['name'];
             $username = $_POST['username'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -118,9 +127,9 @@ class UserController
 
             $updatedAt = date('Y-m-d H:i:s');
 
-            $query = "UPDATE users SET role_id = ?, serikat_id = ?, name = ?, username = ?, password = ?, email = ?, profile_picture = ?, updated_at = ? WHERE id = ?";
+            $query = "UPDATE users SET role_id = ?, tim = ?, name = ?, username = ?, password = ?, email = ?, profile_picture = ?, updated_at = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
-            $success = $stmt->execute([$role_id, $serikat_id, $name, $username, $password, $email, $profile_picture, $updatedAt, $id]);
+            $success = $stmt->execute([$role_id, $tim, $name, $username, $password, $email, $profile_picture, $updatedAt, $id]);
 
             if ($success) {
                 $_SESSION['message'] = ['type' => 'success', 'text' => 'User updated successfully!'];

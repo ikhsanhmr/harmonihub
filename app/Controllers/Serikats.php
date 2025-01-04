@@ -17,9 +17,15 @@
         }
 
         public function index()  {
-            $serikats = $this->db->prepare("select * from serikat order by createdAt DESC");
-
-            $serikats->execute();
+            if (isset($_SESSION["role_name"]) && $_SESSION["role_name"] == "serikat") {
+                $tim = $_SESSION["tim"];
+                $stmt = $this->db->prepare("select * from serikat where name = ? order by createdAt DESC ");
+                $stmt->execute([$tim]);
+            } else {
+                $stmt = $this->db->prepare("select * from serikat order by createdAt DESC");
+                $stmt->execute();
+            }  
+            $serikats=  $stmt->fetchAll();
             include "view/serikats/index.php";
         }
         public function create()  {

@@ -12,7 +12,7 @@
         }
 
         public function index() {
-            $infoSirus = $this->db->prepare("
+            $stmt = $this->db->prepare("
                         SELECT 
                             a.id AS info_siru_id, 
                             a.type, 
@@ -23,7 +23,8 @@
                         JOIN users u ON u.id = a.sender 
                         ORDER BY a.createdAt DESC
                     ");
-            $infoSirus->execute();
+            $stmt->execute();
+            $infoSirus = $stmt->fetchAll();
 
             include 'view/info-siru/index.php';
         }
@@ -72,9 +73,9 @@
         }
 
         public function edit(Int $id)  {
-            $infoSiru = $this->db->prepare("select * from info_sirus where id = ?");
-            $infoSiru->execute([$id]);
-            $infoSiru = $infoSiru->fetch();
+            $stmt = $this->db->prepare("select * from info_sirus where id = ?");
+            $stmt->execute([$id]);
+            $infoSiru = $stmt->fetch();
             include "view/info-siru/edit.php";
 
         }

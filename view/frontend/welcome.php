@@ -1,49 +1,84 @@
-<?php
-ob_start()
-?>
-        <section class="header-section w-100">
-            <div class="col-12 container-fluid d-flex align-items-stretch flex-wrap">
-                <div class="header-image flex-shrink-0 col-12 col-md-5  d-flex align-items-center justify-content-center">
-                    <img src="assets/frontend/img/header.png" alt="Sample Image" class="img-fluid">
-                </div>
-
-                <!-- Header Text -->
-                <div class="header-text col-12 col-md-6 col-md-7 ">
-                    <h1 class="mx-4" style="color: rgb(246,79,36); font-family:sans-serif; letter-spacing: 2px; word-spacing: 1rem;font-weight:bold;">
-                        Mari Bersama Ciptakan Lingkungan Kerja UID S2JB Yang Harmonis
-                    </h1>
-
-
-                </div>
-            </div>
-            <div  class="col-11 container-fluid d-flex flex-wrap">
-                <div style="margin-top: 5rem;" class="col-12 col-md-5 d-flex justify-content-end">
-                    <div style="box-shadow: 1rem 0px 20px rgba(0, 0, 0, 0.2), -1rem 0px 20px rgba(0, 0, 0, 0.2);" class="card col-10 col-sm-6 col-md-7">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <img src="assets/frontend/img/iconProfil.png" style="margin-right: 5px;" width="30" height="30" alt="Profile Icon">
-                                        <p class="ms-2 mb-0" style="font-weight: bold;color: rgb(246,79,36);">Update Profile</p>
-                                    </div>
-
-                                    <p style="margin-top: 0.5rem;" class="card-text">Ayo PLNers segera lengkapi profil Anda!
-                                    .</p>
-                                </div>
+<?php ob_start(); ?>
+<section class="header-section w-100">
+    <div class="container">
+        <div class="row">
+            <!-- Highlight Section -->
+            <div class="col-lg-5 mb-3">
+                <?php if (!empty($highlights)): ?>
+                    <div class="card">
+                        <video controls>
+                            <source src="<?php echo $highlights[0]['filePath']; ?>" type="video/mp4">
+                            <source src="<?php echo $highlights[0]['filePath']; ?>" type="video/webm">
+                            <source src="<?php echo $highlights[0]['filePath']; ?>" type="video/ogg">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
-                </div>
-                <div style="margin-top: 0.8rem;" class="col-12 col-md-7">
-                        <div style="box-shadow: 1rem 0px 20px rgba(0, 0, 0, 0.2), -1rem 0px 20px rgba(0, 0, 0, 0.2);" class="card col-10 col-sm-6 col-md-7">
-                            <div class="card-body">
-                                <img src="assets/frontend/img/infosirupng.png" width="auto" height="52" style="position: relative;left: 50%; transform:translateX(-50%);" alt="Profile Icon">
+                <?php else: ?>
+                    <p>No highlight available.</p>
+                <?php endif; ?>
+            </div>
 
-                                <p class="card-text">Bersama tingkatkan pemahaman tentang Hubungan Industrial.
-                                </p>
-                            </div>
+            <!-- Flyers and Videos Section -->
+            <div class="col-lg-7">
+                <div class="row">
+                    <!-- Flyers -->
+                     <div class="col-md-12 d-flex flex-wrap">
+                         <div class="col-md-12 d-flex flex-wrap ">
+                         <?php foreach ($flyers as $flyer): ?>
+                             <div class="col-md-6 mb-3">
+                                 <div class="card">
+                                     <img src="<?php echo $flyer['filePath']; ?>" class="card-img-top" alt="Flyer" data-bs-toggle="modal" data-bs-target="#flyerModal-<?php echo $flyer["id"]?>">
+                                     <div class="modal fade" id="flyerModal-<?php echo $flyer["id"]?>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="<?php echo $flyer['filePath']; ?>" class="img-fluid" alt="Flyer">
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                             </div>
+                         <?php endforeach; ?>
+                         </div>
+                         <div style="margin-bottom: 1rem;" class="col-md-12 d-flex justify-content-center ">
+                            <a class="<?php echo (count($flyers) < 2) ? "d-none":""?>" href="?harmonihub=flyer&flyer_page=1">view more flyers &raquo;</a>
                         </div>
+                     </div>
+
+                    <!-- Videos -->
+                    <div class="col-md-12 d-flex flex-wrap">
+                         <div class="col-md-12 d-flex ">
+                         <?php foreach ($videos as $video): ?>
+                            <div class="col-md-6 mb-3">
+                                <div class="card">
+                                    <video class="card-img-top" controls style="width: 100%; height: auto;">
+                                        <source src="<?php echo $video['filePath']; ?>" type="video/mp4">
+                                        <source src="<?php echo $video['filePath']; ?>" type="video/webm">
+                                        <source src="<?php echo $video['filePath']; ?>" type="video/ogg">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            </div>
+
+                         <?php endforeach; ?>
+                         </div>
+                         <div class="col-md-12 d-flex justify-content-center  ">
+                         <a class="<?php echo (count($videos) < 2) ? "d-none":""?>" href="?harmonihub=video&video_page=1">view more videos &raquo;</a>
+                        </div>
+                     </div>
+              
                 </div>
             </div>
-        </section>
-
+         
+        </div>
+        
+    </div>
+</section>
 <?php
-$content = ob_get_clean(); // Simpan buffer ke dalam variabel $content
-include 'view/frontend/layouts/main.php'
+$content = ob_get_clean(); 
+include 'view/frontend/layouts/main.php';
 ?>

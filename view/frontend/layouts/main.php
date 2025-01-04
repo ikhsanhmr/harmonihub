@@ -24,9 +24,9 @@
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
 
+    
+    <link rel="icon" href="assets/frontend/img/header.png" type="image/x-icon">
     <!-- font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

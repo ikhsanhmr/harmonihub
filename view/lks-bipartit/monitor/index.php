@@ -31,7 +31,7 @@ if (isset($_SESSION['message'])) {
                                     <th rowspan="2">UNIT</th>
                                     <th rowspan="2">BA PEMBENTUKAN</th>
                                     <th rowspan="2">TANGGAL PENDAFTARAN BA</th>
-                                    <th colspan="4" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>  
+                                    <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>  
                                     <?php foreach ($bulans as $bulan):?>
                                         <th style="text-transform: uppercase;" colspan="6"><?php echo $bulan["name"]; ?></th>
                                     <?php endforeach;?>

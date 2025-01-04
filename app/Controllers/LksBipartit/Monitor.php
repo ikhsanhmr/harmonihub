@@ -59,7 +59,7 @@ use Respect\Validation\Validator as v;
                         JOIN 
                             units u ON u.id = m.unit_id 
                         JOIN 
-                            ba_lks_bipartit b ON b.id = m.ba_id
+                            ba_pembentukan b ON b.id = m.ba_id
                         LEFT JOIN 
                             (SELECT 
                                 monitor_id, 
@@ -92,7 +92,7 @@ use Respect\Validation\Validator as v;
                         JOIN 
                             units u ON u.id = m.unit_id 
                         JOIN 
-                            ba_lks_bipartit b ON b.id = m.ba_id
+                            ba_pembentukan b ON b.id = m.ba_id
                         LEFT JOIN 
                             (SELECT 
                                 monitor_id, 
@@ -132,7 +132,7 @@ use Respect\Validation\Validator as v;
             $stmt = $this->db->prepare("select * from units");
             $stmt->execute();
             $units = $stmt->fetchAll();
-            $stmt = $this->db->prepare("select * from ba_lks_bipartit");
+            $stmt = $this->db->prepare("select * from ba_pembentukan");
             $stmt->execute();
             $ba_pembentukans = $stmt->fetchAll();
             $stmt = $this->db->prepare("select * from serikat");

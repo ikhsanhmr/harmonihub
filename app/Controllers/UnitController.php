@@ -17,10 +17,20 @@ class UnitController
     }
     
     public function index(){
-        $stmt = $this->db->prepare("SELECT id, name,manager_unit
+        if(isset($_SESSION["role_name"]) && $_SESSION["role_name"] == "unit"){
+            $name = $_SESSION["tim"];
+            $sql = "SELECT id, name,manager_unit
+                                    FROM units where name = ?
+                                    ORDER BY createdAt DESC;";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute([$name]);
+        }else{
+            $sql = 'SELECT id, name,manager_unit
                                     FROM units
-                                    ORDER BY createdAt DESC;");
-        $stmt->execute();
+                                    ORDER BY createdAt DESC;';
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+        }
         $units = $stmt->fetchAll();
 
         include 'view/unit/index.php';

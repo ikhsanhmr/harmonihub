@@ -10,9 +10,6 @@ use Libraries\Database;
             $this->db= Database::getInstance();
         }
         public function index()  {
-            include "view/frontend/welcome.php";
-        }
-        public function infoSiru()  {
             $highlight = $this->db->prepare("SELECT * FROM info_sirus WHERE type = ? ORDER BY createdAt DESC LIMIT 1");
             $highlight->execute(["video"]);
             $highlights = $highlight->fetchAll();
@@ -28,8 +25,9 @@ use Libraries\Database;
             $video->execute(["video"]);
             $videos = $video->fetchAll();
 
-            include "view/frontend/InfoSiru.php";
+            include "view/frontend/welcome.php";
         }
+ 
 
         public function flyers()  {
             $pageF = isset($_GET["flyer_page"]) ? (int)$_GET["flyer_page"] : 1;

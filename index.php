@@ -3,13 +3,18 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/app/Libraries/middleware.php';
 
-use Controllers\AnggotaSerikat;
+use Controllers\Serikat\Dsp;
+use Controllers\Serikat\AnggotaSerikat;
 use Controllers\AuthController;
+use Controllers\Ba\Approvals;
+use Controllers\Ba\ApprovalsPembentukan;
+use Controllers\Ba\ApprovalsPerubahan;
 use Controllers\Dashboard;
 use Controllers\DokumenController;
 use Controllers\FrontendController;
 use Controllers\InfoSiru;
-use Controllers\LksBipartit\BaPembentukan;
+use Controllers\Ba\BaPembentukan;
+use Controllers\Ba\BaPerubahan;
 use Controllers\LksBipartit\Jadwal;
 use Controllers\LksBipartit\Monitor;
 use Controllers\LksBipartit\TemaController;
@@ -29,9 +34,13 @@ $tema = new TemaController();
 $infoSiruController = new InfoSiru();
 $serikat = new Serikats();
 $anggotaSerikat = new AnggotaSerikat();
+$dsp = new Dsp();
 $userController = new UserController();
 $pdpController = new PenilaianPdpController();
-$baController = new BaPembentukan();
+$baPembentukanController = new BaPembentukan();
+$baPerubahanController = new BaPerubahan();
+$approvalsPembentukan = new ApprovalsPembentukan();
+$approvalsPerubahan = new ApprovalsPerubahan();
 $laporanController = new Laporan();
 $unitController = new UnitController();
 $profileContoller = new ProfileController();
@@ -45,9 +54,6 @@ if (isset($_GET["harmonihub"])) {
   switch ($routeFe) {
     case 'index':
       $frontend->index();
-      break;
-    case 'info-siru':
-      $frontend->infoSiru();
       break;
     case 'flyer':
       $frontend->flyers();
@@ -70,81 +76,48 @@ if (isset($_SESSION['user_id']) && isset($_GET['page']) && $_GET['page'] === 'la
   $laporanController->index();
   exit();
 }
+$rolePages = [
+  'admin' => [
+      'jadwal', 'fectch/jadwal', 'jadwal/store', 'jadwal/edit', 'jadwal/delete',
+      'tema', 'tema/create', 'tema/store', 'tema/delete', 'tema=edit', 'tema/update',
+      'user-list', 'user-create', 'user-store', 'user-edit', 'user-update', 'user-delete',
+      'info-siru-create', 'info-siru-store', 'info-siru-destroy', 'info-siru-edit', 'info-siru-update',
+      'serikat', 'serikat-create', 'serikat-store', 'serikat-edit', 'serikat-update', 'serikat-destroy',
+      'anggota-serikat', 'anggota-serikat-store', 'anggota-serikat-edit', 'anggota-serikat-update', 'anggota-serikat-destroy',
+      'dsp',
+      'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
+      'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
+      'ba-perubahan', 'ba-perubahan-create', 'ba-perubahan-store', 'ba-perubahan-edit', 'ba-perubahan-update', 'ba-perubahan-delete',
+      'approvals-pembentukan','terima-ba-pembentukan',
+      'approvals-perubahan','terima-ba-perubahan',
+      'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete',
+      'unit-list', 'unit-create', 'unit-store', 'unit-edit', 'unit-update', 'unit-delete',
+      'tim', 'tim/create', 'monitor', 'monitor-create', 'monitor-store',
+      'dokumen', 'dokumen/create', 'dokumen/store', 'dokumen/delete',
+  ],
+  'unit' => [
+      'jadwal', 'fectch/jadwal', 'jadwal/store', 'jadwal/edit', 'jadwal/delete',
+      'tema', 'tema/create', 'tema/store', 'tema/delete', 'tema=edit', 'tema/update',
+      'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
+      'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
+      'ba-perubahan', 'ba-perubahan-create', 'ba-perubahan-store', 'ba-perubahan-edit', 'ba-perubahan-update', 'ba-perubahan-delete',
+      'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete',
+      'tim', 'tim/create', 'monitor', 'monitor-create', 'monitor-store',
+  ],
+];
 
-// Middleware untuk cek role
-if (isset($_GET['page'])) {
-  if (in_array($_GET['page'], [
-    'jadwal',
-    'fectch/jadwal',
-    'jadwal/store',
-    'jadwal/edit',
-    'jadwal/delete',
-    'tema',
-    'tema/create',
-    'tema/store',
-    'tema/delete',
-    'tema=edit',
-    'tema/update',
-    'user-list',
-    'user-create',
-    'user-store',
-    'user-edit',
-    'user-update',
-    'user-delete',
-    'info-siru-create',
-    'info-siru-store',
-    'info-siru-destroy',
-    'info-siru-edit',
-    'info-siru-update',
-    'serikat',
-    'serikat-create',
-    'serikat-store',
-    'serikat-edit',
-    'serikat-update',
-    'serikat-destroy',
-    'anggota-serikat',
-    'anggota-serikat-store',
-    'anggota-serikat-edit',
-    'anggota-serikat-update',
-    'anggota-serikat-destroy',
-    'penilaian-pdp-list',
-    'penilaian-pdp-create',
-    'penilaian-pdp-store',
-    'penilaian-pdp-edit',
-    'penilaian-pdp-update',
-    'penilaian-pdp-delete',
-    'ba-pembentukan-list',
-    'ba-pembentukan-create',
-    'ba-pembentukan-store',
-    'ba-pembentukan-edit',
-    'ba-pembentukan-update',
-    'ba-pembentukan-delete',
-    'laporan-list',
-    'laporan-create',
-    'laporan-store',
-    'laporan-edit',
-    'laporan-update',
-    'laporan-delete',
-    'unit-list',
-    'unit-create',
-    'unit-store',
-    'unit-edit',
-    'unit-update',
-    'unit-delete',
-    'tim',
-    'tim/create',
-    'monitor',
-    'monitor-create',
-    'monitor-store',
-    'dokumen',
-    'dokumen/create',
-    'dokumen/store',
-    'dokumen/delete',
-  ])) {
-    checkRole('admin');
+  // Middleware cek role berdasarkan halaman
+  if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+    if (isset($_SESSION["role_name"])) {
+      $role = $_SESSION["role_name"];
+  } else {
+      $role = null;
+  }  
+    if (in_array($page, $rolePages['admin'])) {
+        checkRole($role);
+    }
   }
-}
-
 if (!isset($_GET['page'])) {
   $frontend->index();
 } else {
@@ -295,6 +268,27 @@ if (!isset($_GET['page'])) {
     case 'anggota-serikat-pdf':
       $anggotaSerikat->pdf($_GET["id_serikat"]);
       break;
+    case 'excel-to-anggota-serikat':
+      $anggotaSerikat->excel();
+      break;
+    case 'dsp':
+      $dsp->index();
+      break;
+    case 'dsp-create':
+      $dsp->create();
+        break;
+    case 'dsp-store':
+      $dsp->store();
+        break;
+    case 'dsp-edit':
+      $dsp->edit($_GET['id']);
+        break;
+    case 'dsp-update':
+      $dsp->update($_GET['id']);
+        break;
+    case 'dsp-destroy':
+      $dsp->destroy($_GET['id']);
+        break;
     case 'penilaian-pdp-list':
       $pdpController->index();
       break;
@@ -317,26 +311,57 @@ if (!isset($_GET['page'])) {
       $pdpController->exportToPdf();
       break;
     case 'ba-pembentukan-list':
-      $baController->index();
+      $startDate = $_GET['start'] ?? null;
+      $endDate = $_GET['end'] ?? null;
+      $baPembentukanController->index($startDate, $endDate);
       break;
     case 'ba-pembentukan-create':
-      $baController->create();
+      $baPembentukanController->create();
       break;
     case 'ba-pembentukan-store':
-      $baController->store();
+      $baPembentukanController->store();
       break;
     case 'ba-pembentukan-edit':
-      $baController->edit($_GET['id']);
+      $baPembentukanController->edit($_GET['id']);
       break;
     case 'ba-pembentukan-update':
-      $baController->update($_GET['id']);
+      $baPembentukanController->update($_GET['id']);
       break;
     case 'ba-pembentukan-delete':
-      $baController->destroy($_GET['id']);
+      $baPembentukanController->destroy($_GET['id']);
       break;
-      // case 'laporan-list':
-      //   $laporanController->index();
-      //   break;
+      case 'ba-perubahan-list':
+        $startDate = $_GET['start'] ?? null;
+        $endDate = $_GET['end'] ?? null;
+        $baPerubahanController->index($startDate, $endDate);
+        break;
+      case 'ba-perubahan-create':
+        $baPerubahanController->create();
+        break;
+      case 'ba-perubahan-store':
+        $baPerubahanController->store();
+        break;
+      case 'ba-perubahan-edit':
+        $baPerubahanController->edit($_GET['id']);
+        break;
+      case 'ba-perubahan-update':
+        $baPerubahanController->update($_GET['id']);
+        break;
+      case 'ba-perubahan-delete':
+        $baPerubahanController->destroy($_GET['id']);
+        break;
+      case 'approvals-pembentukan':
+        $approvalsPembentukan->index();
+      break;
+      case 'terima-ba-pembentukan':
+        $approvalsPembentukan->terimaBaPembentukan($_GET["id"]);
+      break;
+      case 'approvals-perubahan':
+        $approvalsPerubahan->index();
+      break;
+      case 'terima-ba-perubahan':
+        $approvalsPerubahan->terimaBaperubahan($_GET["id"]);
+      break;
     case 'laporan-list':
       $startDate = $_GET['start_date'] ?? null;
       $endDate = $_GET['end_date'] ?? null;

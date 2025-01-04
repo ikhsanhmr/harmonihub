@@ -10,6 +10,7 @@ if (isset($_SESSION['message'])) {
     echo AlertHelper::showAlert($type, $title, $_SESSION["message"]["text"]);
     unset($_SESSION['message']);
 }
+$rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null
 ?>
 
 <div class="content-wrapper">
@@ -19,9 +20,11 @@ if (isset($_SESSION['message'])) {
                 <div class="card-body">
                     <h4 class="card-title">Serikat</h4>
                     <div style="float: right">
-                        <a href="index.php?page=serikat-create" class="btn btn-success btn-sm">
+                        <?php if($rolename == "admin"){?>
+                            <a href="index.php?page=serikat-create" class="btn btn-success btn-sm">
                             Tambah Data
                         </a>
+                        <?php }?>
                     </div>
                     <div class="table-responsive pt-3">
                         <table class="table table-bordered data-table">
@@ -30,8 +33,7 @@ if (isset($_SESSION['message'])) {
                                     <th class="text-center" width="50">No.</th>
                                     <th>Nama</th>
                                     <th>Logo</th>
-                                    <th>Tanggal Dibuat</th>
-                                    <th>Tanggal Diedit</th>
+                                   
                                     <th class="text-center" width="100">Aksi</th>
                                 </tr>
                             </thead>
@@ -51,8 +53,7 @@ if (isset($_SESSION['message'])) {
                                                     <span>No Picture</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td><?php echo date('d-m-Y H:i', strtotime($serikat['createdAt'])); ?></td>
-                                            <td><?php echo date('d-m-Y H:i', strtotime($serikat['updateAt'])); ?></td>
+                                           
                                             <td>
                                                 <a href="index.php?page=serikat-edit&id=<?php echo $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                                 <form action="index.php?page=serikat-destroy&id=<?php echo $serikat['id']; ?>" 
