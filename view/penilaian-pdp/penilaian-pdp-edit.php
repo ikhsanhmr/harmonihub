@@ -41,6 +41,13 @@ ob_start(); // Mulai output buffering
                                         <option value="tidak" <?php echo $pdp['kpi'] == 'tidak' ? 'selected' : ''; ?>>Tidak</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="semester">Semseter</label>
+                                    <select name="semester" id="semester" class="form-control" required>
+                                        <option value="1" <?php echo $pdp['semester'] == 1 ? 'selected' : ''; ?>>1</option>
+                                        <option value="2" <?php echo $pdp['semester'] == 2 ? 'selected' : ''; ?>>2</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -63,7 +70,7 @@ ob_start(); // Mulai output buffering
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal">Tanggal</label>
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?php echo htmlspecialchars($pdp['tanggal'])?>" required>
+                                    <input type="date" class="form-control" id="tanggal" name="tanggal" value="<?php echo htmlspecialchars($pdp['tanggal']) ?>" required>
                                 </div>
                             </div>
                         </div>

@@ -19,7 +19,7 @@ use Respect\Validation\Validator as v;
             $stmt = $this->db->prepare("SELECT id FROM monitor_lks_bipartit");
             $stmt->execute();
             $idMonitors = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             $columns = [];
             for ($i = 1; $i <= 13; $i++) {
                 $columns[] = "GROUP_CONCAT(DISTINCT CASE WHEN bulan.id = $i THEN dmlb.rekomendasi END ORDER BY dmlb.id) AS rekomendasi_$i";
@@ -30,13 +30,13 @@ use Respect\Validation\Validator as v;
                 $columns[] = "GROUP_CONCAT(DISTINCT CASE WHEN bulan.id = $i THEN tlb.namaTema END ORDER BY dmlb.id) AS tema_$i";
             }
             $dynamicColumns = implode(",\n    ", $columns);
-            
+
             $data = [];
             foreach ($idMonitors as $idMonitor) {
                 $stmt = $this->db->prepare("SELECT monitor_id FROM date_monitor_lks_bipartit WHERE monitor_id = ?");
                 $stmt->execute([$idMonitor['id']]);
                 $dmlb = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
                 if ($dmlb) {
                     // Query jika ada data dmlb
                     $sql = "
@@ -111,23 +111,25 @@ use Respect\Validation\Validator as v;
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute([$idMonitor['id']]);
                 }
-            
+
                 $data[] = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
-            
+
             $monitors = array_merge(...$data);
-            
+
             // Ambil data bulan
             $stmt = $this->db->prepare("SELECT * FROM bulan");
             $stmt->execute();
             $bulans = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             // Ambil data serikat
             $stmt = $this->db->prepare("SELECT * FROM serikat");
             $stmt->execute();
             $serikats = $stmt->fetchAll(PDO::FETCH_ASSOC);
             include "view/lks-bipartit/monitor/index.php";
         }
+
+
         public function create()  {
             $stmt = $this->db->prepare("select * from units");
             $stmt->execute();

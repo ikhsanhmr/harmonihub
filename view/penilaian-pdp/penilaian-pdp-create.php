@@ -15,7 +15,7 @@ ob_start(); // Mulai output buffering
 
                         <div class="row">
                             <div class="col-md-6">
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label for="anggota_serikat_id">Pegawai</label>
                                     <select class="form-control" id="anggota_serikat_id" name="anggota_serikat_id" required>
                                         <option value="" selected disabled>Pilih Pegawai</option>
@@ -44,6 +44,14 @@ ob_start(); // Mulai output buffering
                                         <option value="tidak">Tidak</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="semseter">Semester</label>
+                                    <select name="semseter" id="semseter" class="form-control" required>
+                                        <option value="">Pilih Semester</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -70,7 +78,6 @@ ob_start(); // Mulai output buffering
                                 </div>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 Simpan

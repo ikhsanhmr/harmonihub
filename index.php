@@ -310,6 +310,9 @@ if (!isset($_GET['page'])) {
     case 'penilaian-pdp-exportpdf';
       $pdpController->exportToPdf();
       break;
+    case 'penilaian-pdp-importexcell';
+      $pdpController->importFromExcel();
+      break;
     case 'ba-pembentukan-list':
       $startDate = $_GET['start'] ?? null;
       $endDate = $_GET['end'] ?? null;
@@ -425,7 +428,10 @@ if (!isset($_GET['page'])) {
       $timController->delete();
       break;
     case 'monitor':
-      $monitor->index();
+      // Ambil parameter tahun dari GET
+      $tahun = $_GET['tahun'] ?? null;
+      // Panggil fungsi index dengan parameter tahun
+      $monitor->index($tahun);
       break;
     case 'monitor-create':
       $monitor->create();
