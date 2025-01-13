@@ -18,27 +18,16 @@ ob_start();
         <div class="col-md-4 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
+                    <div class="profile text-center fw-bold">
+                        <h3 class="profile-title"><?= htmlspecialchars($user['name']) ?></h3>
+                    </div>
+                    <hr>
                     <div class="d-flex justify-content-center">
                         <?php if ($user['profile_picture']): ?>
                             <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="150" height="150" style="border-radius: 100%; margin-bottom: 1rem;">
                         <?php else: ?>
-                            <span>No Picture</span>
+                            <span class="text-muted">No Picture</span>
                         <?php endif; ?>
-                    </div>
-                    <div class="profile text-center fw-bold">
-                        <p class="profile-title"><?php echo $user['name']; ?></p>
-                        <?php if ($user['role_name'] == 'admin') { ?>
-                            <p class="role"><?= htmlspecialchars($user['role_name']) ?></p>
-                        <?php } ?>
-                        <hr>
-                        <p class="profile-title">Username</p>
-                        <p class="title-name"><?= htmlspecialchars($user['username']) ?></p>
-                        <hr>
-                        <p class="profile-title">Email</p>
-                        <p class="title-name"><?= htmlspecialchars($user['email']) ?></p>
-                        <hr>
-                        <p class="profile-title">Serikat</p>
-                        <p class="title-name"><?= htmlspecialchars($user['serikat_name']) ?></p>
                     </div>
                 </div>
             </div>
@@ -69,6 +58,7 @@ ob_start();
                         </div>
                         <div class="form-group row">
                             <label for="password" class="col-sm-3 col-form-label">Password</label>
+                            <input type="checkbox" id="toggle-password" onclick="togglePassword()"> <label for="toggle-password">Show Password</label>
                             <div class="col-sm-9">
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                             </div>
@@ -80,7 +70,6 @@ ob_start();
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary mr-2">Simpan</button>
-                        <button class="btn btn-light">Batal</button>
                     </form>
                 </div>
             </div>

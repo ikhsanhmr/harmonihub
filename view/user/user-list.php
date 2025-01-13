@@ -31,12 +31,10 @@ ob_start(); // Mulai output buffering
                         <table class="table table-bordered data-table">
                             <thead>
                                 <tr class="text-center">
-                                    <th class="text-center" width="50">No.</th>
                                     <th>Nama</th>
                                     <th>Username</th>
                                     <th>Email</th>
                                     <th>Role</th>
-                                    <th>Tim</th>
                                     <th>Profile Picture</th>
                                     <th>Tanggal Dibuat</th>
                                     <th class="text-center" width="100">Aksi</th>
@@ -44,15 +42,13 @@ ob_start(); // Mulai output buffering
                             </thead>
                             <tbody>
                                 <?php
-                                foreach ($users as $index => $user) {
+                                foreach ($users as $user) {
                                 ?>
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
                                         <td><?php echo htmlspecialchars($user['name']); ?></td>
                                         <td><?php echo htmlspecialchars($user['username']); ?></td>
                                         <td><?php echo htmlspecialchars($user['email']); ?></td>
                                         <td><?php echo htmlspecialchars($user['role_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($user['tim']); ?></td>
                                         <td>
                                             <?php if ($user['profile_picture']): ?>
                                                 <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="100">

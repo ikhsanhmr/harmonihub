@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Helpers\Validation;
 use Libraries\Database;
 
 class UserController
@@ -55,11 +56,10 @@ class UserController
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $email = $_POST['email'];
 
-            // Proses upload file gambar profil
+            // upload profile, boleh kosong ""
             $profile_picture = null;
             if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                $profile_picture = 'uploads/' . $_FILES['profile_picture']['name'];
-                move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture);
+                $profile_picture = Validation::ValidatorFile($_FILES["profile_picture"],"uploads/users/","index.php?page=user-create");
             }
 
             $createdAt = date('Y-m-d H:i:s');
@@ -118,11 +118,25 @@ class UserController
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $email = $_POST['email'];
 
-            // Proses upload file gambar profil
-            $profile_picture = null;
-            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                $profile_picture = 'uploads/' . $_FILES['profile_picture']['name'];
-                move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture);
+            // Ambil data pengguna saat ini untuk mendapatkan gambar lama
+            $query = "SELECT profile_picture FROM users WHERE id = ?";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$id]);
+            $currentUser = $stmt->fetch();
+
+            // gunakan file lama jika file baru tidak ada
+            $oldProfilePicture = $currentUser['profile_picture']; // Gambar lama
+
+            // Proses upload file gambar profil, skip jika kosong
+            $profile_picture = $oldProfilePicture; // Default ke gambar lama jika tidak ada gambar baru
+            if (!empty($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+                
+                // hapus file yg lama jika ada di storage
+                if (file_exists($oldProfilePicture)) {
+                    unlink($oldProfilePicture); // Hapus file lama
+                }
+
+                $profile_picture = Validation::ValidatorFile($_FILES["profile_picture"],"uploads/users/","index.php?page=profile");
             }
 
             $updatedAt = date('Y-m-d H:i:s');

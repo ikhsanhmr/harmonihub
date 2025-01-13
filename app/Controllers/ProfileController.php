@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Helpers\Validation;
 use Libraries\Database;
 use Libraries\CSRF;
 
@@ -34,11 +35,9 @@ class ProfileController
                     u.profile_picture, 
                     u.created_at, 
                     u.updated_at, 
-                    r.role_name AS role_name, 
-                    s.name AS serikat_name 
+                    r.role_name AS role_name
                 FROM users u
                 JOIN roles r ON u.role_id = r.id
-                JOIN serikat s ON u.serikat_id = s.id
                 WHERE u.id = ?";
 
         // Gunakan prepared statement
@@ -77,19 +76,16 @@ class ProfileController
 
             $oldProfilePicture = $currentUser['profile_picture']; // Gambar lama
 
-            // Proses upload file gambar profil baru
+            // Proses upload file gambar profil, skip jika kosong
             $profile_picture = $oldProfilePicture; // Default ke gambar lama jika tidak ada gambar baru
-            if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-                // Tentukan jalur baru
-                $profile_picture = 'uploads/' . $_FILES['profile_picture']['name'];
-
-                // Pindahkan file baru
-                if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $profile_picture)) {
-                    // Hapus file gambar lama jika ada
-                    if (!empty($oldProfilePicture) && file_exists($oldProfilePicture)) {
-                        unlink($oldProfilePicture); // Hapus file lama
-                    }
+            if (!empty($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
+                
+                // hapus file yg lama jika ada di storage
+                if (file_exists($oldProfilePicture)) {
+                    unlink($oldProfilePicture); // Hapus file lama
                 }
+
+                $profile_picture = Validation::ValidatorFile($_FILES["profile_picture"],"uploads/users/","index.php?page=profile");
             }
 
             // Update data pengguna
