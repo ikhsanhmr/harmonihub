@@ -39,6 +39,9 @@
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="Password" required>
                                 </div>
+                                <div class="form-group text-right">
+                                    <input type="checkbox" id="toggle-password" onclick="togglePassword()"> <label for="toggle-password">Show Password</label>
+                                </div>  
                                 <div class="mt-3">
                                     <button class="btn btn-block btn-primary btn-lg font-weight-medium" type="submit">SIGN IN</button>
                                 </div>
@@ -66,6 +69,8 @@
     <script src="assets/js/template.js"></script>
     <script src="assets/js/settings.js"></script>
     <script src="assets/js/todolist.js"></script>
+
+    <script src="resources/js/script.js"></script>
     <!-- endinject -->
 </body>
 

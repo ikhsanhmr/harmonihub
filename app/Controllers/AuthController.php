@@ -24,7 +24,7 @@ class AuthController
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        $query = "SELECT users.id, users.username,users.tim as tim, users.password, roles.role_name as role_name
+        $query = "SELECT users.id, users.username, users.profile_picture, users.tim as tim, users.password, roles.role_name as role_name
                       FROM users 
                       JOIN roles ON users.role_id = roles.id 
                       WHERE users.username = :username";
@@ -35,12 +35,13 @@ class AuthController
         if ($stmt->rowCount() > 0) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if (password_verify($password, $user['password'])) {
-                // session_start();
+                // session_start(); sudah di mulai dari halaman index.php
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role_name'] = $user['role_name'];
                 $_SESSION['tim'] = $user['tim'];
-
+                $_SESSION['avatar'] = $user['profile_picture'];
+                
                 echo "<script>
                     alert('Login berhasil!');
                     window.location.href = 'index.php?page=home';

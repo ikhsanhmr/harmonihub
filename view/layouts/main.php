@@ -30,6 +30,9 @@
     <!-- sweetalert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- my script -->
+    <script defer src="resources/js/script.js"></script>
+
 </head>
 
 <body>
@@ -37,7 +40,8 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-5" href="index.php?page=home"><img src="assets/images/logo2.png" class="mr-2" style="width: 6rem; height: auto;" alt="logo" /></a>
+                <a class="navbar-brand brand-logo mr-5" href="index.php?page=home"><img src="assets/images/logo2.png"
+                        class="mr-2" style="width: 6rem; height: auto;" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -46,9 +50,10 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="assets/images/faces/face28.jpg" alt="profile" />
+                            <img src="<?= $_SESSION['avatar'] ?? 'assets/images/default-avatar.jpg' ?>" alt="profile" />
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                            aria-labelledby="profileDropdown">
                             <a class="dropdown-item" href="index.php?page=profile">
                                 <i class="icon-head text-primary"></i>
                                 Profile
@@ -60,7 +65,8 @@
                         </div>
                     </li>
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
                     <span class="icon-menu"></span>
                 </button>
             </div>
@@ -135,7 +141,7 @@
     <script src="assets/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.data-table').DataTable();
         })
     </script>

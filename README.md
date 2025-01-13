@@ -1,9 +1,14 @@
 # SIRU : Sharing Industrial Relations UID
 Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan industrial dalam organisasi. Fitur utamanya mencakup manajemen data unit, serikat, pengguna, berita acara, LKS Bipartit, laporan, monitoring, penilaian pegawai, dan database hubungan industrial. Sistem ini juga menyediakan fitur ekspor data ke PDF dan Excel untuk berbagai data. Dengan SIRU, transparansi dan efisiensi dalam manajemen hubungan industrial dapat terjaga.
 
+## starting
+1. migrasi database di file `db_harmoni.sql`
+2. `composer install`
+3. run local servel
+
 ## Role
-- Admin
-- Unit
+- admin | pw: K@rtini23
+- user | pw: 123456 
 
 ## Fitur
 <i>*🗝️: Fitur Khusus Admin</i>
@@ -31,5 +36,5 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
     - {CRUD}: Nama Pegawai, NIP Pegawai, Unit, Peran, Tidak Tercantum KPI, Bukan Uraian Jabatan, Hasil Verifikasi, Semester, Nilai, etc.
     - Export Excel or PDF
 - Database HI
-  - [HI, AD] {CRUD}: Nama, File, Kategori, etc.
-  - Filter {kategori and/or tahun} 
+  - [HI, AD] {CRUD}: nama_dokumen, link_gdrive, kategori, tanggal, etc.
+  - Filter {kategori and/or tahun}

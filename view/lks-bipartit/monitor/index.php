@@ -18,11 +18,13 @@ if (isset($_SESSION['message'])) {
                 <div class="card-body">
                     <h4 class="card-title">Monitoring LKS Bipartit</h4>
                     <div style="float: left;">
-                        <form method="GET" action="">
+                        <form method="GET" action="index.php">
+                            <input type="hidden" name="page" value="monitor">
+
                             <div class="form-group">
                                 <div class="select-group d-flex align-items-center">
                                     <select class="form-control form-control-sm" id="tahun" name="tahun">
-                                        <!-- pilihan tahun dari 2000 sampai tahun saat ini -->
+                                        <!-- Pilihan tahun dari 2015 sampai tahun saat ini -->
                                         <option value="">Pilih tahun</option>
                                         <?php for ($i = 2015; $i <= date('Y'); $i++) { ?>
                                             <option value="<?php echo $i; ?>"
@@ -31,12 +33,17 @@ if (isset($_SESSION['message'])) {
                                             </option>
                                         <?php } ?>
                                     </select>
+
+                                    <!-- Gantikan button dengan a href -->
                                     <div class="select-group-append col-5">
-                                        <button class="btn btn-sm btn-primary ms-2" type="submit">Filter</button>
+                                        <a href="index.php?page=monitor&tahun=" id="filter-link" class="btn btn-sm btn-primary ms-2">
+                                            Filter
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </form>
+
                     </div>
                     <div style="float: right">
                         <a href="index.php?page=monitor-create" class="btn btn-success btn-sm">Tambah Data</a>
@@ -50,8 +57,8 @@ if (isset($_SESSION['message'])) {
                                     <th rowspan="2">UNIT</th>
                                     <th rowspan="2">BA PEMBENTUKAN</th>
                                     <th rowspan="2">TANGGAL PENDAFTARAN BA</th>
-                                    <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>  
-                                    <?php foreach ($bulans as $bulan):?>
+                                    <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>
+                                    <?php foreach ($bulans as $bulan): ?>
                                         <th style="text-transform: uppercase;" colspan="6"><?php echo $bulan["name"]; ?></th>
                                     <?php endforeach; ?>
                                     <th rowspan="2" colspan="2" class="text-center" width="100">AKSI</th>
@@ -98,9 +105,22 @@ if (isset($_SESSION['message'])) {
                                                     ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($monitor['tindak_lanjut_' . $index + 1] ?? '-'); ?></td>
-                                                <td><?php echo htmlspecialchars($monitor['evaluasi_' . $index + 1] ?? '-'); ?></td>
+                                                <td><?php echo htmlspecialchars($monitor['evaluasi_' . $index + 1] ?? '-'); ?> <i class="mdi mdi-timer-sand"></i></td>
                                                 <td><?php echo htmlspecialchars($monitor['follow_up_' . $index + 1] ?? '-'); ?></td>
-                                                <td><?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?></td>
+                                                <?php
+                                                if ($monitor['realisasi_' . $index + 1] == '100%') { ?>
+                                                    <td class="text-center" style="background-color: green;">
+                                                        <?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
+                                                    </td>
+                                                <?php } elseif ($monitor['realisasi_' . $index + 1] == '0%') { ?>
+                                                    <td class="text-center" style="background-color: red;">
+                                                        <?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
+                                                    </td>
+                                                <?php } else { ?>
+                                                    <td class="text-center" style="background-color: yellow;">
+                                                        <?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
+                                                    </td>
+                                                <?php } ?>
                                             <?php endforeach; ?>
                                             <td><a href="index.php?page=monitor-jadwal-create&id=<?php echo $monitor["id"] ?>">Tambahkan Jadwal</a></td>
                                             <td class="text-center">
@@ -133,6 +153,18 @@ if (isset($_SESSION['message'])) {
     </div>
 </div>
 <script>
+    document.getElementById('tahun').addEventListener('change', function() {
+        const tahun = this.value;
+        const filterLink = document.getElementById('filter-link');
+        let newUrl = 'index.php?page=monitor';
+
+        if (tahun) {
+            newUrl += `&tahun=${tahun}`;
+        }
+
+        filterLink.href = newUrl;
+    });
+
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function() {
             const serikatId = this.getAttribute('data-id');
