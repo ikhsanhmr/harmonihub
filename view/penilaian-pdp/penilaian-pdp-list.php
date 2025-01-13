@@ -39,7 +39,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                     <h4 class="card-title">Data Penilaian PDP</h4>
                     <div style="float: right">
                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#importExcell">Export Excell</button>
+                            data-bs-target="#importExcell">Import Excel</button>
                         <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exportPDF">Export PDF</button>
                         <!-- <a href="index.php?page=penilaian-pdp-exportpdf" class="btn btn-info btn-sm" target="_blank">Export PDF</a> -->
@@ -180,7 +180,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="importExcell">Import Excell</h5>
+                <h5 class="modal-title" id="importExcell">Import Excel</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -188,7 +188,10 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
             <div class="modal-body">
                 <form action="index.php?page=penilaian-pdp-importexcell" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="importExcell">Import Excell</label>
+                       <span><a href="/harmoni/view/penilaian-pdp/excel.xlsx">Download Format Import</a></span> 
+                    </div>
+                    <div class="form-group">
+                        <label for="importExcell">Import Excel</label>
                         <input type="file" name="excel_file" class="form-control form-control-sm" id="importExcell" required>
                     </div>
                     <div class="form-group">

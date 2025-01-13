@@ -5,7 +5,7 @@ namespace Controllers;
 use Libraries\CSRF;
 use Libraries\Database;
 
-class DokumenController
+class Dokumen2Controller
 {
     private $db;
     private $dbs;
@@ -22,7 +22,7 @@ class DokumenController
         $kategori = isset($_GET['kategori']) ? $_GET['kategori'] : '';
         $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
 
-        $sql = "SELECT * FROM dokumen_hi WHERE 1";
+        $sql = "SELECT * FROM dokumen_ad WHERE 1";
 
         if ($kategori) {
             $sql .= " AND kategori = :kategori";
@@ -47,13 +47,13 @@ class DokumenController
 
         $dokumens = $stmt->fetchAll();
 
-        include 'view/dokumen_hi/index.php';
+        include 'view/dokumen_ad/index.php';
     }
 
 
     public function create()
     {
-        include 'view/dokumen_hi/create.php';
+        include 'view/dokumen_ad/create.php';
     }
 
     public function store()
@@ -83,14 +83,14 @@ class DokumenController
             //     }
             // }
 
-            $query = "INSERT INTO dokumen_hi (nama_dokumen, link_gdrive, kategori, tanggal, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO dokumen_ad (nama_dokumen, link_gdrive, kategori, tanggal, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
             $success = $stmt->execute([$nama_dokumen, $link_gdrive, $kategori, $tanggal, $createdAt, $updatedAt]);
 
             if ($success) {
-                header('Location: index.php?page=dokumen_hi&success=1');
+                header('Location: index.php?page=dokumen_ad&success=1');
             } else {
-                header('Location: index.php?page=dokumen_hi/create&gagal=1');
+                header('Location: index.php?page=dokumen_ad/create&gagal=1');
             }
         }
     }
@@ -100,11 +100,11 @@ class DokumenController
     {
         // Ambil data tema berdasarkan ID
         $id = $_GET['id'] ?? null;
-        $dokumen = $this->dbs->fetch("SELECT * FROM dokumen_hi WHERE id = :id", ['id' => $id]);
+        $dokumen = $this->dbs->fetch("SELECT * FROM dokumen_ad WHERE id = :id", ['id' => $id]);
         if (!$dokumen) {
             die("Data tidak ditemukan.");
         }
-        include 'view/dokumen_hi/edit.php';
+        include 'view/dokumen_ad/edit.php';
     }
 
     public function update()
@@ -120,7 +120,7 @@ class DokumenController
 
             // Validasi ID Dokumen
             if (!$id) {
-                header('Location: index.php?page=dokumen_hi&error=Invalid ID');
+                header('Location: index.php?page=dokumen_ad&error=Invalid ID');
                 exit;
             }
 
@@ -131,7 +131,7 @@ class DokumenController
             // $dokumen = $stmt->fetch();
 
             // if (!$dokumen) {
-            //     header('Location: index.php?page=dokumen_hi&error=Dokumen Not Found');
+            //     header('Location: index.php?page=dokumen_ad&error=Dokumen Not Found');
             //     exit;
             // }
 
@@ -161,7 +161,7 @@ class DokumenController
             $updatedAt = date('Y-m-d H:i:s');
 
             // Query untuk memperbarui dokumen
-            $query = "UPDATE dokumen_hi 
+            $query = "UPDATE dokumen_ad 
                   SET nama_dokumen = ?, link_gdrive = ?, kategori = ?, tanggal = ?, updated_at = ? 
                   WHERE id = ?";
             $stmt = $this->db->prepare($query);
@@ -169,12 +169,12 @@ class DokumenController
 
             // Redirect sesuai hasil
             if ($success) {
-                header('Location: index.php?page=dokumen_hi&success=1');
+                header('Location: index.php?page=dokumen_ad&success=1');
             } else {
-                header('Location: index.php?page=dokumen_hi/edit&id=' . $id . '&error=1');
+                header('Location: index.php?page=dokumen_ad/edit&id=' . $id . '&error=1');
             }
         } else {
-            header('Location: index.php?page=dokumen_hi&error=Invalid Request');
+            header('Location: index.php?page=dokumen_ad&error=Invalid Request');
         }
     }
 
@@ -184,7 +184,7 @@ class DokumenController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Validasi CSRF Token
             if (!CSRF::validateToken($_POST['csrf_token'])) {
-                header("Location: index.php?page=dokumen_hi&error=1");
+                header("Location: index.php?page=dokumen_ad&error=1");
                 exit;
             }
 
@@ -192,7 +192,7 @@ class DokumenController
             $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
 
             if (!$id) {
-                header("Location: index.php?page=dokumen_hi&error=Invalid ID");
+                header("Location: index.php?page=dokumen_ad&error=Invalid ID");
                 exit;
             }
 
@@ -213,14 +213,14 @@ class DokumenController
             // }
 
             // Query Hapus Dokumen dari Database
-            $sqlDelete = "DELETE FROM dokumen_hi WHERE id = :id";
+            $sqlDelete = "DELETE FROM dokumen_ad WHERE id = :id";
             $params = ['id' => $id];
 
             if ($this->dbs->delete($sqlDelete, $params)) {
-                header("Location: index.php?page=dokumen_hi&success=2");
+                header("Location: index.php?page=dokumen_ad&success=2");
                 exit;
             } else {
-                header("Location: index.php?page=dokumen_hi&error=1");
+                header("Location: index.php?page=dokumen_ad&error=1");
                 exit;
             }
         }
