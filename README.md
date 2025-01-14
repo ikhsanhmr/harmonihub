@@ -6,8 +6,8 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
 - main: merge resolving and production
 
 ## starting
-1. download file ke `htdocs/` (XAMPP) atau `www/` (Laragon)
-2. migrasi database di file `db_harmoni.sql`
+1. clone repo ke `htdocs/` (XAMPP) atau `www/` (Laragon)
+2. migrasi database di file `db_harmoni.dev.sql`
 3. `composer install`
 4. run local servel
 
