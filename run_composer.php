@@ -7,7 +7,7 @@ if (isset($_GET['token']) && $_GET['token'] === $secret) {
     $command = $composerPath . ' install --no-dev --prefer-dist --no-progress 2>&1';
     
     // Menggunakan shell_exec
-    $output = shell_exec($command);
+    $output = passthru($command);
 
     if ($output) {
         echo "Composer install berhasil dijalankan:\n";
