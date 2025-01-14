@@ -4,39 +4,24 @@ $secret = 'harmonigo'; // Ganti dengan token rahasia
 
 if (isset($_GET['token']) && $_GET['token'] === $secret) {
   // Cek apakah fungsi exec() tersedia
-  if (function_exists('exec')) {
-    echo "Fungsi exec() tersedia.\n";
+ // Fungsi untuk memeriksa apakah fungsi shell tersedia dan dapat dieksekusi
+function check_shell_function($function_name) {
+  if (function_exists($function_name)) {
+      echo "Fungsi '$function_name' tersedia.\n";
   } else {
-    echo "Fungsi exec() tidak tersedia.\n";
+      echo "Fungsi '$function_name' TIDAK tersedia.\n";
   }
+}
 
-  // Cek apakah fungsi shell_exec() tersedia
-  if (function_exists('shell_exec')) {
-    echo "Fungsi shell_exec() tersedia.\n";
-  } else {
-    echo "Fungsi shell_exec() tidak tersedia.\n";
-  }
-
-  // Cek apakah fungsi passthru() tersedia
-  if (function_exists('passthru')) {
-    echo "Fungsi passthru() tersedia.\n";
-  } else {
-    echo "Fungsi passthru() tidak tersedia.\n";
-  }
-
-  // Cek apakah fungsi system() tersedia
-  if (function_exists('system')) {
-    echo "Fungsi system() tersedia.\n";
-  } else {
-    echo "Fungsi system() tidak tersedia.\n";
-  }
-
-  // Cek apakah fungsi proc_open() tersedia
-  if (function_exists('proc_open')) {
-    echo "Fungsi proc_open() tersedia.\n";
-  } else {
-    echo "Fungsi proc_open() tidak tersedia.\n";
-  }
+// Cek apakah berbagai fungsi shell tersedia
+check_shell_function('exec');
+check_shell_function('shell_exec');
+check_shell_function('passthru');
+check_shell_function('system');
+check_shell_function('proc_open');
+check_shell_function('popen');
+check_shell_function('pcntl_exec');
+check_shell_function('putenv');
 
   // $composerPath = '/usr/local/bin/composer'; // Sesuaikan dengan lokasi composer
   // $command = $composerPath . ' install --no-dev --prefer-dist --no-progress 2>&1';
