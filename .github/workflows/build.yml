@@ -37,6 +37,8 @@ jobs:
           git checkout build
           git merge main --no-edit --allow-unrelated-histories || true
           
+          git checkout --theirs .github/workflows/build.yml
+          git checkout --theirs README.md
           git restore --source=HEAD --staged --worktree vendor composer.lock
           
           git add .
@@ -44,4 +46,3 @@ jobs:
           git push origin build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
