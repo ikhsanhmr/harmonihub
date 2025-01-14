@@ -1,5 +1,7 @@
 <?php
-// Pastikan script ini hanya dapat diakses dengan token rahasia untuk keamanan
+// kode untuk menjalankan composer install secara otomatis
+// untuk sekarang masih gagal
+// folder vendor di push secara manual
 $secret = 'harmonigo'; // Ganti dengan token rahasia
 
 if (isset($_GET['token']) && $_GET['token'] === $secret) {
@@ -36,9 +38,9 @@ check_shell_function('putenv');
   if(check_shell_function('pcntl_exec')) {
     echo "pcntl_exec() tersedia. Menjalankan perintah...\n";
     // Menjalankan perintah menggunakan pcntl_exec
-    pcntl_exec('/bin/echo', ['Hello from pcntl_exec!']);
+    // pcntl_exec('/bin/echo', ['Hello from pcntl_exec!']);
 
-    echo "Jika ini muncul, pcntl_exec() tidak berhasil dijalankan.\n";
+    echo "Jika ini muncul, pcntl_exec() tidak berhasil dijalankan, error 503.\n";
   }
 
 } else {

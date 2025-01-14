@@ -25,5 +25,6 @@ jobs:
           server-dir: public_html/
           timeout: 2400000 # 40 menit
 
-      - name: 🔄 Trigger Composer Install on Server
-        run: curl -s "https://harmoni-hub.com/run_composer.php?token=${{ secrets.RUN_TOKEN }}"
+      # utk sementara script composer install dimatikan. folder vendor di push secara manual
+      # - name: 🔄 Trigger Composer Install on Server
+      #   run: curl -s "https://harmoni-hub.com/run_composer.php?token=${{ secrets.RUN_TOKEN }}"
