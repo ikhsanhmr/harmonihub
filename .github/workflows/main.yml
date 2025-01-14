@@ -43,4 +43,6 @@ jobs:
         username: ${{ secrets.ftp_user }}
         password: ${{ secrets.ftp_pass }}
         server-dir: public_html/  # Tentukan folder tujuan di server
-        timeout: 600000 # 10 menit
+        timeout: 2400000 # 40 menit
+        dry-run: true
+        log-level: verbose
