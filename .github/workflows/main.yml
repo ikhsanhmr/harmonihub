@@ -1,10 +1,8 @@
+# untuk sementara dimatikan, mengunggu akses SSH untuk install depedensi di server
 on:
   push:
     branches:
-      - "main"
-  pull_request:
-    branches:
-      - "main"
+      - ""
 
 name: 🚀 Deploy website
 jobs:
