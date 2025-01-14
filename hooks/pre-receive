@@ -1,0 +1,8 @@
+#!/bin/bash
+while read oldrev newrev refname; do
+    branch="refs/heads/main"
+    if [ "$refname" == "$branch" ]; then
+        echo "Push langsung ke branch 'main' tidak diperbolehkan. Gunakan pull request."
+        exit 1
+    fi
+done
