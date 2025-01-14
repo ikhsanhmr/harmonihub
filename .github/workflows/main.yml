@@ -2,10 +2,6 @@ on:
   push:
     branches:
       - main
-  
-  pull_request:
-    branches:
-      - main
 
 jobs:
   deploy:
@@ -17,7 +13,7 @@ jobs:
 
       - name: 🧹 Remove Unwanted Files
         run: |
-          rm -rf db_harmoni.dev.sql
+          rm -rf db_harmoni.sql
           rm -rf README.md
           rm -rf composer.json
 
