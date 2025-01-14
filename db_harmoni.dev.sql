@@ -452,7 +452,7 @@ CREATE TABLE IF NOT EXISTS `dokumen_ad` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nama_dokumen` varchar(255) DEFAULT NULL, 
   `link_gdrive` varchar(255) DEFAULT NULL, 
-  `kategori` varchar(255) DEFAULT NULL, 
+  `kategori` int DEFAULT NULL, 
   `tanggal` DATE,
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP,

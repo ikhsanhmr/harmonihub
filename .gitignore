@@ -3,6 +3,7 @@ uploads/users/
 uploads/dsp/
 uploads/serikat/
 uploads/dokumen/
+uploads/info-siru/
 
 # Ignore vendor directory
 vendor/
