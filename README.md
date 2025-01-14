@@ -12,8 +12,8 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
 4. run local servel
 
 ## Role
-- admin | pw: K@rtini23
-- user | pw: 123456 
+- "admin" | pw: K@rtini23
+- "user" | pw: 123456 
 
 ## Fitur
 <i>*🗝️: Fitur Khusus Admin</i>
