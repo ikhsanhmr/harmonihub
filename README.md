@@ -3,7 +3,8 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
 
 ## Branch Structure
 - develop: tempat tim bisa push pull sesuka hati
-- main: merge resolving & build
+- main: merge resolving (auto merge into build)
+- build: clone file for web host
 
 ## starting
 1. download file ke `htdocs/` (XAMPP) atau `www/` (Laragon)
