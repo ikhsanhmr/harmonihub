@@ -92,13 +92,13 @@ class BaPembentukan
             // Proses Upload File
             $dokumen = null;
             if (isset($_FILES['dokumen']) && $_FILES['dokumen']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = 'uploads/dokumen/';
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
+                $dir = 'uploads/dokumen/';
+                if (!is_dir($dir)) {
+                    mkdir($dir, 0777, true);
                 }
 
                 $fileName = time() . '_' . basename($_FILES['dokumen']['name']);
-                $uploadFilePath = $uploadDir . $fileName;
+                $uploadFilePath = $dir . $fileName;
 
                 if (move_uploaded_file($_FILES['dokumen']['tmp_name'], $uploadFilePath)) {
                     $dokumen = $fileName;

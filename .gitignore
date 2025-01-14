@@ -1,2 +1,8 @@
-/vendor
+uploads/users/*
+uploads/dsp/*
+uploads/serikat/*
+uploads/dokumen/*
+vendor/
 composer.lock
+node_module/
+package-lock.json

@@ -13,7 +13,7 @@ jobs:
 
       - name: 🧹 Remove Unwanted Files
         run: |
-          rm -rf db_harmoni.sql
+          rm -rf db_harmoni.dev.sql
           rm -rf README.md
           rm -rf composer.json
 

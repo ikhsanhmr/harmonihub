@@ -195,7 +195,7 @@ $rolename = $_SESSION['role_name'];
             <li class="nav-item <?= in_array($current_page, ['dokumen_hi', 'dokumen_ad']) ? 'active' : '' ?>">
                 <a class="nav-link" data-toggle="collapse" href="#dokumen" aria-expanded="false" aria-controls="ui-basic">
                     <i class="icon-layout menu-icon"></i>
-                    <span class="menu-title">Database HI</span>
+                    <span class="menu-title">Database HI AD</span>
                     <i class="menu-arrow"></i>
                 </a>
                 <div class="collapse <?= in_array($current_page, ['dokumen_hi', 'dokumen_ad']) ? 'show' : '' ?>" id="dokumen">
