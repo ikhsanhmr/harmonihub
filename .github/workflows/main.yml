@@ -20,6 +20,12 @@ jobs:
           rm -rf db_harmoni.dev.sql
           rm -rf README.md
           rm -rf composer.json
+          rm -rf uploads/tempate_avatar.jpg
+          rm -rf uploads/tempate_image.jpg
+          rm -rf uploads/tempate_document.pdf
+          rm -rf uploads/template_info-siru.mp4
+          rm -rf uploads/template_info-siru.png
+          rm -rf uploads/template_under-construct.png
 
       - name: 🚚 Deploy Code via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
