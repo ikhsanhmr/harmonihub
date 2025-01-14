@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>HarmoniHub - Login</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="assets/vendors/feather/feather.css">
-    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="resources/vendors/feather/feather.css">
+    <link rel="stylesheet" href="resources/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="resources/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="resources/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
+    <link rel="shortcut icon" href="resources/images/logo_harmoni_hub.png" />
 </head>
 
 <body>
@@ -27,7 +27,7 @@
                     <div class="col-md-4 mx-auto">
                         <div class="auth-form-light text-center py-5 px-4 px-sm-5">
                             <div class="brand-logo">
-                                <img src="assets/images/logo_harmoni_hub.png" alt="logo">
+                                <img src="resources/images/logo_harmoni_hub.png" alt="logo">
                             </div>
                             <h4>Halo! Selamat Datang</h4>
                             <h6 class="font-weight-light">Login untuk melanjutkan.</h6>

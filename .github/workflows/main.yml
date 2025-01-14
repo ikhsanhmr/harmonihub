@@ -1,45 +1,29 @@
-# untuk sementara dimatikan, mengunggu akses SSH untuk install depedensi di server
 on:
   push:
     branches:
-      - ""
+      - "main"
 
-name: 🚀 Deploy website
 jobs:
-  build:
-    name: 🏗️ Build
+  deploy:
+    name: 🎉 Deploy Website
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
+      - name: 🚚 Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+      - name: 🧹 Remove Unwanted Files
+        run: |
+          rm -rf db_harmoni.sql
+          rm -rf README.md
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+      - name: 🚚 Deploy Code via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.harmoni-hub.com
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          server-dir: public_html/
+          timeout: 2400000 # 40 menit
 
-  web-deploy:
-    name: 🎉 Deploy
-    runs-on: ubuntu-latest
-    needs: build  # Job ini hanya berjalan setelah 'build' selesai dengan sukses
-
-    steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-      with:
-        server: ftp.harmoni-hub.com
-        username: ${{ secrets.ftp_user }}
-        password: ${{ secrets.ftp_pass }}
-        server-dir: public_html/  # Tentukan folder tujuan di server
-        timeout: 2400000 # 40 menit
-        log-level: verbose
+      - name: 🔄 Trigger Composer Install on Server
+        run: curl -s "https://harmoni-hub.com/run_composer.php?token=${{ secrets.RUN_TOKEN }}"
