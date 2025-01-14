@@ -10,8 +10,8 @@ ob_start(); // Mulai output buffering
         $message = $_SESSION['message'];
         $messageClass = $message['type'] == 'success' ? 'alert-success' : 'alert-danger';
     ?>
-        <div class="alert <?php echo $messageClass; ?>" role="alert">
-            <?php echo $message['text']; ?>
+        <div class="alert <?= $messageClass; ?>" role="alert">
+            <?= $message['text']; ?>
         </div>
     <?php
         unset($_SESSION['message']);
@@ -45,21 +45,21 @@ ob_start(); // Mulai output buffering
                                 foreach ($users as $user) {
                                 ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($user['name']); ?></td>
-                                        <td><?php echo htmlspecialchars($user['username']); ?></td>
-                                        <td><?php echo htmlspecialchars($user['email']); ?></td>
-                                        <td><?php echo htmlspecialchars($user['role_name']); ?></td>
+                                        <td><?= htmlspecialchars($user['name']); ?></td>
+                                        <td><?= htmlspecialchars($user['username']); ?></td>
+                                        <td><?= htmlspecialchars($user['email']); ?></td>
+                                        <td><?= htmlspecialchars($user['role_name']); ?></td>
                                         <td>
                                             <?php if ($user['profile_picture']): ?>
-                                                <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="100">
+                                                <img src="<?= $user['profile_picture']; ?>" alt="Profile Picture" width="100">
                                             <?php else: ?>
                                                 <span>No Picture</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo date('d-m-Y H:i', strtotime($user['created_at'])); ?></td>
+                                        <td><?= date('d-m-Y H:i', strtotime($user['created_at'])); ?></td>
                                         <td>
-                                            <a href="index.php?page=user-edit&id=<?php echo $user['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="index.php?page=user-delete&id=<?php echo $user['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                            <a href="index.php?page=user-edit&id=<?= $user['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=user-delete&id=<?= $user['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php

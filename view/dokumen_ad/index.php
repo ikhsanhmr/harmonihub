@@ -26,9 +26,9 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         <label for="kategori">Kategori</label>
                                         <select name="kategori" id="kategori" class="form-control">
                                             <option value="">Pilih kategori</option>
-                                            <option value="1" <?php echo (isset($_GET['kategori']) && $_GET['kategori'] == '1') ? 'selected' : ''; ?>>Laporan Pemetaan Alih Daya</option>
-                                            <option value="2" <?php echo (isset($_GET['kategori']) && $_GET['kategori'] == '2') ? 'selected' : ''; ?>>Laporan Pengelolaan Alih Daya</option>
-                                            <option value="3" <?php echo (isset($_GET['kategori']) && $_GET['kategori'] == '3') ? 'selected' : ''; ?>>Laporan Lain-lain</option>
+                                            <option value="1" <?= (isset($_GET['kategori']) && $_GET['kategori'] == '1') ? 'selected' : ''; ?>>Laporan Pemetaan Alih Daya</option>
+                                            <option value="2" <?= (isset($_GET['kategori']) && $_GET['kategori'] == '2') ? 'selected' : ''; ?>>Laporan Pengelolaan Alih Daya</option>
+                                            <option value="3" <?= (isset($_GET['kategori']) && $_GET['kategori'] == '3') ? 'selected' : ''; ?>>Laporan Lain-lain</option>
                                         </select>
                                     </div>
                                 </div>
@@ -38,7 +38,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         <select name="tahun" id="tahun" class="form-control">
                                             <option value="">Pilih tahun</option>
                                             <?php for ($i = 2021; $i <= date('Y'); $i++) { ?>
-                                                <option value="<?php echo $i; ?>" <?php echo (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : ''; ?>><?php echo $i; ?></option>
+                                                <option value="<?= $i; ?>" <?= (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : ''; ?>><?= $i; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -73,8 +73,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                 foreach ($dokumens as $index => $dokumen) {
                                 ?>
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($dokumen['nama_dokumen']); ?></td>
+                                        <td><?= $index + 1; ?></td>
+                                        <td><?= htmlspecialchars($dokumen['nama_dokumen']); ?></td>
                                         <td class="text-center">
                                             <?php if (!empty($dokumen['link_gdrive'])): ?>
                                                 <!-- <a href="uploads/dokumen/<?= htmlspecialchars($dokumen['file_dokumen']); ?>" target="_blank">Preview</a> -->
@@ -100,7 +100,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                             }
                                             ?>
                                         </td>
-                                        <td><?php echo $dokumen['tanggal']; ?></td>
+                                        <td><?= $dokumen['tanggal']; ?></td>
 
                                         <td class="d-flex justify-content-center">
                                             <a href="index.php?page=dokumen_ad=edit&id=<?= $dokumen['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
@@ -109,7 +109,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                                 <input type="hidden" name="id" value="<?= htmlspecialchars($dokumen['id']) ?>">
                                                 <button type="button" class="btn btn-danger btn-sm" id="delete-dok" data-id="<?= $dokumen['id'] ?>">Hapus</button>
                                             </form>
-                                            <!-- <a href="index.php?page=dokumen_ad/delete&id=<?php echo $dokumen['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a> -->
+                                            <!-- <a href="index.php?page=dokumen_ad/delete&id=<?= $dokumen['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a> -->
                                         </td>
                                     </tr>
                                 <?php

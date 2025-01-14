@@ -37,7 +37,7 @@ if (isset($_SESSION['message'])) {
                                     <select class="form-control" id="unitId" name="unitId" required>
                                             <option value="" selected disabled>Pilih Unit</option>
                                             <?php foreach ($units as $unit): ?>
-                                                <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                                <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                 </div>
@@ -56,7 +56,7 @@ if (isset($_SESSION['message'])) {
                                     <select class="form-control" id="serikatId" name="serikatId" required>
                                         <option value="" selected disabled>Pilih Serikat</option>
                                             <?php foreach ($serikats as $serikat): ?>
-                                                <option value="<?php echo $serikat['id']; ?>"><?php echo $serikat['name']; ?></option>
+                                                <option value="<?= $serikat['id']; ?>"><?= $serikat['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                 </div>

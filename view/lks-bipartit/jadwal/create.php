@@ -21,7 +21,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                             <select class="form-control" id="tema" name="temaId">
                                 <option>Pilih Tema</option>
                                 <?php foreach ($temas as $tema): ?>
-                                    <option value="<?php echo $tema['id']; ?>"><?php echo $tema['namaTema']; ?></option>
+                                    <option value="<?= $tema['id']; ?>"><?= $tema['namaTema']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -30,7 +30,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                             <select class="form-control" name="unitId" id="unit">
                                 <option>Pilih Unit</option>
                                 <?php foreach ($units as $unit): ?>
-                                    <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                    <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

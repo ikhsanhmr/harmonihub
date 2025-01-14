@@ -53,28 +53,28 @@ $rolename = $_SESSION['role_name'];
                                 ?>
                                         <tr>
 
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($infoSiru['username']); ?></td>
-                                            <td><?php echo htmlspecialchars($infoSiru['type']); ?></td>
+                                            <td><?= $index + 1; ?></td>
+                                            <td><?= htmlspecialchars($infoSiru['username']); ?></td>
+                                            <td><?= htmlspecialchars($infoSiru['type']); ?></td>
                                             <td>
                                                 <?php if ($infoSiru['filePath']): ?>
                                                     <?php if($infoSiru["type"]=== "video"):?>
                                                         <video class="card-img-top" controls height="100" width="20">
-                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/mp4">
-                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/webm">
-                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/ogg">
+                                                            <source src="<?= $infoSiru['filePath']; ?>" type="video/mp4">
+                                                            <source src="<?= $infoSiru['filePath']; ?>" type="video/webm">
+                                                            <source src="<?= $infoSiru['filePath']; ?>" type="video/ogg">
                                                             Your browser does not support the video tag.
                                                         </video>
                                                         <?php else:?>
-                                                            <img style="width: 3rem; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" src="<?php echo $infoSiru['filePath']; ?>" alt="Profile Picture" data-bs-toggle="modal" data-bs-target="#flyerModal-<?php echo $infoSiru["info_siru_id"];?>">
-                                                            <div class="modal fade" id="flyerModal-<?php echo $infoSiru["info_siru_id"];?>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                            <img style="width: 3rem; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" src="<?= $infoSiru['filePath']; ?>" alt="Profile Picture" data-bs-toggle="modal" data-bs-target="#flyerModal-<?= $infoSiru["info_siru_id"];?>">
+                                                            <div class="modal fade" id="flyerModal-<?= $infoSiru["info_siru_id"];?>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <img src="<?php echo $infoSiru['filePath']; ?>" style="width: auto; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" class="img-fluid" alt="Flyer">
+                                                                    <img src="<?= $infoSiru['filePath']; ?>" style="width: auto; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" class="img-fluid" alt="Flyer">
                                                                 </div>
                                                                 </div>
                                                             </div>
@@ -85,16 +85,16 @@ $rolename = $_SESSION['role_name'];
                                                     <span>No Picture</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td><?php echo date('d-m-Y H:i', strtotime($infoSiru['createdAt'])); ?></td>
+                                            <td><?= date('d-m-Y H:i', strtotime($infoSiru['createdAt'])); ?></td>
                                             <?php
                                             if ($rolename == 'admin') { ?>
                                                 <td>
-                                                    <a href="index.php?page=info-siru-edit&id=<?php echo $infoSiru['info_siru_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                    <form action="index.php?page=info-siru-destroy&id=<?php echo $infoSiru['info_siru_id']; ?>"
-                                                        id="delete-<?php echo $infoSiru['info_siru_id']; ?>" method="post" style="display:inline;">
+                                                    <a href="index.php?page=info-siru-edit&id=<?= $infoSiru['info_siru_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                    <form action="index.php?page=info-siru-destroy&id=<?= $infoSiru['info_siru_id']; ?>"
+                                                        id="delete-<?= $infoSiru['info_siru_id']; ?>" method="post" style="display:inline;">
                                                         <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                         <button type="button" class="btn btn-danger btn-sm delete-btn"
-                                                            data-id="<?php echo $infoSiru['info_siru_id']; ?>">
+                                                            data-id="<?= $infoSiru['info_siru_id']; ?>">
                                                             Delete
                                                         </button>
                                                     </form>

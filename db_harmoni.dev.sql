@@ -273,17 +273,23 @@ DROP TABLE IF EXISTS `jadwal_lks_bipartit`;
 CREATE TABLE IF NOT EXISTS `jadwal_lks_bipartit` (
   `id` int NOT NULL AUTO_INCREMENT,
   `temaId` int DEFAULT NULL,
-  `namaAgenda` varchar(255) DEFAULT NULL,
-  `tanggal` date DEFAULT NULL,
+  `unitId` int DEFAULT NULL,
+  `namaAgenda` varchar(255) NOT NULL,
+  `tanggal_start` date NOT NULL,
+  `tanggal_end` date NOT NULL,
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updateAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `temaId` (`temaId`),
-  CONSTRAINT `jadwal_lks_bipartit_ibfk_1` FOREIGN KEY (`temaId`) REFERENCES `tema_lks_bipartit` (`id`)
+  KEY `unitId` (`unitId`),
+  CONSTRAINT `jadwal_lks_bipartit_ibfk_1` FOREIGN KEY (`unitId`) REFERENCES `units` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `jadwal_lks_bipartit_ibfk_2` FOREIGN KEY (`temaId`) REFERENCES `tema_lks_bipartit` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Membuang data untuk tabel db_harmoni.jadwal_lks_bipartit: ~0 rows (lebih kurang)
 DELETE FROM `jadwal_lks_bipartit`;
+INSERT INTO `jadwal_lks_bipartit` (`id`, `temaId`, `unitId`, `namaAgenda`, `tanggal_start`, `tanggal_end`, `createdAt`, `updateAt`) VALUES
+  (1, 1, 1, 'Agenda Pertama', '2025-01-05', '2025-01-15', '2025-01-04 11:00:35', '2025-01-04 11:00:35');
 
 -- membuang struktur untuk table db_harmoni.laporan_lks_bipartit
 DROP TABLE IF EXISTS `laporan_lks_bipartit`;

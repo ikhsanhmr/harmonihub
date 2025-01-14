@@ -43,18 +43,18 @@ if (isset($_SESSION['message'])) {
                                 <?php if (!empty($laporans)) : ?>
                                     <?php foreach ($laporans as $index => $laporan) : ?>
                                         <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($laporan['unit_name']); ?></td>
-                                            <td><?php echo date('d-m-Y', strtotime($laporan['tanggal'])); ?></td>
-                                            <td><?php echo htmlspecialchars($laporan['topik_bahasan']); ?></td>
-                                            <td><?php echo htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['latar_belakang']), 0, 7))) . (str_word_count($laporan['latar_belakang']) > 7 ? '...' : ''); ?></td>
-                                            <td><?php echo htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['rekomendasi']), 0, 7))) . (str_word_count($laporan['rekomendasi']) > 7 ? '...' : ''); ?></td>
-                                            <td><?php echo date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])); ?></td>
-                                            <td><?php echo htmlspecialchars($laporan['uraian_tindak_lanjut']); ?></td>
+                                            <td><?= $index + 1; ?></td>
+                                            <td><?= htmlspecialchars($laporan['unit_name']); ?></td>
+                                            <td><?= date('d-m-Y', strtotime($laporan['tanggal'])); ?></td>
+                                            <td><?= htmlspecialchars($laporan['topik_bahasan']); ?></td>
+                                            <td><?= htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['latar_belakang']), 0, 7))) . (str_word_count($laporan['latar_belakang']) > 7 ? '...' : ''); ?></td>
+                                            <td><?= htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['rekomendasi']), 0, 7))) . (str_word_count($laporan['rekomendasi']) > 7 ? '...' : ''); ?></td>
+                                            <td><?= date('d-m-Y', strtotime($laporan['tanggal_tindak_lanjut'])); ?></td>
+                                            <td><?= htmlspecialchars($laporan['uraian_tindak_lanjut']); ?></td>
                                             <td class="text-center">
-                                                <a href="index.php?page=laporan-edit&id=<?php echo $laporan['id']; ?>" 
+                                                <a href="index.php?page=laporan-edit&id=<?= $laporan['id']; ?>" 
                                                    class="btn btn-warning btn-sm">Edit</a>
-                                                <a href="index.php?page=laporan-delete&id=<?php echo $laporan['id']; ?>" 
+                                                <a href="index.php?page=laporan-delete&id=<?= $laporan['id']; ?>" 
                                                    class="btn btn-danger btn-sm" 
                                                    onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
                                             </td>
@@ -78,29 +78,29 @@ if (isset($_SESSION['message'])) {
                                     <div style="margin-top: 1rem;" class="col-md-12">
                                         <label for="time_start">Waktu Mulai</label>
                                         <input type="text" name="time_start" id="time_start" class="form-control"
-                                            value="<?php echo htmlspecialchars($_GET['waktu'] ?? ''); ?>">
+                                            value="<?= htmlspecialchars($_GET['waktu'] ?? ''); ?>">
                                     </div>
                                     <div style="margin-top: 1rem;" class="col-md-12">
                                         <label for="time_end">Waktu Selesai</label>
                                         <input type="text" name="time_end" id="time_end" class="form-control"
-                                            value="<?php echo htmlspecialchars($_GET['waktu'] ?? ''); ?>">
+                                            value="<?= htmlspecialchars($_GET['waktu'] ?? ''); ?>">
                                     </div>
                                     <div style="margin-top: 1rem;" class="col-md-12">
                                         <label for="place">Tempat</label>
                                         <input type="text" name="place" id="place" class="form-control"
-                                            value="<?php echo htmlspecialchars($_GET['tempat'] ?? ''); ?>">
+                                            value="<?= htmlspecialchars($_GET['tempat'] ?? ''); ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div style="margin-top: 1rem;" class="col-md-12">
                                         <label for="agenda">Agenda</label>
                                         <input type="text" name="agenda" id="agenda" class="form-control"
-                                            value="<?php echo htmlspecialchars($_GET['agenda'] ?? ''); ?>">
+                                            value="<?= htmlspecialchars($_GET['agenda'] ?? ''); ?>">
                                     </div>
                                     <div style="margin-top: 1rem;" class="col-md-12">
                                         <label for="member">Peserta</label>
                                         <input type="text" name="member" id="member" class="form-control"
-                                            value="<?php echo htmlspecialchars($_GET['peserta'] ?? ''); ?>">
+                                            value="<?= htmlspecialchars($_GET['peserta'] ?? ''); ?>">
                                     </div>
                                     <div style="margin-top: 2rem;" class="col-md-12">
                                     <button type="submit" style="left: 50%; transform: translateX(-50%);position: relative; margin-top:1rem;" class="btn btn-info">Export PDF</button>
@@ -134,12 +134,12 @@ if (isset($_SESSION['message'])) {
                                 <div class="col-md-12">
                                     <label for="start_date">Tanggal Mulai</label>
                                     <input type="date" name="start_date" id="start_date" class="form-control"
-                                           value="<?php echo htmlspecialchars($_GET['start_date'] ?? ''); ?>">
+                                           value="<?= htmlspecialchars($_GET['start_date'] ?? ''); ?>">
                                 </div>
                                 <div style="margin: 1rem 0;" class="col-md-12">
                                     <label for="end_date">Tanggal Selesai</label>
                                     <input type="date" name="end_date" id="end_date" class="form-control"
-                                           value="<?php echo htmlspecialchars($_GET['end_date'] ?? ''); ?>">
+                                           value="<?= htmlspecialchars($_GET['end_date'] ?? ''); ?>">
                                 </div>
                               
                             </div>
@@ -149,7 +149,7 @@ if (isset($_SESSION['message'])) {
                                 <select class="form-control" id="unit" name="unit" required>
                                         <option value="" selected disabled>Pilih Unit</option>
                                         <?php foreach ($units as $unit): ?>
-                                            <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?php echo $unit['name']; ?></option>
+                                            <option value="<?= $unit['id']; ?>" <?= $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?= $unit['name']; ?></option>
                                         <?php endforeach; ?>
                                 </select>
                             </div>

@@ -48,7 +48,7 @@ if (isset($_GET['error'])) {
                                 $no = 1;
                                 foreach ($temas as $tema): ?>
                                     <tr>
-                                        <td><?php echo $no++; ?></td>
+                                        <td><?= $no++; ?></td>
                                         <td> <?= $tema['namaTema'] ?></td>
                                         <td class="d-flex justify-content-center">
                                             <a href="index.php?page=tema=edit&id=<?= $tema['id'] ?>" class="btn btn-warning btn-sm">edit</a>
