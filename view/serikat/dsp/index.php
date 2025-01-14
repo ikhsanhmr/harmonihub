@@ -42,8 +42,8 @@ $rolename = $_SESSION['role_name'];
                                 ?>
                                         <tr>
 
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($dsp['serikat_name']); ?></td>
+                                            <td><?= $index + 1; ?></td>
+                                            <td><?= htmlspecialchars($dsp['serikat_name']); ?></td>
                                             <td class="text-center">
                                             <?php if (!empty($dsp['dokumen'])): ?>
                                                 <a href="uploads/dsp/<?= htmlspecialchars($dsp['dokumen']); ?>" target="_blank">Preview</a>
@@ -53,12 +53,12 @@ $rolename = $_SESSION['role_name'];
                                         </td>
                                            
                                             <td>
-                                                <a href="index.php?page=dsp-edit&id=<?php echo $dsp['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="index.php?page=dsp-destroy&id=<?php echo $dsp['id']; ?>" 
-                                                    id="delete-<?php echo $dsp['id']; ?>" method="post" style="display:inline;">
+                                                <a href="index.php?page=dsp-edit&id=<?= $dsp['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="index.php?page=dsp-destroy&id=<?= $dsp['id']; ?>" 
+                                                    id="delete-<?= $dsp['id']; ?>" method="post" style="display:inline;">
                                                      <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                     <button type="button" class="btn btn-danger btn-sm delete-btn" 
-                                                            data-id="<?php echo $dsp['id']; ?>">
+                                                            data-id="<?= $dsp['id']; ?>">
                                                         Delete
                                                     </button>
                                                 </form>

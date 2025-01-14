@@ -27,9 +27,9 @@ if (isset($_SESSION['message'])) {
                                         <!-- Pilihan tahun dari 2015 sampai tahun saat ini -->
                                         <option value="">Pilih tahun</option>
                                         <?php for ($i = 2015; $i <= date('Y'); $i++) { ?>
-                                            <option value="<?php echo $i; ?>"
-                                                <?php echo (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : ''; ?>>
-                                                <?php echo $i; ?>
+                                            <option value="<?= $i; ?>"
+                                                <?= (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : ''; ?>>
+                                                <?= $i; ?>
                                             </option>
                                         <?php } ?>
                                     </select>
@@ -59,13 +59,13 @@ if (isset($_SESSION['message'])) {
                                     <th rowspan="2">TANGGAL PENDAFTARAN BA</th>
                                     <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>
                                     <?php foreach ($bulans as $bulan): ?>
-                                        <th style="text-transform: uppercase;" colspan="6"><?php echo $bulan["name"]; ?></th>
+                                        <th style="text-transform: uppercase;" colspan="6"><?= $bulan["name"]; ?></th>
                                     <?php endforeach; ?>
                                     <th rowspan="2" colspan="2" class="text-center" width="100">AKSI</th>
                                 </tr>
                                 <tr class="text-center">
                                     <?php foreach ($serikats as $serikat): ?>
-                                        <th rowspan="1" class="text-center"><?php echo $serikat["name"] ?></th>
+                                        <th rowspan="1" class="text-center"><?= $serikat["name"] ?></th>
                                     <?php endforeach; ?>
                                     <?php for ($i = 1; $i < 13; $i++) : ?>
                                         <th rowspan="1" class="text-center">TEMA PEMBAHASAN</th>
@@ -81,10 +81,10 @@ if (isset($_SESSION['message'])) {
                                 <?php if (!empty($monitors)) : ?>
                                     <?php foreach ($monitors as $index => $monitor) : ?>
                                         <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($monitor['unit_name']); ?></td>
-                                            <td><?php echo htmlspecialchars($monitor['ba_name']); ?></td>
-                                            <td><?php echo htmlspecialchars($monitor['ba_created_at']); ?></td>
+                                            <td><?= $index + 1; ?></td>
+                                            <td><?= htmlspecialchars($monitor['unit_name']); ?></td>
+                                            <td><?= htmlspecialchars($monitor['ba_name']); ?></td>
+                                            <td><?= htmlspecialchars($monitor['ba_created_at']); ?></td>
                                             <?php
 
                                             $serikatNames = explode(",", $monitor['serikat_ids']);
@@ -96,7 +96,7 @@ if (isset($_SESSION['message'])) {
                                             ?>
 
                                             <?php foreach ($bulans as $index => $bulan): ?>
-                                                <td><?php echo htmlspecialchars($monitor['tema_' . $index + 1] ?? '-'); ?></td>
+                                                <td><?= htmlspecialchars($monitor['tema_' . $index + 1] ?? '-'); ?></td>
                                                 <td>
                                                     <?php
                                                     $rekomendasi = $monitor['rekomendasi_' . $index + 1] ?? '-';
@@ -104,33 +104,33 @@ if (isset($_SESSION['message'])) {
                                                         (str_word_count($rekomendasi) > 7 ? '...' : '');
                                                     ?>
                                                 </td>
-                                                <td><?php echo htmlspecialchars($monitor['tindak_lanjut_' . $index + 1] ?? '-'); ?></td>
-                                                <td><?php echo htmlspecialchars($monitor['evaluasi_' . $index + 1] ?? '-'); ?> <i class="mdi mdi-timer-sand"></i></td>
-                                                <td><?php echo htmlspecialchars($monitor['follow_up_' . $index + 1] ?? '-'); ?></td>
+                                                <td><?= htmlspecialchars($monitor['tindak_lanjut_' . $index + 1] ?? '-'); ?></td>
+                                                <td><?= htmlspecialchars($monitor['evaluasi_' . $index + 1] ?? '-'); ?> <i class="mdi mdi-timer-sand"></i></td>
+                                                <td><?= htmlspecialchars($monitor['follow_up_' . $index + 1] ?? '-'); ?></td>
                                                 <?php
                                                 if ($monitor['realisasi_' . $index + 1] == '100%') { ?>
                                                     <td class="text-center" style="background-color: green;">
-                                                        <?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
+                                                        <?= htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
                                                     </td>
                                                 <?php } elseif ($monitor['realisasi_' . $index + 1] == '0%') { ?>
                                                     <td class="text-center" style="background-color: red;">
-                                                        <?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
+                                                        <?= htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
                                                     </td>
                                                 <?php } else { ?>
                                                     <td class="text-center" style="background-color: yellow;">
-                                                        <?php echo htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
+                                                        <?= htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
                                                     </td>
                                                 <?php } ?>
                                             <?php endforeach; ?>
-                                            <td><a href="index.php?page=monitor-jadwal-create&id=<?php echo $monitor["id"] ?>">Tambahkan Jadwal</a></td>
+                                            <td><a href="index.php?page=monitor-jadwal-create&id=<?= $monitor["id"] ?>">Tambahkan Jadwal</a></td>
                                             <td class="text-center">
-                                                <!-- <a href="index.php?page=monitor-edit&id=<?php echo $monitor['id']; ?>" 
+                                                <!-- <a href="index.php?page=monitor-edit&id=<?= $monitor['id']; ?>" 
                                                    class="btn btn-warning btn-sm">Edit</a> -->
-                                                <form action="index.php?page=monitor-destroy&id=<?php echo $monitor['id']; ?>"
-                                                    id="delete-<?php echo $monitor['id']; ?>" method="post" style="display:inline;">
+                                                <form action="index.php?page=monitor-destroy&id=<?= $monitor['id']; ?>"
+                                                    id="delete-<?= $monitor['id']; ?>" method="post" style="display:inline;">
                                                     <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                     <button type="button" class="btn btn-danger btn-sm delete-btn"
-                                                        data-id="<?php echo $monitor['id']; ?>">
+                                                        data-id="<?= $monitor['id']; ?>">
                                                         Delete
                                                     </button>
                                                 </form>

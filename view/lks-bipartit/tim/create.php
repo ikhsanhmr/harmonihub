@@ -40,7 +40,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                             <select class="form-control" id="unit" name="unitId">
                                 <option>Pilih Unit</option>
                                 <?php foreach ($units as $unit): ?>
-                                    <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                    <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

@@ -20,7 +20,7 @@ if (isset($_SESSION['message'])) {
                 <div class="card-body">
                     <h4 class="card-title">Tambah Serikat</h4>
                     <form action="index.php?page=serikat-store" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="<?php echo CSRF::generateToken(); ?>">
+                    <input type="hidden" name="csrf_token" value="<?= CSRF::generateToken(); ?>">
                         <div class="row">
                            
                             <div class="col-md-6">

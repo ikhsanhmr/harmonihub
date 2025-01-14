@@ -8,13 +8,13 @@
                     <!-- Video -->
                      <div class="col-md-12 d-flex flex-wrap">
                      <nav class="col-12 d-flex justify-content-center">
-                            <ul class="pagination <?php echo (count($videos) < 2) ? "d-none":""?>">
+                            <ul class="pagination <?= (count($videos) < 2) ? "d-none":""?>">
                                 <li class="page-item">
-                                    <a href="?harmonihub=video&video_page=<?php echo $pageVideo > 1 ?  $pageVideo - 1: $pageVideo = 1;?>" class="page-link">Previous</a>
+                                    <a href="?harmonihub=video&video_page=<?= $pageVideo > 1 ?  $pageVideo - 1: $pageVideo = 1;?>" class="page-link">Previous</a>
                                 </li>
                                 <?php for ($i = 1; $i <= $totalVideoPages; $i++) : ?>
-                                    <li class="page-item <?php echo ($i == $pageVideo) ? 'active' : ''; ?>" aria-current="page">
-                                        <a class="page-link" href="?harmonihub=video&video_page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                    <li class="page-item <?= ($i == $pageVideo) ? 'active' : ''; ?>" aria-current="page">
+                                        <a class="page-link" href="?harmonihub=video&video_page=<?= $i; ?>"><?= $i; ?></a>
                                     </li>
                                 <?php endfor; ?>
 
@@ -28,9 +28,9 @@
                              <div class="col-md-4 mb-3">
                                  <div class="card">
                                  <video class="card-img-top" controls>
-                                    <source src="<?php echo $video['filePath']; ?>" type="video/mp4">
-                                    <source src="<?php echo $video['filePath']; ?>" type="video/webm">
-                                    <source src="<?php echo $video['filePath']; ?>" type="video/ogg">
+                                    <source src="<?= $video['filePath']; ?>" type="video/mp4">
+                                    <source src="<?= $video['filePath']; ?>" type="video/webm">
+                                    <source src="<?= $video['filePath']; ?>" type="video/ogg">
                                     Your browser does not support the video tag.
                                  </video>
                                  </div>

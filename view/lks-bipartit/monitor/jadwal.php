@@ -19,7 +19,7 @@ ob_start(); // Mulai output buffering
                                         <input type="text" class="form-control" 
                                             name="monitor_id" 
                                             id="monitor_id" 
-                                            value="<?php echo htmlspecialchars($_GET["id"])?>"
+                                            value="<?= htmlspecialchars($_GET["id"])?>"
                                             readonly>
                                 </div>
                                 <div class="form-group">
@@ -27,7 +27,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="tema_id" name="tema_id" required>
                                         <option value="" selected disabled>Pilih Tema</option>
                                         <?php foreach ($temas as $tema): ?>
-                                            <option value="<?php echo $tema['id']; ?>"><?php echo $tema['namaTema']; ?></option>
+                                            <option value="<?= $tema['id']; ?>"><?= $tema['namaTema']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -36,7 +36,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="bulan_id" name="bulan_id" required>
                                         <option value="" selected disabled>Pilih Bulan</option>
                                         <?php foreach ($bulans as $bulan): ?>
-                                            <option value="<?php echo $bulan['id']; ?>"><?php echo $bulan['name']; ?></option>
+                                            <option value="<?= $bulan['id']; ?>"><?= $bulan['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

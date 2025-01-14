@@ -24,7 +24,7 @@ $rolename = $_SESSION['role_name'];
                            <select class="form-control col-2" id="serikat_name" name="serikat_name" required>
                                 <option value="" selected disabled>Pilih Serikat</option>
                                     <?php foreach ($dataSerikat as $s): ?>
-                                        <option id="select" value="<?php echo $s['id']; ?>"><?php echo $s['name']; ?></option>
+                                        <option id="select" value="<?= $s['id']; ?>"><?= $s['name']; ?></option>
                                         <?php endforeach; ?>
                                 </select>
                                 <a href="" target="_blank" style="margin-left: 0.4rem;" class="btn btn-primary" id="export" type="submit">export ke pdf</a>
@@ -60,22 +60,22 @@ $rolename = $_SESSION['role_name'];
                                 ?>
                                         <tr>
 
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['name']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['nama_unit']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['nama_serikat']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['membership']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['noKta']); ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['nip']); ?></td>
+                                            <td><?= $index + 1; ?></td>
+                                            <td><?= htmlspecialchars($serikat['name']); ?></td>
+                                            <td><?= htmlspecialchars($serikat['nama_unit']); ?></td>
+                                            <td><?= htmlspecialchars($serikat['nama_serikat']); ?></td>
+                                            <td><?= htmlspecialchars($serikat['membership']); ?></td>
+                                            <td><?= htmlspecialchars($serikat['noKta']); ?></td>
+                                            <td><?= htmlspecialchars($serikat['nip']); ?></td>
                                            
-                                            <td><?php echo date('d-m-Y H:i', strtotime($serikat['createdAt'])); ?></td>
+                                            <td><?= date('d-m-Y H:i', strtotime($serikat['createdAt'])); ?></td>
                                             <td>
-                                                <a href="index.php?page=anggota-serikat-edit&id=<?php echo $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="index.php?page=anggota-serikat-destroy&id=<?php echo $serikat['id']; ?>" 
-                                                    id="delete-<?php echo $serikat['id']; ?>" method="post" style="display:inline;">
+                                                <a href="index.php?page=anggota-serikat-edit&id=<?= $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="index.php?page=anggota-serikat-destroy&id=<?= $serikat['id']; ?>" 
+                                                    id="delete-<?= $serikat['id']; ?>" method="post" style="display:inline;">
                                                      <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                     <button type="button" class="btn btn-danger btn-sm delete-btn" 
-                                                            data-id="<?php echo $serikat['id']; ?>">
+                                                            data-id="<?= $serikat['id']; ?>">
                                                         Delete
                                                     </button>
                                                 </form>

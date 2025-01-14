@@ -36,11 +36,11 @@ if (isset($_SESSION['message'])) {
                                 foreach ($bas as $index => $ba) {
                                 ?>
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($ba['unit_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($ba['no_ba']); ?></td>
-                                        <td><?php echo htmlspecialchars($ba['name']); ?></td>
-                                        <td><?php echo $ba["tanggal"] !==null ? date('d-m-Y', strtotime($ba['tanggal'])) :null; ?></td>
+                                        <td><?= $index + 1; ?></td>
+                                        <td><?= htmlspecialchars($ba['unit_name']); ?></td>
+                                        <td><?= htmlspecialchars($ba['no_ba']); ?></td>
+                                        <td><?= htmlspecialchars($ba['name']); ?></td>
+                                        <td><?= $ba["tanggal"] !==null ? date('d-m-Y', strtotime($ba['tanggal'])) :null; ?></td>
                                         <td class="text-center">
                                             <?php if (!empty($ba['dokumen'])): ?>
                                                 <a href="uploads/dokumen/<?= htmlspecialchars($ba['dokumen']); ?>" target="_blank">Preview</a>
@@ -48,11 +48,11 @@ if (isset($_SESSION['message'])) {
                                                 No Document
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo htmlspecialchars($ba['status']); ?></td>
+                                        <td><?= htmlspecialchars($ba['status']); ?></td>
 
                                         <td>
-                                            <a href="index.php?page=terima-ba-perubahan&id=<?php echo $ba['id']; ?>" class="btn btn-success btn-sm">Terima</a>
-                                            <a href="index.php?page=ba-perubahan-delete&id=<?php echo $ba['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tolak Ba perubahan ini?')">Tolak</a>
+                                            <a href="index.php?page=terima-ba-perubahan&id=<?= $ba['id']; ?>" class="btn btn-success btn-sm">Terima</a>
+                                            <a href="index.php?page=ba-perubahan-delete&id=<?= $ba['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Tolak Ba perubahan ini?')">Tolak</a>
                                         </td>
                                     </tr>
                                 <?php

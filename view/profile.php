@@ -7,8 +7,8 @@ ob_start();
         $message = $_SESSION['message'];
         $messageClass = $message['type'] == 'success' ? 'alert-success' : 'alert-danger';
     ?>
-        <div class="alert <?php echo $messageClass; ?>" role="alert">
-            <?php echo $message['text']; ?>
+        <div class="alert <?= $messageClass; ?>" role="alert">
+            <?= $message['text']; ?>
         </div>
     <?php
         unset($_SESSION['message']);
@@ -24,7 +24,7 @@ ob_start();
                     <hr>
                     <div class="d-flex justify-content-center">
                         <?php if ($user['profile_picture']): ?>
-                            <img src="<?php echo $user['profile_picture']; ?>" alt="Profile Picture" width="150" height="150" style="border-radius: 100%; margin-bottom: 1rem;">
+                            <img src="<?= $user['profile_picture']; ?>" alt="Profile Picture" width="150" height="150" style="border-radius: 100%; margin-bottom: 1rem;">
                         <?php else: ?>
                             <span class="text-muted">No Picture</span>
                         <?php endif; ?>

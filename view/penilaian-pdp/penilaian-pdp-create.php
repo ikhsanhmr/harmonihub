@@ -20,7 +20,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="anggota_serikat_id" name="anggota_serikat_id" required>
                                         <option value="" selected disabled>Pilih Pegawai</option>
                                         <?php foreach ($anggotas as $anggota): ?>
-                                            <option value="<?php echo $anggota['id']; ?>"><?php echo $anggota['name']; ?></option>
+                                            <option value="<?= $anggota['id']; ?>"><?= $anggota['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -29,7 +29,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="unit_id" name="unit_id" required>
                                         <option value="" selected disabled>Pilih Unit</option>
                                         <?php foreach ($units as $unit): ?>
-                                            <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                            <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

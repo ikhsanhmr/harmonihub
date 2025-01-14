@@ -107,7 +107,7 @@
             <!-- partial -->
             <div class="main-panel">
 
-                <?php echo isset($content) ? $content : ''; ?>
+                <?= isset($content) ? $content : ''; ?>
 
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->

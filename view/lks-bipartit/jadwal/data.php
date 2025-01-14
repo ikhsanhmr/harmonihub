@@ -38,14 +38,14 @@ if (isset($_GET['error']) && $_GET['error'] == 2) {
                                 $no = 1;
                                 foreach ($jadwals as $jadwal): ?>
                                     <tr>
-                                        <td><?php echo $no++; ?></td>
+                                        <td><?= $no++; ?></td>
                                         <td> <?= $jadwal['nama_tema'] ?></td>
                                         <td> <?= $jadwal['nama_unit'] ?></td>
                                         <td> <?= $jadwal['namaAgenda'] ?></td>
                                         <td> <?= $jadwal['tanggal_start'] ?></td>
                                         <td> <?= $jadwal['tanggal_end'] ?></td>
                                         <td class="d-flex justify-content-center">
-                                            <a href="index.php?page=jadwal/edit&id=<?php echo $jadwal['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=jadwal/edit&id=<?= $jadwal['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <form action="index.php?page=jadwal/delete" id="delete-form-<?= $jadwal['id'] ?>" method="POST">
                                                 <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                 <input type="hidden" name="id_jadwal" value="<?= htmlspecialchars($jadwal['id']) ?>">

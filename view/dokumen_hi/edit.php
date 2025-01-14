@@ -19,7 +19,7 @@ if (
                     <h4 class="card-title">Edit Dokumen</h4>
                     <!-- membuat form action untuk mengirim data yang tadi dibuat dokumen/update -->
                     <form action="index.php?page=dokumen_hi/update" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $csrfToken; ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($dokumen['id']) ?>">
                         <div class="form-group">
                             <label for="nama_dokumen">Nama Dokumen</label>

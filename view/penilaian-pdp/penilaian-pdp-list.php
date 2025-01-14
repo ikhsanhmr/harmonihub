@@ -25,8 +25,8 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
         $message = $_SESSION['message'];
         $messageClass = $message['type'] == 'success' ? 'alert-success' : 'alert-danger';
     ?>
-        <div class="alert <?php echo $messageClass; ?>" role="alert">
-            <?php echo $message['text']; ?>
+        <div class="alert <?= $messageClass; ?>" role="alert">
+            <?= $message['text']; ?>
         </div>
     <?php
         unset($_SESSION['message']);
@@ -70,20 +70,20 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                                 foreach ($pdps as $index => $pdp) {
                                 ?>
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['user_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['user_nip']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['unit_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['peran']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['kpi']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['uraian']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['hasil_verifikasi']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['semester']); ?></td>
-                                        <td><?php echo htmlspecialchars($pdp['nilai']); ?></td>
-                                        <td><?php echo date('d-m-Y', strtotime($pdp['tanggal'])); ?></td>
+                                        <td><?= $index + 1; ?></td>
+                                        <td><?= htmlspecialchars($pdp['user_name']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['user_nip']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['unit_name']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['peran']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['kpi']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['uraian']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['hasil_verifikasi']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['semester']); ?></td>
+                                        <td><?= htmlspecialchars($pdp['nilai']); ?></td>
+                                        <td><?= date('d-m-Y', strtotime($pdp['tanggal'])); ?></td>
                                         <td>
-                                            <a href="index.php?page=penilaian-pdp-edit&id=<?php echo $pdp['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="index.php?page=penilaian-pdp-delete&id=<?php echo $pdp['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                            <a href="index.php?page=penilaian-pdp-edit&id=<?= $pdp['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=penilaian-pdp-delete&id=<?= $pdp['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php
@@ -117,7 +117,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                                 <select class="form-control form-control-sm" id="unit_id" name="unit">
                                     <option value="" selected disabled>Pilih Unit</option>
                                     <?php foreach ($units as $unit): ?>
-                                        <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                        <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
