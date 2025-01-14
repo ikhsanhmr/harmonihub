@@ -7,10 +7,10 @@ if (isset($_GET['token']) && $_GET['token'] === $secret) {
  // Fungsi untuk memeriksa apakah fungsi shell tersedia dan dapat dieksekusi
 function check_shell_function($function_name) {
   if (function_exists($function_name)) {
-      echo "Fungsi '$function_name' tersedia.\n";
+      echo "Fungsi '$function_name' tersedia.\n<br>";
       return true;
   } else {
-      echo "Fungsi '$function_name' TIDAK tersedia.\n";
+      echo "Fungsi '$function_name' TIDAK tersedia.\n<br>";
       return false;
   }
 }
@@ -34,16 +34,13 @@ check_shell_function('putenv');
   $output = false;
   // Gantikan proses PHP dengan perintah composer
   if(check_shell_function('pcntl_exec')) {
-    // terdeteksi di server
-    $output = pcntl_exec($command, $arguments);
+    echo "pcntl_exec() tersedia. Menjalankan perintah...\n";
+    // Menjalankan perintah menggunakan pcntl_exec
+    pcntl_exec('/bin/echo', ['Hello from pcntl_exec!']);
+
+    echo "Jika ini muncul, pcntl_exec() tidak berhasil dijalankan.\n";
   }
 
-  if ($output) {
-      echo "Composer install berhasil dijalankan:\n";
-      echo "<pre>" . $output . "</pre>";
-  } else {
-      echo "Terjadi kesalahan saat menjalankan Composer install.";
-  }
 } else {
   echo "Token tidak valid atau tidak ada.\n";
 }
