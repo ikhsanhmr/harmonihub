@@ -1,8 +1,11 @@
-uploads/users/*
-uploads/dsp/*
-uploads/serikat/*
-uploads/dokumen/*
+# Ignore specific directories in uploads
+uploads/users/
+uploads/dsp/
+uploads/serikat/
+uploads/dokumen/
+
+# Ignore vendor directory
 vendor/
+
+# Ignore dependency files
 composer.lock
-node_module/
-package-lock.json
