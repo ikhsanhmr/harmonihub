@@ -31,13 +31,12 @@ check_shell_function('putenv');
   $command = '/usr/local/bin/composer';
   $arguments = ['install', '--no-dev', '--prefer-dist', '--no-progress'];
 
+  $output = false;
   // Gantikan proses PHP dengan perintah composer
   if(check_shell_function('pcntl_exec')) {
-    pcntl_exec($command, $arguments);
+    // terdeteksi di server
+    $output = pcntl_exec($command, $arguments);
   }
-
-  // Menggunakan shell_exec
-  $output = passthru($command);
 
   if ($output) {
       echo "Composer install berhasil dijalankan:\n";
