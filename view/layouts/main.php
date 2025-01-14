@@ -18,10 +18,12 @@
     <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
     <!-- End plugin css for this page -->
+
     <!-- inject:css -->
     <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- endinject -->
+     
     <!-- fullcalender -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
     <link rel="shortcut icon" href="assets/images/logo_harmoni_hub.png" />
@@ -40,7 +42,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo mr-5" href="index.php?page=home"><img src="assets/images/logo2.png"
+                <a class="navbar-brand brand-logo mr-5" href="index.php?page=home"><img src="resources/images/logo.png"
                         class="mr-2" style="width: 6rem; height: auto;" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -50,7 +52,7 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="<?= $_SESSION['avatar'] ?? 'assets/images/default-avatar.jpg' ?>" alt="profile" />
+                            <img src="<?= $_SESSION['avatar'] ?? 'resources/images/default-avatar.jpg' ?>" alt="profile" />
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
