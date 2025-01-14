@@ -37,10 +37,11 @@ jobs:
           git checkout build
           git merge main --no-edit --allow-unrelated-histories || true
           
-          # Restore excluded files/folders
           git restore --source=HEAD --staged --worktree vendor composer.lock
           
-          # Commit and push changes
           git add .
           git commit -m "Merge main into build while keeping vendor and composer.lock"
           git push origin build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
