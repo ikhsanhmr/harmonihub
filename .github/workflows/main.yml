@@ -15,6 +15,7 @@ jobs:
         run: |
           rm -rf db_harmoni.sql
           rm -rf README.md
+          rm -rf composer.json
 
       - name: 🚚 Deploy Code via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
