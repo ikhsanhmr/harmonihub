@@ -40,6 +40,6 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
 - Penilaian PDP Lain 
     - {CRUD}: Nama Pegawai, NIP Pegawai, Unit, Peran, Tidak Tercantum KPI, Bukan Uraian Jabatan, Hasil Verifikasi, Semester, Nilai, etc.
     - Export Excel or PDF
-- Database HI
+- Database HI AD
   - [HI, AD] {CRUD}: nama_dokumen, link_gdrive, kategori, tanggal, etc.
   - Filter {kategori and/or tahun}
