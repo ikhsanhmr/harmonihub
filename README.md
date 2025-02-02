@@ -9,11 +9,12 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
 1. clone repo ke `htdocs/` (XAMPP) atau `www/` (Laragon)
 2. migrasi database di file `db_harmoni.sql`
 3. `composer install`
-4. run local servel
+4. run local server
 
 ## Role
 - "admin" | pw: K@rtini23
-- "user" | pw: 123456
+- "user" | pw: K@rtini23
+- all role unit | pw: P@ssword123
 
 ## Fitur
 <i>*🗝️: Fitur Khusus Admin</i>
