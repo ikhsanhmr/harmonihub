@@ -65,7 +65,7 @@ if (isset($_SESSION['message'])) {
                                 </tr>
                                 <tr class="text-center">
                                     <?php foreach ($serikats as $serikat): ?>
-                                        <th rowspan="1" class="text-center"><?= $serikat["name"] ?></th>
+                                            <th rowspan="1" class="text-center"><?= $serikat["name"] ?></th>
                                     <?php endforeach; ?>
                                     <?php for ($i = 1; $i < 13; $i++) : ?>
                                         <th rowspan="1" class="text-center">TEMA PEMBAHASAN</th>
@@ -99,50 +99,51 @@ if (isset($_SESSION['message'])) {
                                                 <td><?= htmlspecialchars($monitor['tema_' . $index + 1] ?? '-'); ?></td>
                                                 <td>
                                                     <?php
-                                                    $rekomendasi = $monitor['rekomendasi_' . $index + 1] ?? '-';
-                                                    echo htmlspecialchars(implode(' ', array_slice(explode(' ', $rekomendasi), 0, 7))) .
-                                                        (str_word_count($rekomendasi) > 7 ? '...' : '');
-                                                    ?>
-                                                </td>
-                                                <td><?= htmlspecialchars($monitor['tindak_lanjut_' . $index + 1] ?? '-'); ?></td>
-                                                <td><?= htmlspecialchars($monitor['evaluasi_' . $index + 1] ?? '-'); ?> <i class="mdi mdi-timer-sand"></i></td>
-                                                <td><?= htmlspecialchars($monitor['follow_up_' . $index + 1] ?? '-'); ?></td>
-                                                <?php
-                                                if ($monitor['realisasi_' . $index + 1] == '100%') { ?>
-                                                    <td class="text-center" style="background-color: green;">
-                                                        <?= htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
-                                                    </td>
-                                                <?php } elseif ($monitor['realisasi_' . $index + 1] == '0%') { ?>
-                                                    <td class="text-center" style="background-color: red;">
-                                                        <?= htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
-                                                    </td>
-                                                <?php } else { ?>
-                                                    <td class="text-center" style="background-color: yellow;">
-                                                        <?= htmlspecialchars($monitor['realisasi_' . $index + 1] ?? '-'); ?>
-                                                    </td>
-                                                <?php } ?>
-                                            <?php endforeach; ?>
-                                            <td><a href="index.php?page=monitor-jadwal-create&id=<?= $monitor["id"] ?>">Tambahkan Jadwal</a></td>
-                                            <td class="text-center">
-                                                <!-- <a href="index.php?page=monitor-edit&id=<?= $monitor['id']; ?>" 
-                                                   class="btn btn-warning btn-sm">Edit</a> -->
-                                                <form action="index.php?page=monitor-destroy&id=<?= $monitor['id']; ?>"
-                                                    id="delete-<?= $monitor['id']; ?>" method="post" style="display:inline;">
-                                                    <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
-                                                    <button type="button" class="btn btn-danger btn-sm delete-btn"
-                                                        data-id="<?= $monitor['id']; ?>">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else : ?>
-                                    <tr>
-                                        <td colspan="9" class="text-center">Data tidak ditemukan.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
+                                                    $rekomendasi = $monitor['rekomendasi_' . ($index + 1)] ?? '-';
+echo htmlspecialchars(implode(' ', array_slice(explode(' ', $rekomendasi), 0, 7))) . (str_word_count($rekomendasi) > 7 ? '...' : '');
+?>
+</td>
+<td><?= htmlspecialchars($monitor['tindak_lanjut_' . ($index + 1)] ?? '-'); ?></td>
+<td><?= htmlspecialchars($monitor['evaluasi_' . ($index + 1)] ?? '-'); ?> <i class="mdi mdi-timer-sand"></i></td>
+<td><?= htmlspecialchars($monitor['follow_up_' . ($index + 1)] ?? '-'); ?></td>
+<?php
+$realisasiKey = 'realisasi_' . ($index + 1);
+$realisasi = isset($monitor[$realisasiKey]) ? $monitor[$realisasiKey] : null;
+if ($realisasi === '100%') { ?>
+    <td class="text-center" style="background-color: green;">
+        <?= htmlspecialchars($realisasi); ?>
+    </td>
+<?php } elseif ($realisasi === '0%') { ?>
+    <td class="text-center" style="background-color: red;">
+        <?= htmlspecialchars($realisasi); ?>
+    </td>
+<?php } else { ?>
+    <td class="text-center" style="background-color: yellow;">
+        <?= htmlspecialchars($realisasi ?? '-'); ?>
+    </td>
+<?php } ?>
+<?php endforeach; ?>
+<td><a href="index.php?page=monitor-jadwal-create&id=<?= $monitor["id"] ?>">Tambahkan Jadwal</a></td>
+<td class="text-center">
+    <!-- <a href="index.php?page=monitor-edit&id=<?= $monitor['id']; ?>" 
+       class="btn btn-warning btn-sm">Edit</a> -->
+    <form action="index.php?page=monitor-destroy&id=<?= $monitor['id']; ?>"
+        id="delete-<?= $monitor['id']; ?>" method="post" style="display:inline;">
+        <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
+        <button type="button" class="btn btn-danger btn-sm delete-btn"
+            data-id="<?= $monitor['id']; ?>">
+            Delete
+        </button>
+    </form>
+</td>
+</tr>
+<?php endforeach; ?>
+<?php else : ?>
+<tr>
+    <td colspan="9" class="text-center">Data tidak ditemukan.</td>
+</tr>
+<?php endif; ?>
+</tbody>
                         </table>
                     </div>
 
