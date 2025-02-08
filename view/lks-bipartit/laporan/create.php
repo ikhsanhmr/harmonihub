@@ -20,7 +20,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="unit_id" name="unit_id" required>
                                         <option value="" selected disabled>Pilih Unit</option>
                                         <?php foreach ($units as $unit): ?>
-                                            <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                            <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

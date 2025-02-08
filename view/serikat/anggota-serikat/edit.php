@@ -19,8 +19,8 @@ if (isset($_SESSION['message'])) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Edit Serikat</h4>
-                    <form action="index.php?page=anggota-serikat-update&id=<?php echo $aSerikat['id']; ?>" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="csrf_token" value="<?php echo CSRF::generateToken(); ?>">
+                    <form action="index.php?page=anggota-serikat-update&id=<?= $aSerikat['id']; ?>" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?= CSRF::generateToken(); ?>">
                         <div class="row">
                            
                             <div class="col-md-6">
@@ -28,7 +28,7 @@ if (isset($_SESSION['message'])) {
                                 <div class="form-group">
                                     <label for="name">Nama</label>
                                     <input type="text" class="form-control" id="name" 
-                                    name="name" value="<?php echo $aSerikat["name"]?>" placeholder="Masukkan Nama">
+                                    name="name" value="<?= $aSerikat["name"]?>" placeholder="Masukkan Nama">
                                   
                                 </div>
                                 <div class="form-group">
@@ -36,7 +36,7 @@ if (isset($_SESSION['message'])) {
                                     <select class="form-control" id="unitId" name="unitId" required>
                                         <option value="" selected disabled>Pilih Unit</option>
                                         <?php foreach ($units as $unit):?>
-                                            <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] == $aSerikat['unitId'] ? 'selected' : ''; ?>><?php echo $unit['nama_unit']; ?></option>
+                                            <option value="<?= $unit['id']; ?>" <?= $unit['id'] == $aSerikat['unitId'] ? 'selected' : ''; ?>><?= $unit['nama_unit']; ?></option>
                                         <?php endforeach;?>
                                            
                                             
@@ -45,7 +45,7 @@ if (isset($_SESSION['message'])) {
                                 <div class="form-group">
                                     <label for="nip">Nip</label>
                                     <input type="text" class="form-control" id="nip" 
-                                    name="nip" value="<?php echo $aSerikat["nip"]?>" placeholder="Masukkan Nip">
+                                    name="nip" value="<?= $aSerikat["nip"]?>" placeholder="Masukkan Nip">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -53,19 +53,19 @@ if (isset($_SESSION['message'])) {
                                 <div class="form-group">
                                     <label for="membership">Keanggotaan</label>
                                     <input type="text" class="form-control" id="membership" 
-                                    name="membership" value="<?php echo $aSerikat["membership"]?>" placeholder="Masukkan Keanggotaan">
+                                    name="membership" value="<?= $aSerikat["membership"]?>" placeholder="Masukkan Keanggotaan">
                                 </div>
                                 <div class="form-group">
                                     <label for="no-kta">Nomor Kta</label>
                                     <input type="text" class="form-control" id="no-kta" 
-                                    name="noKta" value="<?php echo $aSerikat["noKta"]?>" placeholder="Masukkan Nomor Kta">
+                                    name="noKta" value="<?= $aSerikat["noKta"]?>" placeholder="Masukkan Nomor Kta">
                                 </div>
                                 <div class="form-group">
                                     <label for="serikatId">Nama Serikat</label>
                                     <select class="form-control" id="serikatId" name="serikatId" required>
                                         <option value="" selected disabled>Pilih Serikat</option>
                                         <?php foreach ($serikats as $serikat):?>
-                                            <option value="<?php echo $serikat['id']; ?>" <?php echo $serikat['id'] == $aSerikat['serikatId'] ? 'selected' : ''; ?>><?php echo $serikat['nama_serikat']; ?></option>
+                                            <option value="<?= $serikat['id']; ?>" <?= $serikat['id'] == $aSerikat['serikatId'] ? 'selected' : ''; ?>><?= $serikat['nama_serikat']; ?></option>
                                         <?php endforeach;?>
                                            
                                             

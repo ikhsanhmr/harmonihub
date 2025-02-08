@@ -19,7 +19,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="unit_id" name="unit_id" required>
                                         <option value="" selected disabled>Pilih Unit</option>
                                         <?php foreach ($units as $unit): ?>
-                                            <option value="<?php echo $unit['id']; ?>"><?php echo $unit['name']; ?></option>
+                                            <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -28,7 +28,7 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="ba_id" name="ba_id" required>
                                         <option value="" selected disabled>Pilih Ba Pembentukan</option>
                                         <?php foreach ($ba_pembentukans as $ba): ?>
-                                            <option value="<?php echo $ba['id']; ?>"><?php echo $ba['name']; ?></option>
+                                            <option value="<?= $ba['id']; ?>"><?= $ba['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -36,10 +36,10 @@ ob_start(); // Mulai output buffering
                             <div class="col-md-6">
                                 <?php foreach ($serikats as $serikat):?>
                                     <div class="form-group">
-                                        <label for="ba_id"><?php echo $serikat["name"]?></label>
+                                        <label for="ba_id"><?= $serikat["name"]?></label>
                                         <input type="number" class="form-control" 
-                                            name="serikat[<?php echo $serikat['id']; ?>]" 
-                                            id="serikat_<?php echo $serikat['id']; ?>" 
+                                            name="serikat[<?= $serikat['id']; ?>]" 
+                                            id="serikat_<?= $serikat['id']; ?>" 
                                             min="0" placeholder="Masukkan jumlah anggota" required>
                                 </div>
                                 <?php endforeach?>

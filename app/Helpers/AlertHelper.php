@@ -4,7 +4,7 @@ namespace Helpers;
 
 class AlertHelper
 {
-    public static function showAlert($type, $title, $message, $timer = 2000)
+    public static function showAlert($type, $title, $message, $timer = 200000)
     {
         return "
             <script>

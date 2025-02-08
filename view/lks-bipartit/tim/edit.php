@@ -19,16 +19,16 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Update Data</h4>
-                    <form class="forms-sample" action="index.php?page=tim/update&id=<?php echo $tim['id']; ?>" method="POST">
-                        <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+                    <form class="forms-sample" action="index.php?page=tim/update&id=<?= $tim['id']; ?>" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= $csrfToken; ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($tim['id']) ?>">
                         <div class="form-group">
                             <label for="nip_pegawai">NIP Pegawai</label>
-                            <input type="number" class="form-control" id="nip_pegawai" name="nip_pegawai" value="<?php echo htmlspecialchars($tim['nip_pegawai']); ?>" required>
+                            <input type="number" class="form-control" id="nip_pegawai" name="nip_pegawai" value="<?= htmlspecialchars($tim['nip_pegawai']); ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="nama_pegawai">Nama Pegawai</label>
-                            <input type="text" class="form-control" id="nama_pegawai" name="nama_pegawai" value="<?php echo htmlspecialchars($tim['nama_pegawai']); ?>" required>
+                            <input type="text" class="form-control" id="nama_pegawai" name="nama_pegawai" value="<?= htmlspecialchars($tim['nama_pegawai']); ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="peran">Peran</label>
@@ -53,7 +53,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                             <label for="unitId">Unit</label>
                             <select class="form-control" id="unitId" name="unitId" required>
                                 <?php foreach ($units as $unit): ?>
-                                    <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] == $tim['unitId'] ? 'selected' : ''; ?>><?php echo $unit['name']; ?></option>
+                                    <option value="<?= $unit['id']; ?>" <?= $unit['id'] == $tim['unitId'] ? 'selected' : ''; ?>><?= $unit['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

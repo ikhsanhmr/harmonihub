@@ -18,7 +18,7 @@ if (isset($_SESSION['message'])) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Update Info Siru</h4>
-                    <form action="index.php?page=info-siru-update&id=<?php echo $infoSiru["id"];?>" method="POST" enctype="multipart/form-data">
+                    <form action="index.php?page=info-siru-update&id=<?= $infoSiru["id"];?>" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                         <div class="row">
                            
@@ -34,8 +34,8 @@ if (isset($_SESSION['message'])) {
                                     <label for="type">Type</label>
                                     <select class="form-control" id="type" name="type" required>
                                         <option value="" disabled>Pilih Type</option>
-                                            <option value="flyer" <?php echo($infoSiru["type"]) === "flyer" ?"selected":"";?>>Flyer</option>
-                                            <option value="video" <?php echo($infoSiru["type"]) === "video" ?"selected":"";?>>video</option>
+                                            <option value="flyer" <?=($infoSiru["type"]) === "flyer" ?"selected":"";?>>Flyer</option>
+                                            <option value="video" <?=($infoSiru["type"]) === "video" ?"selected":"";?>>video</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -44,22 +44,22 @@ if (isset($_SESSION['message'])) {
                                                     <?php if($infoSiru["type"]=== "video"):?>
                                                         <p>konten saat ini :</p>
                                                         <video class="card-img-top" controls height="100" width="20">
-                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/mp4">
-                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/webm">
-                                                            <source src="<?php echo $infoSiru['filePath']; ?>" type="video/ogg">
+                                                            <source src="<?= $infoSiru['filePath']; ?>" type="video/mp4">
+                                                            <source src="<?= $infoSiru['filePath']; ?>" type="video/webm">
+                                                            <source src="<?= $infoSiru['filePath']; ?>" type="video/ogg">
                                                             Your browser does not support the video tag.
                                                         </video>
                                                         <?php else:?>
                                                             <p>konten saat ini :</p>
-                                                            <img style="width: 10rem; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" src="<?php echo $infoSiru['filePath']; ?>" alt="Profile Picture" data-bs-toggle="modal" data-bs-target="#flyerModal-<?php echo $infoSiru["id"];?>">
-                                                            <div class="modal fade" id="flyerModal-<?php echo $infoSiru["id"];?>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                                                            <img style="width: 10rem; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" src="<?= $infoSiru['filePath']; ?>" alt="Profile Picture" data-bs-toggle="modal" data-bs-target="#flyerModal-<?= $infoSiru["id"];?>">
+                                                            <div class="modal fade" id="flyerModal-<?= $infoSiru["id"];?>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <img src="<?php echo $infoSiru['filePath']; ?>" style="width: auto; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" class="img-fluid" alt="Flyer">
+                                                                    <img src="<?= $infoSiru['filePath']; ?>" style="width: auto; height:auto;border-radius:0px;position:relative;left: 50%; transform: translateX(-50%);" class="img-fluid" alt="Flyer">
                                                                 </div>
                                                                 </div>
                                                             </div>

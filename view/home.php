@@ -9,7 +9,7 @@ $username = $_SESSION['username'] ?? 'Guest';
         <div class="col-md-12 grid-margin">
             <div class="row">
                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                    <h3 class="font-weight-bold">Welcome <?php echo htmlspecialchars($username); ?>!</h3>
+                    <h3 class="font-weight-bold">Welcome <?= htmlspecialchars($username); ?>!</h3>
                     <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6>
                 </div>
             </div>
@@ -19,7 +19,7 @@ $username = $_SESSION['username'] ?? 'Guest';
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card tale-bg">
                 <div class="card-people mt-auto">
-                    <img src="assets/images/dashboard/people.svg" alt="people">
+                    <img src="resources/images/people.svg" alt="people">
                     <div class="weather-info">
                         <div class="d-flex">
                             <div>
@@ -40,7 +40,7 @@ $username = $_SESSION['username'] ?? 'Guest';
                     <div class="card card-tale">
                         <div class="card-body">
                             <p class="mb-4">Pengguna</p>
-                            <p class="fs-30 mb-2"><?php echo htmlspecialchars($data['total_pengguna']); ?></p>
+                            <p class="fs-30 mb-2"><?= htmlspecialchars($data['total_pengguna']); ?></p>
                             <!-- <p>10.00% (30 days)</p> -->
                         </div>
                     </div>
@@ -49,7 +49,7 @@ $username = $_SESSION['username'] ?? 'Guest';
                     <div class="card card-dark-blue">
                         <div class="card-body">
                             <p class="mb-4">Serikat</p>
-                            <p class="fs-30 mb-2"><?php echo htmlspecialchars($data['total_serikat']); ?></p>
+                            <p class="fs-30 mb-2"><?= htmlspecialchars($data['total_serikat']); ?></p>
                             <!-- <p>22.00% (30 days)</p> -->
                         </div>
                     </div>
@@ -60,7 +60,7 @@ $username = $_SESSION['username'] ?? 'Guest';
                     <div class="card card-light-blue">
                         <div class="card-body">
                             <p class="mb-4">Unit</p>
-                            <p class="fs-30 mb-2"><?php echo htmlspecialchars($data['total_unit']); ?></p>
+                            <p class="fs-30 mb-2"><?= htmlspecialchars($data['total_unit']); ?></p>
                             <!-- <p>2.00% (30 days)</p> -->
                         </div>
                     </div>
@@ -69,7 +69,7 @@ $username = $_SESSION['username'] ?? 'Guest';
                     <div class="card card-light-danger">
                         <div class="card-body">
                             <p class="mb-4">Laporan LKS</p>
-                            <p class="fs-30 mb-2"><?php echo htmlspecialchars($data['total_laporan']); ?></p>
+                            <p class="fs-30 mb-2"><?= htmlspecialchars($data['total_laporan']); ?></p>
                             <!-- <p>0.22% (30 days)</p> -->
                         </div>
                     </div>

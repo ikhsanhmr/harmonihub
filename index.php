@@ -268,6 +268,9 @@ if (!isset($_GET['page'])) {
     case 'anggota-serikat-pdf':
       $anggotaSerikat->pdf($_GET["id_serikat"]);
       break;
+    case 'anggota-serikat-excell':
+      $anggotaSerikat->pdf($_GET["id_serikat"]);
+      break;
     case 'excel-to-anggota-serikat':
       $anggotaSerikat->excel();
       break;
@@ -309,6 +312,9 @@ if (!isset($_GET['page'])) {
       break;
     case 'penilaian-pdp-exportpdf';
       $pdpController->exportToPdf();
+      break;
+    case 'penilaian-pdp-importexcell';
+      $pdpController->importToExcel();
       break;
     case 'ba-pembentukan-list':
       $startDate = $_GET['start'] ?? null;

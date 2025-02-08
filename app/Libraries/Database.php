@@ -2,6 +2,7 @@
 
 namespace Libraries;
 
+use Dotenv\Dotenv;
 use PDO;
 use PDOException;
 
@@ -25,7 +26,17 @@ class Database
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     PDO::ATTR_PERSISTENT => true, // Tambahkan koneksi persistent untuk performa
                 ];
-                self::$instance = new PDO('mysql:host=localhost;dbname=db_harmoni', 'root', '', $pdo_options);
+                // cek apakah file berjalan di https (web productions)
+                if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+                    // Memuat file .env dari direktori root server
+                    $dotenv = Dotenv::createImmutable('/home/hart1449');  // Ganti dengan path ke root direktori Anda
+                    $dotenv->load();
+                    $dbPassword = $_ENV['DB_PASS'];
+
+                    self::$instance = new PDO('mysql:host=localhost;dbname=hart1449_harmoni', 'hart1449_harmoni', $dbPassword, $pdo_options);
+                } else {
+                    self::$instance = new PDO('mysql:host=localhost;dbname=db_harmoni', 'root', '', $pdo_options);
+                }
             } catch (PDOException $e) {
                 die("Database connection failed: " . $e->getMessage());
             }

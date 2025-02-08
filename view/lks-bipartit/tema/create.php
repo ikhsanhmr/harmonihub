@@ -15,7 +15,7 @@ $csrfToken = CSRF::generateToken();
                 <div class="card-body">
                     <h4 class="card-title">Tambah Data</h4>
                     <form class="forms-sample" action="index.php?page=tema/store" method="POST">
-                        <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $csrfToken; ?>">
                         <div class="form-group row">
                             <label for="namaTema" class="col-sm-3 col-form-label">Tema</label>
                             <div class="col-sm-9">

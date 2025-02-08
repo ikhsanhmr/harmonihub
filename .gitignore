@@ -1,2 +1,15 @@
-/vendor
+# Ignore specific directories in uploads
+uploads/users/
+uploads/dsp/
+uploads/serikat/
+uploads/dokumen/
+uploads/info-siru/
+
+# Ignore vendor directory
+vendor/
+
+# Ignore dependency files
 composer.lock
+
+# production migration
+migration.prod.py

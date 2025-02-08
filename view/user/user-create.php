@@ -20,8 +20,8 @@ ob_start(); // Mulai output buffering
                                     <select class="form-control" id="role_id" name="role_id" required>
                                         <option value="" selected disabled>Pilih Role</option>
                                         <?php foreach ($roles as $role): ?>
-                                            <option id="role-<?php echo $role['id']; ?>" value="<?php echo $role['id']; ?>" data-role-type="<?php echo $role['role_name']; ?>">
-                                                <?php echo $role['role_name']; ?>
+                                            <option id="role-<?= $role['id']; ?>" value="<?= $role['id']; ?>" data-role-type="<?= $role['role_name']; ?>">
+                                                <?= $role['role_name']; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -74,8 +74,8 @@ ob_start(); // Mulai output buffering
     </div>
 </div>
 <script>
-    const serikats = <?php echo json_encode($serikats); ?>;
-    const units = <?php echo json_encode($units); ?>;
+    const serikats = <?= json_encode($serikats); ?>;
+    const units = <?= json_encode($units); ?>;
 
     document.getElementById('role_id').addEventListener('change', function () {
         const selectedRole = this.options[this.selectedIndex];

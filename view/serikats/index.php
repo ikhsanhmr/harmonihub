@@ -44,23 +44,23 @@ $rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null
                                 ?>
                                         <tr>
 
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo htmlspecialchars($serikat['name']); ?></td>
+                                            <td><?= $index + 1; ?></td>
+                                            <td><?= htmlspecialchars($serikat['name']); ?></td>
                                             <td>
                                                 <?php if ($serikat['logoPath']): ?>
-                                                    <img src="<?php echo $serikat['logoPath']; ?>" alt="Photo Logo" width="100">
+                                                    <img src="<?= $serikat['logoPath']; ?>" alt="Photo Logo" width="100">
                                                 <?php else: ?>
                                                     <span>No Picture</span>
                                                 <?php endif; ?>
                                             </td>
                                            
                                             <td>
-                                                <a href="index.php?page=serikat-edit&id=<?php echo $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                                <form action="index.php?page=serikat-destroy&id=<?php echo $serikat['id']; ?>" 
-                                                    id="delete-<?php echo $serikat['id']; ?>" method="post" style="display:inline;">
+                                                <a href="index.php?page=serikat-edit&id=<?= $serikat['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                                <form action="index.php?page=serikat-destroy&id=<?= $serikat['id']; ?>" 
+                                                    id="delete-<?= $serikat['id']; ?>" method="post" style="display:inline;">
                                                     <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                     <button type="button" class="btn btn-danger btn-sm delete-btn" 
-                                                            data-id="<?php echo $serikat['id']; ?>">
+                                                            data-id="<?= $serikat['id']; ?>">
                                                         Delete
                                                     </button>
                                                 </form>

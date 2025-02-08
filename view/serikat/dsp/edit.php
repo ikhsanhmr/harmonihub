@@ -19,7 +19,7 @@ $rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null
                                     <select class="form-control" id="id_serikat" name="id_serikat" required>
                                         <option value="" selected disabled>Pilih Serikat</option>
                                         <?php foreach ($serikats as $s): ?>
-                                            <option <?php echo $s["id"] == $dataDsp["id_serikat"] ?"selected":"" ?> value="<?php echo $s['id']; ?>"><?php echo $s['name']; ?></option>
+                                            <option <?= $s["id"] == $dataDsp["id_serikat"] ?"selected":"" ?> value="<?= $s['id']; ?>"><?= $s['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                         </div>

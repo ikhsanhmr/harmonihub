@@ -53,13 +53,13 @@ if (isset($_GET['error']) && $_GET['error'] == 2) {
                                 $no = 1;
                                 foreach ($tims as $tim): ?>
                                     <tr>
-                                        <td><?php echo $no++; ?></td>
+                                        <td><?= $no++; ?></td>
                                         <td> <?= $tim['nip_pegawai'] ?></td>
                                         <td> <?= $tim['nama_pegawai'] ?></td>
                                         <td> <?= $tim['peran'] ?></td>
                                         <td> <?= $tim['name_unit'] ?></td>
                                         <td class="d-flex justify-content-center">
-                                            <a href="index.php?page=tim/edit&id=<?php echo $tim['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=tim/edit&id=<?= $tim['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <form action="index.php?page=tim/delete" id="delete-form-<?= $tim['id'] ?>" method="POST">
                                                 <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
                                                 <input type="hidden" name="id_tim" value="<?= htmlspecialchars($tim['id']) ?>">

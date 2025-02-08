@@ -44,11 +44,11 @@ $rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null;
                                 foreach ($bas as $index => $ba) {
                                 ?>
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($ba['unit_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($ba['no_ba']); ?></td>
-                                        <td><?php echo htmlspecialchars($ba['name']); ?></td>
-                                        <td><?php echo $ba["tanggal"] !==null ? date('d-m-Y', strtotime($ba['tanggal'])) :null; ?></td>
+                                        <td><?= $index + 1; ?></td>
+                                        <td><?= htmlspecialchars($ba['unit_name']); ?></td>
+                                        <td><?= htmlspecialchars($ba['no_ba']); ?></td>
+                                        <td><?= htmlspecialchars($ba['name']); ?></td>
+                                        <td><?= $ba["tanggal"] !==null ? date('d-m-Y', strtotime($ba['tanggal'])) :null; ?></td>
                                         <td class="text-center">
                                             <?php if (!empty($ba['dokumen'])): ?>
                                                 <a href="uploads/dokumen/<?= htmlspecialchars($ba['dokumen']); ?>" target="_blank">Preview</a>
@@ -56,11 +56,11 @@ $rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null;
                                                 No Document
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo htmlspecialchars($ba['status']); ?></td>
+                                        <td><?= htmlspecialchars($ba['status']); ?></td>
 
                                         <td>
-                                            <a href="index.php?page=ba-perubahan-edit&id=<?php echo $ba['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="index.php?page=ba-perubahan-delete&id=<?php echo $ba['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                            <a href="index.php?page=ba-perubahan-edit&id=<?= $ba['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=ba-perubahan-delete&id=<?= $ba['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php
@@ -91,12 +91,12 @@ $rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null;
                                 <div class="col-md-12">
                                     <label for="start">Tanggal Mulai</label>
                                     <input type="date" name="start" id="start" class="form-control"
-                                           value="<?php echo htmlspecialchars($_GET['start'] ?? ''); ?>">
+                                           value="<?= htmlspecialchars($_GET['start'] ?? ''); ?>">
                                 </div>
                                 <div style="margin: 1rem 0;" class="col-md-12">
                                     <label for="end">Tanggal Selesai</label>
                                     <input type="date" name="end" id="end" class="form-control"
-                                           value="<?php echo htmlspecialchars($_GET['end'] ?? ''); ?>">
+                                           value="<?= htmlspecialchars($_GET['end'] ?? ''); ?>">
                                 </div>
                               
                             </div>
@@ -107,7 +107,7 @@ $rolename = isset($_SESSION["role_name"]) ? $_SESSION["role_name"] : null;
                                         <select class="form-control" id="unit" name="unit">
                                                 <option value="" selected disabled>Pilih Unit</option>
                                                 <?php foreach ($units as $unit): ?>
-                                                    <option value="<?php echo $unit['id']; ?>" <?php echo $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?php echo $unit['name']; ?></option>
+                                                    <option value="<?= $unit['id']; ?>" <?= $unit['id'] ==  ($_GET["unit"] ?? '') ? 'selected' : '';?>><?= $unit['name']; ?></option>
                                                 <?php endforeach; ?>
                                         </select>
                                     </div>

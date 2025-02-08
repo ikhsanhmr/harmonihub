@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: 🎉 Deploy Website
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🧹 Remove Unwanted Files
+        run: |
+          rm -rf db_harmoni.sql
+          rm -rf README.md
+          rm -rf composer.json
+
+      - name: 🚚 Deploy Code via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.harmoni-hub.com
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          server-dir: public_html/
+          timeout: 2400000 # 40 menit
+
+      # utk sementara script composer install dimatikan. folder vendor di push secara manual
+      # - name: 🔄 Trigger Composer Install on Server
+      #   run: curl -s "https://harmoni-hub.com/run_composer.php?token=${{ secrets.RUN_TOKEN }}"

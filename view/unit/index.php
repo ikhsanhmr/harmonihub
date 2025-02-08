@@ -37,12 +37,12 @@ if (isset($_SESSION['message'])) {
                                 foreach ($units as $index => $unit) {
                                 ?>
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo htmlspecialchars($unit['name']); ?></td>
-                                        <td><?php echo htmlspecialchars($unit['manager_unit']); ?></td>
+                                        <td><?= $index + 1; ?></td>
+                                        <td><?= htmlspecialchars($unit['name']); ?></td>
+                                        <td><?= htmlspecialchars($unit['manager_unit']); ?></td>
                                         <td>
-                                            <a href="index.php?page=unit-edit&id=<?php echo $unit['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                            <a href="index.php?page=unit-delete&id=<?php echo $unit['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                            <a href="index.php?page=unit-edit&id=<?= $unit['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="index.php?page=unit-delete&id=<?= $unit['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
                                         </td>
                                     </tr>
                                 <?php
