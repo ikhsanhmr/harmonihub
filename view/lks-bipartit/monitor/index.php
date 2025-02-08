@@ -10,7 +10,29 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message']);
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ...existing head content... -->
+     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const unitFilter = document.getElementById('unitFilter');
+        const rows = document.querySelectorAll('tbody tr');
 
+        unitFilter.addEventListener('change', function() {
+            const selectedUnit = this.value;
+            rows.forEach(row => {
+                const unitName = row.querySelector('.unit-name').textContent.trim();
+                if (selectedUnit === 'all' || unitName === selectedUnit) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+</head>
 <div class="content-wrapper">
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
@@ -45,6 +67,15 @@ if (isset($_SESSION['message'])) {
                         </form>
 
                     </div>
+                    <div class="filter-container">
+        <label for="unitFilter">Filter Unit:</label>
+        <select id="unitFilter" class="form-select">
+            <option value="all">All Units</option>
+            <?php foreach ($units as $unit): ?>
+                <option value="<?= htmlspecialchars($unit['name']); ?>"><?= htmlspecialchars($unit['name']); ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
                     <div style="float: right">
                         <a href="index.php?page=monitor-create" class="btn btn-success btn-sm">Tambah Data</a>
                     </div>
@@ -82,7 +113,7 @@ if (isset($_SESSION['message'])) {
                                     <?php foreach ($monitors as $index => $monitor) : ?>
                                         <tr>
                                             <td><?= $index + 1; ?></td>
-                                            <td><?= htmlspecialchars($monitor['unit_name']); ?></td>
+                                           <td class="unit-name"><?= htmlspecialchars($monitor['unit_name']); ?></td>
                                             <td><?= htmlspecialchars($monitor['ba_name']); ?></td>
                                             <td><?= htmlspecialchars($monitor['ba_created_at']); ?></td>
                                             <?php
