@@ -11,7 +11,6 @@ use Controllers\Ba\ApprovalsPembentukan;
 use Controllers\Ba\ApprovalsPerubahan;
 use Controllers\Dashboard;
 use Controllers\DokumenController;
-use Controllers\Dokumen2Controller;
 use Controllers\FrontendController;
 use Controllers\InfoSiru;
 use Controllers\Ba\BaPembentukan;
@@ -47,8 +46,7 @@ $unitController = new UnitController();
 $profileContoller = new ProfileController();
 $timController = new Tim();
 $monitor = new Monitor();
-$dokumen_hi = new DokumenController();
-$dokumen_ad = new Dokumen2Controller();
+$dokumen = new DokumenController();
 session_start();
 
 if (isset($_GET["harmonihub"])) {
@@ -80,144 +78,46 @@ if (isset($_SESSION['user_id']) && isset($_GET['page']) && $_GET['page'] === 'la
 }
 $rolePages = [
   'admin' => [
-    'jadwal',
-    'fectch/jadwal',
-    'jadwal/store',
-    'jadwal/edit',
-    'jadwal/delete',
-    'tema',
-    'tema/create',
-    'tema/store',
-    'tema/delete',
-    'tema=edit',
-    'tema/update',
-    'user-list',
-    'user-create',
-    'user-store',
-    'user-edit',
-    'user-update',
-    'user-delete',
-    'info-siru-create',
-    'info-siru-store',
-    'info-siru-destroy',
-    'info-siru-edit',
-    'info-siru-update',
-    'serikat',
-    'serikat-create',
-    'serikat-store',
-    'serikat-edit',
-    'serikat-update',
-    'serikat-destroy',
-    'anggota-serikat',
-    'anggota-serikat-store',
-    'anggota-serikat-edit',
-    'anggota-serikat-update',
-    'anggota-serikat-destroy',
-    'dsp',
-    'penilaian-pdp-list',
-    'penilaian-pdp-create',
-    'penilaian-pdp-store',
-    'penilaian-pdp-edit',
-    'penilaian-pdp-update',
-    'penilaian-pdp-delete',
-    'ba-pembentukan-list',
-    'ba-pembentukan-create',
-    'ba-pembentukan-store',
-    'ba-pembentukan-edit',
-    'ba-pembentukan-update',
-    'ba-pembentukan-delete',
-    'ba-perubahan',
-    'ba-perubahan-create',
-    'ba-perubahan-store',
-    'ba-perubahan-edit',
-    'ba-perubahan-update',
-    'ba-perubahan-delete',
-    'approvals-pembentukan',
-    'terima-ba-pembentukan',
-    'approvals-perubahan',
-    'terima-ba-perubahan',
-    'laporan-list',
-    'laporan-create',
-    'laporan-store',
-    'laporan-edit',
-    'laporan-update',
-    'laporan-delete',
-    'unit-list',
-    'unit-create',
-    'unit-store',
-    'unit-edit',
-    'unit-update',
-    'unit-delete',
-    'tim',
-    'tim/create',
-    'monitor',
-    'monitor-create',
-    'monitor-store',
-    'dokumen_hi',
-    'dokumen_hi/create',
-    'dokumen_hi/store',
-    'dokumen_hi/delete',
-    'dokumen_ad',
-    'dokumen_ad/create',
-    'dokumen_ad/store',
-    'dokumen_ad/delete',
+      'jadwal', 'fectch/jadwal', 'jadwal/store', 'jadwal/edit', 'jadwal/delete',
+      'tema', 'tema/create', 'tema/store', 'tema/delete', 'tema=edit', 'tema/update',
+      'user-list', 'user-create', 'user-store', 'user-edit', 'user-update', 'user-delete',
+      'info-siru-create', 'info-siru-store', 'info-siru-destroy', 'info-siru-edit', 'info-siru-update',
+      'serikat', 'serikat-create', 'serikat-store', 'serikat-edit', 'serikat-update', 'serikat-destroy',
+      'anggota-serikat', 'anggota-serikat-store', 'anggota-serikat-edit', 'anggota-serikat-update', 'anggota-serikat-destroy',
+      'dsp',
+      'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
+      'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
+      'ba-perubahan', 'ba-perubahan-create', 'ba-perubahan-store', 'ba-perubahan-edit', 'ba-perubahan-update', 'ba-perubahan-delete',
+      'approvals-pembentukan','terima-ba-pembentukan',
+      'approvals-perubahan','terima-ba-perubahan',
+      'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete',
+      'unit-list', 'unit-create', 'unit-store', 'unit-edit', 'unit-update', 'unit-delete',
+      'tim', 'tim/create', 'monitor', 'monitor-create', 'monitor-store',
+      'dokumen', 'dokumen/create', 'dokumen/store', 'dokumen/delete',
   ],
   'unit' => [
-    'jadwal',
-    'fectch/jadwal',
-    'jadwal/store',
-    'jadwal/edit',
-    'jadwal/delete',
-    'tema',
-    'tema/create',
-    'tema/store',
-    'tema/delete',
-    'tema=edit',
-    'tema/update',
-    'penilaian-pdp-list',
-    'penilaian-pdp-create',
-    'penilaian-pdp-store',
-    'penilaian-pdp-edit',
-    'penilaian-pdp-update',
-    'penilaian-pdp-delete',
-    'ba-pembentukan-list',
-    'ba-pembentukan-create',
-    'ba-pembentukan-store',
-    'ba-pembentukan-edit',
-    'ba-pembentukan-update',
-    'ba-pembentukan-delete',
-    'ba-perubahan',
-    'ba-perubahan-create',
-    'ba-perubahan-store',
-    'ba-perubahan-edit',
-    'ba-perubahan-update',
-    'ba-perubahan-delete',
-    'laporan-list',
-    'laporan-create',
-    'laporan-store',
-    'laporan-edit',
-    'laporan-update',
-    'laporan-delete',
-    'tim',
-    'tim/create',
-    'monitor',
-    'monitor-create',
-    'monitor-store',
+      'jadwal', 'fectch/jadwal', 'jadwal/store', 'jadwal/edit', 'jadwal/delete',
+      'tema', 'tema/create', 'tema/store', 'tema/delete', 'tema=edit', 'tema/update',
+      'penilaian-pdp-list', 'penilaian-pdp-create', 'penilaian-pdp-store', 'penilaian-pdp-edit', 'penilaian-pdp-update', 'penilaian-pdp-delete',
+      'ba-pembentukan-list', 'ba-pembentukan-create', 'ba-pembentukan-store', 'ba-pembentukan-edit', 'ba-pembentukan-update', 'ba-pembentukan-delete',
+      'ba-perubahan', 'ba-perubahan-create', 'ba-perubahan-store', 'ba-perubahan-edit', 'ba-perubahan-update', 'ba-perubahan-delete',
+      'laporan-list', 'laporan-create', 'laporan-store', 'laporan-edit', 'laporan-update', 'laporan-delete',
+      'tim', 'tim/create', 'monitor', 'monitor-create', 'monitor-store',
   ],
 ];
 
-// Middleware cek role berdasarkan halaman
-if (isset($_GET['page'])) {
-  $page = $_GET['page'];
-  if (isset($_SESSION["role_name"])) {
-    $role = $_SESSION["role_name"];
+  // Middleware cek role berdasarkan halaman
+  if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+    if (isset($_SESSION["role_name"])) {
+      $role = $_SESSION["role_name"];
   } else {
-    $role = null;
+      $role = null;
+  }  
+    if (in_array($page, $rolePages['admin'])) {
+        checkRole($role);
+    }
   }
-  if (in_array($page, $rolePages['admin'])) {
-    checkRole($role);
-  }
-}
 if (!isset($_GET['page'])) {
   $frontend->index();
 } else {
@@ -368,6 +268,9 @@ if (!isset($_GET['page'])) {
     case 'anggota-serikat-pdf':
       $anggotaSerikat->pdf($_GET["id_serikat"]);
       break;
+    case 'anggota-serikat-excell':
+      $anggotaSerikat->pdf($_GET["id_serikat"]);
+      break;
     case 'excel-to-anggota-serikat':
       $anggotaSerikat->excel();
       break;
@@ -376,19 +279,19 @@ if (!isset($_GET['page'])) {
       break;
     case 'dsp-create':
       $dsp->create();
-      break;
+        break;
     case 'dsp-store':
       $dsp->store();
-      break;
+        break;
     case 'dsp-edit':
       $dsp->edit($_GET['id']);
-      break;
+        break;
     case 'dsp-update':
       $dsp->update($_GET['id']);
-      break;
+        break;
     case 'dsp-destroy':
       $dsp->destroy($_GET['id']);
-      break;
+        break;
     case 'penilaian-pdp-list':
       $pdpController->index();
       break;
@@ -411,7 +314,7 @@ if (!isset($_GET['page'])) {
       $pdpController->exportToPdf();
       break;
     case 'penilaian-pdp-importexcell';
-      $pdpController->importFromExcel();
+      $pdpController->importToExcel();
       break;
     case 'ba-pembentukan-list':
       $startDate = $_GET['start'] ?? null;
@@ -433,37 +336,37 @@ if (!isset($_GET['page'])) {
     case 'ba-pembentukan-delete':
       $baPembentukanController->destroy($_GET['id']);
       break;
-    case 'ba-perubahan-list':
-      $startDate = $_GET['start'] ?? null;
-      $endDate = $_GET['end'] ?? null;
-      $baPerubahanController->index($startDate, $endDate);
+      case 'ba-perubahan-list':
+        $startDate = $_GET['start'] ?? null;
+        $endDate = $_GET['end'] ?? null;
+        $baPerubahanController->index($startDate, $endDate);
+        break;
+      case 'ba-perubahan-create':
+        $baPerubahanController->create();
+        break;
+      case 'ba-perubahan-store':
+        $baPerubahanController->store();
+        break;
+      case 'ba-perubahan-edit':
+        $baPerubahanController->edit($_GET['id']);
+        break;
+      case 'ba-perubahan-update':
+        $baPerubahanController->update($_GET['id']);
+        break;
+      case 'ba-perubahan-delete':
+        $baPerubahanController->destroy($_GET['id']);
+        break;
+      case 'approvals-pembentukan':
+        $approvalsPembentukan->index();
       break;
-    case 'ba-perubahan-create':
-      $baPerubahanController->create();
+      case 'terima-ba-pembentukan':
+        $approvalsPembentukan->terimaBaPembentukan($_GET["id"]);
       break;
-    case 'ba-perubahan-store':
-      $baPerubahanController->store();
+      case 'approvals-perubahan':
+        $approvalsPerubahan->index();
       break;
-    case 'ba-perubahan-edit':
-      $baPerubahanController->edit($_GET['id']);
-      break;
-    case 'ba-perubahan-update':
-      $baPerubahanController->update($_GET['id']);
-      break;
-    case 'ba-perubahan-delete':
-      $baPerubahanController->destroy($_GET['id']);
-      break;
-    case 'approvals-pembentukan':
-      $approvalsPembentukan->index();
-      break;
-    case 'terima-ba-pembentukan':
-      $approvalsPembentukan->terimaBaPembentukan($_GET["id"]);
-      break;
-    case 'approvals-perubahan':
-      $approvalsPerubahan->index();
-      break;
-    case 'terima-ba-perubahan':
-      $approvalsPerubahan->terimaBaperubahan($_GET["id"]);
+      case 'terima-ba-perubahan':
+        $approvalsPerubahan->terimaBaperubahan($_GET["id"]);
       break;
     case 'laporan-list':
       $startDate = $_GET['start_date'] ?? null;
@@ -490,7 +393,7 @@ if (!isset($_GET['page'])) {
     case 'laporan-delete':
       $laporanController->destroy($_GET['id']);
       break;
-
+   
     case 'unit-list':
       $unitController->index();
       break;
@@ -528,10 +431,7 @@ if (!isset($_GET['page'])) {
       $timController->delete();
       break;
     case 'monitor':
-      // Ambil parameter tahun dari GET
-      $tahun = $_GET['tahun'] ?? null;
-      // Panggil fungsi index dengan parameter tahun
-      $monitor->index($tahun);
+      $monitor->index();
       break;
     case 'monitor-create':
       $monitor->create();
@@ -548,51 +448,26 @@ if (!isset($_GET['page'])) {
     case 'monitor-destroy':
       $monitor->destroy($_GET["id"]);
       break;
-    case 'dokumen_hi':
-      $tahun = $_GET['tahun'] ?? null;
-      $kategori = $_GET['kategori'] ?? null;
-
-      $dokumen_hi->index($tahun, $kategori);
+    case 'dokumen':
+      $dokumen->index();
       break;
-    case 'dokumen_hi/create':
-      $dokumen_hi->create();
+    case 'dokumen/create':
+      $dokumen->create();
       break;
-    case 'dokumen_hi/store':
-      $dokumen_hi->store();
+    case 'dokumen/store':
+      $dokumen->store();
       break;
-    case 'dokumen_hi=edit':
-      if (isset($_GET['id'])) {
-        $dokumen_hi->edit();  // Panggil metode edit dengan ID
+    case 'dokumen=edit':
+      if (isset($_GET['id_dokumen'])) {
+        $dokumen->edit();  // Panggil metode edit dengan ID
       }
       break;
-    case 'dokumen_hi/update':
-      $dokumen_hi->update($_GET['id']);
+    //membuat case untuk dokuemn update
+    case 'dokumen/update':
+      $dokumen->update($_GET['id_dokumen']);
       break;
-    case 'dokumen_hi/delete':
-      $dokumen_hi->destroy();
-      break;
-    case 'dokumen_ad':
-      $tahun = $_GET['tahun'] ?? null;
-      $kategori = $_GET['kategori'] ?? null;
-
-      $dokumen_ad->index($tahun, $kategori);
-      break;
-    case 'dokumen_ad/create':
-      $dokumen_ad->create();
-      break;
-    case 'dokumen_ad/store':
-      $dokumen_ad->store();
-      break;
-    case 'dokumen_ad=edit':
-      if (isset($_GET['id'])) {
-        $dokumen_ad->edit();  // Panggil metode edit dengan ID
-      }
-      break;
-    case 'dokumen_ad/update':
-      $dokumen_ad->update($_GET['id']);
-      break;
-    case 'dokumen_ad/delete':
-      $dokumen_ad->destroy();
+    case 'dokumen/delete':
+      $dokumen->destroy();
       break;
     default:
       // Aksi default untuk page yang tidak dikenali

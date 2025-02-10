@@ -17,6 +17,8 @@ class Dokumen2Controller
         date_default_timezone_set(timezoneId: 'Asia/Jakarta');
     }
 
+
+
     public function index()
     {
         $kategori = isset($_GET['kategori']) ? $_GET['kategori'] : '';

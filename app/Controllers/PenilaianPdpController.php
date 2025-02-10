@@ -319,7 +319,7 @@ class PenilaianPdpController
         echo $dompdf->output();
     }
 
-    public function importFromExcel()
+    public function importToExcel()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
             $fileTmpPath = $_FILES['excel_file']['tmp_name'];
