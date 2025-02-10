@@ -57,6 +57,9 @@ if (isset($_SESSION['message'])) {
                                                 <a href="index.php?page=laporan-delete&id=<?= $laporan['id']; ?>" 
                                                    class="btn btn-danger btn-sm" 
                                                    onclick="return confirm('Are you sure you want to delete this data?')">Delete</a>
+                                                  <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exportPdfModal">
+                                                                Export PDF
+                                                            </button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -68,7 +71,7 @@ if (isset($_SESSION['message'])) {
                             </tbody>
                         </table>
                     </div>
-                    <h1 style="margin-top: 2rem;" class="card-title text-center">Export to PDF</h1>
+                    <!-- <h1 style="margin-top: 2rem;" class="card-title text-center">Export to PDF</h1>
                     <p class="text-danger text-center">sebelum export , filter Tanggal Jadwal yang akan di print , jika Jadwal hanya dilakukan sehari , maka samakan antara Tanggal mulai dan Tanggal selesai</p>  
                     <form id="form" method="POST" target="_blank" class="d-flex justify-content-center" action="index.php?page=laporan-export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>&unit=<?=$_GET['unit'] ??""?>">
                     <input type="hidden" name="page" value="laporan-list">
@@ -108,9 +111,62 @@ if (isset($_SESSION['message'])) {
                                 </div>
                                
                             </div>
+                    </form> -->
+                
+<!-- Modal -->
+<div class="modal fade" id="exportPdfModal" tabindex="-1" aria-labelledby="exportPdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportPdfModalLabel">Export to PDF</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                 <form id="form" method="POST" target="_blank" class="d-flex justify-content-center" action="index.php?page=laporan-export-pdf&start_date=<?= $_GET['start_date'] ?? '' ?>&end_date=<?= $_GET['end_date'] ?? '' ?>&unit=<?=$_GET['unit'] ??""?>">
+                    <input type="hidden" name="page" value="laporan-list">
+                            <div class="row flex-grow-1">
+                                <input type="hidden" name="page" value="laporan-list">
+                                <div class="col-md-6">
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="time_start">Waktu Mulai</label>
+                                        <input type="text" name="time_start" id="time_start" class="form-control"
+                                            value="<?= htmlspecialchars($_GET['waktu'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="time_end">Waktu Selesai</label>
+                                        <input type="text" name="time_end" id="time_end" class="form-control"
+                                            value="<?= htmlspecialchars($_GET['waktu'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="place">Tempat</label>
+                                        <input type="text" name="place" id="place" class="form-control"
+                                            value="<?= htmlspecialchars($_GET['tempat'] ?? ''); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="agenda">Agenda</label>
+                                        <input type="text" name="agenda" id="agenda" class="form-control"
+                                            value="<?= htmlspecialchars($_GET['agenda'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 1rem;" class="col-md-12">
+                                        <label for="member">Peserta</label>
+                                        <input type="text" name="member" id="member" class="form-control"
+                                            value="<?= htmlspecialchars($_GET['peserta'] ?? ''); ?>">
+                                    </div>
+                                    <div style="margin-top: 2rem;" class="col-md-12">
+                                    <button type="submit" style="left: 50%; transform: translateX(-50%);position: relative; margin-top:1rem;" class="btn btn-info">Export PDF</button>
+                                    </div>
+                                </div>
+                               
+                            </div>
                     </form>
-                  
-                  
+                
+            </div>
+        </div>
+    </div>
+</div>
+
                 </div>
             </div>
         </div>
