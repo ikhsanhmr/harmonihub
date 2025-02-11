@@ -60,7 +60,7 @@ class PenilaianPdpController
             $kpi = $_POST['kpi'];
             $uraian = $_POST['uraian'];
             $hasil_verifikasi = $_POST['hasil_verifikasi'];
-            $semester = $_POST['semseter'];
+            $semester = $_POST['semester'];
             $nilai = $_POST['nilai'];
             $tanggal = $_POST['tanggal'];
 
@@ -271,8 +271,8 @@ class PenilaianPdpController
                 foreach ($pdps as $pdp) {
                     $html .= '<tr>
                     <td style="padding: 8px; text-align: center;">' . $no++ . '</td>
-                    <td style="padding: 8px;">' . htmlspecialchars($pdp['user_nip']) . '</td>
                     <td style="padding: 8px;">' . htmlspecialchars($pdp['user_name']) . '</td>
+                    <td style="padding: 8px;">' . htmlspecialchars($pdp['user_nip']) . '</td>
                     <td style="padding: 8px;">' . htmlspecialchars($pdp['peran']) . '</td>
                     <td style="padding: 8px;">' . ($pdp['kpi']) . '</td>
                     <td style="padding: 8px;">' . ($pdp['uraian']) . '</td>
@@ -319,114 +319,143 @@ class PenilaianPdpController
         echo $dompdf->output();
     }
 
-    public function importToExcel()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['excel_file'])) {
-            $fileTmpPath = $_FILES['excel_file']['tmp_name'];
-            $fileName = $_FILES['excel_file']['name'];
-            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
+  public function importToExcel()
+{
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_FILES['excel_file'])) {
+        header("Location: index.php?page=penilaian-pdp-list&error=No file uploaded");
+        exit;
+    }
 
-            // Validasi file upload
-            $allowedExtensions = ['xlsx', 'xls', 'csv'];
-            if (!in_array($fileExtension, $allowedExtensions)) {
-                header("Location: index.php?page=penilaian-pdp-list&error=2");
-                exit;
-            }
+    $fileTmpPath = $_FILES['excel_file']['tmp_name'];
+    $fileName = $_FILES['excel_file']['name'];
+    $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-            try {
-                // Load file Excel
-                $spreadsheet = IOFactory::load($fileTmpPath);
-                $sheet = $spreadsheet->getActiveSheet();
-                $rows = $sheet->toArray();
+    // Validasi ekstensi file
+    $allowedExtensions = ['xlsx', 'xls', 'csv'];
+    if (!in_array($fileExtension, $allowedExtensions)) {
+        header("Location: index.php?page=penilaian-pdp-list&error=Invalid file format");
+        exit;
+    }
 
-                // Kolom yang harus ada di Excel
-                $requiredColumns = [
-                    'nama pegawai',
-                    'nip pegawai',
-                    'unit',
-                    'peran',
-                    'tidak tercantum pada kpi',
-                    'bukan uraian jabatan',
-                    'hasil verifikasi (ya/tidak)',
-                    'semester',
-                    'nilai',
-                    'tanggal'
-                ];
+    try {
+        // Load file Excel
+        $spreadsheet = IOFactory::load($fileTmpPath);
+        $sheet = $spreadsheet->getActiveSheet();
+        $rows = $sheet->toArray();
 
-                // Ambil header untuk validasi
-                $headers = array_map('strtolower', array_map('trim', $rows[0]));
-                foreach ($requiredColumns as $column) {
-                    if (!in_array($column, $headers)) {
-                        header("Location: index.php?page=penilaian-pdp-list&error=3");
-                        exit;
-                    }
-                }
-
-                // Loop data, mulai dari baris kedua (karena baris pertama adalah header)
-                for ($i = 1; $i < count($rows); $i++) {
-                    $rowData = array_combine($headers, $rows[$i]);
-
-                    // Ambil data dari baris
-                    $nama_pegawai = $rowData['nama pegawai'];
-                    $nip_pegawai = $rowData['nip pegawai'];
-                    $unit_name = $rowData['unit'];
-                    $peran = $rowData['peran'];
-                    $tidak_tercantum = $rowData['tidak tercantum pada kpi'];
-                    $bukan_uraian_jabatan = $rowData['bukan uraian jabatan'];
-                    $hasil_verifikasi = $rowData['hasil verifikasi (ya/tidak)'];
-                    $semester = $rowData['semester'];
-                    $nilai = $rowData['nilai'];
-                    $tanggal = date('Y-m-d', strtotime($rowData['tanggal']));
-
-                    // Cari `unit_id` berdasarkan nama unit
-                    $unitQuery = $this->db->prepare("SELECT id FROM units WHERE name = :name LIMIT 1");
-                    $unitQuery->execute([':name' => $unit_name]);
-                    $unit = $unitQuery->fetchColumn();
-
-                    if (!$unit) {
-                        header("Location: index.php?page=penilaian-pdp-list&error=Unit not found: " . $unit_name);
-                        exit;
-                    }
-
-                    // Cari pegawai berdasarkan NIP
-                    $pegawaiQuery = $this->db->prepare("SELECT id FROM anggota_serikats WHERE nip = :nip AND name = :name LIMIT 1");
-                    $pegawaiQuery->execute([':nip' => $nip_pegawai, ':name' => $nama_pegawai]);
-                    $pegawai_id = $pegawaiQuery->fetchColumn();
-
-                    if (!$pegawai_id) {
-                        header("Location: index.php?page=penilaian-pdp-list&error=4");
-                        exit;
-                    }
-
-                    // Query untuk menyimpan ke tabel `penilaian_pdp`
-                    $query = "INSERT INTO penilaian_pdp 
-                            (anggota_serikat_id, unit_id, peran, kpi, uraian, hasil_verifikasi, semester, nilai, tanggal) 
-                          VALUES 
-                            (:anggota_serikat_id, :unit_id, :peran, :kpi, :uraian, :hasil_verifikasi, :semester, :nilai, :tanggal)";
-
-                    $stmt = $this->db->prepare($query);
-                    $stmt->execute([
-                        ':anggota_serikat_id' => $pegawai_id,
-                        ':unit_id' => $unit,
-                        ':peran' => $peran,
-                        ':kpi' => $tidak_tercantum,
-                        ':uraian' => $bukan_uraian_jabatan,
-                        ':hasil_verifikasi' => $hasil_verifikasi,
-                        ':semester' => $semester,
-                        ':nilai' => $nilai,
-                        ':tanggal' => $tanggal,
-                    ]);
-                }
-
-                header("Location: index.php?page=penilaian-pdp-list&success=1");
-                exit;
-            } catch (Exception $e) {
-                header("Location: index.php?page=penilaian-pdp-list&error=3");
-                exit;
-            }
-        } else {
-            header("Location: index.php?page=penilaian-pdp-list&error=No file uploaded");
+        if (empty($rows) || count($rows) < 2) {
+            header("Location: index.php?page=penilaian-pdp-list&error=Empty file or missing data");
             exit;
         }
+
+        // Kolom yang harus ada
+        $requiredColumns = [
+            'nip pegawai', 'nama pegawai', 'peran', 'unit', 
+            'tidak tercantum pada kpi', 'bukan uraian jabatan', 
+            'hasil verifikasi (ya/tidak)', 'semester', 'nilai', 'tanggal'
+        ];
+
+        // Ambil header untuk validasi
+        $headers = array_map('strtolower', array_map('trim', $rows[0]));
+
+        foreach ($requiredColumns as $column) {
+            if (!in_array($column, $headers)) {
+                header("Location: index.php?page=penilaian-pdp-list&error=Missing columns");
+                exit;
+            }
+        }
+
+        $successCount = 0;
+        $errorCount = 0;
+
+        // Loop data mulai dari baris kedua
+        for ($i = 1; $i < count($rows); $i++) {
+            try {
+                // Ensure the row has the same number of elements as headers
+                if (count($rows[$i]) !== count($headers)) {
+                    $errorCount++;
+                    continue; // Skip if row does not match header count
+                }
+
+                $rowData = array_combine($headers, $rows[$i]);
+
+                // Ambil dan bersihkan data
+                $nama_pegawai = trim($rowData['nama pegawai']);
+                $nip_pegawai = trim($rowData['nip pegawai']);
+                $unit_name = trim($rowData['unit']);
+                $peran = trim($rowData['peran']);
+                $tidak_tercantum = trim($rowData['tidak tercantum pada kpi']);
+                $bukan_uraian_jabatan = trim($rowData['bukan uraian jabatan']);
+                $hasil_verifikasi = strtolower(trim($rowData['hasil verifikasi (ya/tidak)'])) === 'ya' ? 1 : 0;
+                $semester = (int) trim($rowData['semester']);
+                $nilai = is_numeric($rowData['nilai']) ? (float) trim($rowData['nilai']) : 0;
+
+                // Validasi dan konversi tanggal
+                $tanggal = date('Y-m-d', strtotime(str_replace('/', '-', trim($rowData['tanggal']))));
+
+                // Cari unit_id
+                $unitQuery = $this->db->prepare("SELECT id FROM units WHERE name = :name LIMIT 1");
+                $unitQuery->execute([':name' => $unit_name]);
+                $unit = $unitQuery->fetchColumn();
+
+                if (!$unit) {
+                    $errorCount++;
+                    continue; // Lewati jika unit tidak ditemukan
+                }
+
+                // Cari pegawai berdasarkan NIP
+                $pegawaiQuery = $this->db->prepare("SELECT id FROM anggota_serikats WHERE nip = :nip AND name = :name LIMIT 1");
+                $pegawaiQuery->execute([':nip' => $nip_pegawai, ':name' => $nama_pegawai]);
+                $pegawai_id = $pegawaiQuery->fetchColumn();
+
+                if (!$pegawai_id) {
+                    $errorCount++;
+                    continue; // Lewati jika pegawai tidak ditemukan
+                }
+
+                // Simpan data ke database
+                $query = "INSERT INTO penilaian_pdp 
+                        (anggota_serikat_id, unit_id, peran, kpi, uraian, hasil_verifikasi, semester, nilai, tanggal) 
+                        VALUES 
+                        (:anggota_serikat_id, :unit_id, :peran, :kpi, :uraian, :hasil_verifikasi, :semester, :nilai, :tanggal)";
+
+                $stmt = $this->db->prepare($query);
+                $stmt->execute([
+                    ':anggota_serikat_id' => $pegawai_id,
+                    ':unit_id' => $unit,
+                    ':peran' => $peran,
+                    ':kpi' => $tidak_tercantum,
+                    ':uraian' => $bukan_uraian_jabatan,
+                    ':hasil_verifikasi' => $hasil_verifikasi,
+                    ':semester' => $semester,
+                    ':nilai' => $nilai,
+                    ':tanggal' => $tanggal,
+                ]);
+
+                $successCount++;
+
+            } catch (Exception $e) {
+                $errorCount++;
+                // Optionally log the error message for debugging
+                // error_log($e->getMessage());
+                continue; // Lewati jika ada error
+            }
+        }
+
+        // Redirect dengan pesan sukses atau error
+        if ($successCount > 0) {
+            header("Location: index.php?page=penilaian-pdp-list&success={$successCount}");
+        } else {
+            header("Location: index.php?page=penilaian-pdp-list&error=No valid data imported");
+        }
+        exit;
+
+    } catch (Exception $e) {
+        // Optionally log the error message for debugging
+        // error_log($e->getMessage());
+        header("Location: index.php?page=penilaian-pdp-list&error=File processing error");
+        exit;
     }
+}
+
 }
