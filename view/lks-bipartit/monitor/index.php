@@ -32,6 +32,20 @@ if (isset($_SESSION['message'])) {
         });
     });
 </script>
+<style>
+.table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+    padding: 8px;
+}
+.table td {
+    white-space: normal;
+    word-wrap: break-word;
+}
+.text-center {
+    text-align: center;
+}
+</style>
 </head>
 <div class="content-wrapper">
     <div class="row">
@@ -83,97 +97,100 @@ if (isset($_SESSION['message'])) {
                     <div class="table-responsive pt-3">
                         <table class="table table-bordered data-table">
                             <thead>
-                                <tr class="text-center">
-                                    <th rowspan="2" class="text-center" width="50">No.</th>
-                                    <th rowspan="2">UNIT</th>
-                                    <th rowspan="2">BA PEMBENTUKAN</th>
-                                    <th rowspan="2">TANGGAL PENDAFTARAN BA</th>
-                                    <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>
-                                    <?php foreach ($bulans as $bulan): ?>
-                                        <th style="text-transform: uppercase;" colspan="6"><?= $bulan["name"]; ?></th>
-                                    <?php endforeach; ?>
-                                    <th rowspan="2" colspan="2" class="text-center" width="100">AKSI</th>
-                                </tr>
-                                <tr class="text-center">
-                                    <?php foreach ($serikats as $serikat): ?>
-                                            <th rowspan="1" class="text-center"><?= $serikat["name"] ?></th>
-                                    <?php endforeach; ?>
-                                    <?php for ($i = 1; $i < 13; $i++) : ?>
-                                        <th rowspan="1" class="text-center">TEMA PEMBAHASAN</th>
-                                        <th rowspan="1" class="text-center">REKOMENDASI</th>
-                                        <th rowspan="1" class="text-center">TINDAK LANJUT</th>
-                                        <th rowspan="1" class="text-center">EVALUASI</th>
-                                        <th rowspan="1" class="text-center">FOLLOW UP</th>
-                                        <th rowspan="1" class="text-center">REALISASI</th>
-                                    <?php endfor ?>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($monitors)) : ?>
-                                    <?php foreach ($monitors as $index => $monitor) : ?>
-                                        <tr>
-                                            <td><?= $index + 1; ?></td>
-                                           <td class="unit-name"><?= htmlspecialchars($monitor['unit_name']); ?></td>
-                                            <td><?= htmlspecialchars($monitor['ba_name']); ?></td>
-                                            <td><?= htmlspecialchars($monitor['ba_created_at']); ?></td>
-                                            <?php
-
-                                            $serikatNames = explode(",", $monitor['serikat_ids']);
-                                            $serikatValues = explode(",", $monitor['nilai_values']);
-
-                                            foreach ($serikatNames as $i => $name) {
-                                                echo "<td>" . htmlspecialchars($serikatValues[$i]) . "</td>";
-                                            }
-                                            ?>
-
-                                            <?php foreach ($bulans as $index => $bulan): ?>
-                                                <td><?= htmlspecialchars($monitor['tema_' . $index + 1] ?? '-'); ?></td>
-                                                <td>
-                                                    <?php
-                                                    $rekomendasi = $monitor['rekomendasi_' . ($index + 1)] ?? '-';
-echo htmlspecialchars(implode(' ', array_slice(explode(' ', $rekomendasi), 0, 7))) . (str_word_count($rekomendasi) > 7 ? '...' : '');
-?>
-</td>
-<td><?= htmlspecialchars($monitor['tindak_lanjut_' . ($index + 1)] ?? '-'); ?></td>
-<td><?= htmlspecialchars($monitor['evaluasi_' . ($index + 1)] ?? '-'); ?> <i class="mdi mdi-timer-sand"></i></td>
-<td><?= htmlspecialchars($monitor['follow_up_' . ($index + 1)] ?? '-'); ?></td>
-<?php
-$realisasiKey = 'realisasi_' . ($index + 1);
-$realisasi = isset($monitor[$realisasiKey]) ? $monitor[$realisasiKey] : null;
-if ($realisasi === '100%') { ?>
-    <td class="text-center" style="background-color: green;">
-        <?= htmlspecialchars($realisasi); ?>
-    </td>
-<?php } elseif ($realisasi === '0%') { ?>
-    <td class="text-center" style="background-color: red;">
-        <?= htmlspecialchars($realisasi); ?>
-    </td>
-<?php } else { ?>
-    <td class="text-center" style="background-color: yellow;">
-        <?= htmlspecialchars($realisasi ?? '-'); ?>
-    </td>
-<?php } ?>
-<?php endforeach; ?>
-<td><a href="index.php?page=monitor-jadwal-create&id=<?= $monitor["id"] ?>">Tambahkan Jadwal</a></td>
-<td class="text-center">
-    <!-- <a href="index.php?page=monitor-edit&id=<?= $monitor['id']; ?>" 
-       class="btn btn-warning btn-sm">Edit</a> -->
-    <form action="index.php?page=monitor-destroy&id=<?= $monitor['id']; ?>"
-        id="delete-<?= $monitor['id']; ?>" method="post" style="display:inline;">
-        <input type="hidden" name="csrf_token" value="<?= \Libraries\CSRF::generateToken(); ?>">
-        <button type="button" class="btn btn-danger btn-sm delete-btn"
-            data-id="<?= $monitor['id']; ?>">
-            Delete
-        </button>
-    </form>
-</td>
-</tr>
-<?php endforeach; ?>
-<?php else : ?>
-<tr>
-    <td colspan="9" class="text-center">Data tidak ditemukan.</td>
-</tr>
-<?php endif; ?>
+    <tr class="text-center">
+        <th rowspan="2" class="text-center" width="50">No.</th>
+        <th rowspan="2">UNIT</th>
+        <th rowspan="2">BA PEMBENTUKAN</th>
+        <th rowspan="2">TANGGAL PENDAFTARAN BA</th>
+        <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>
+        <th colspan="7">MONITORING KEGIATAN LKS BIPARTIT</th>
+        <th rowspan="2" colspan="2" class="text-center" width="100">AKSI</th>
+    </tr>
+    <tr class="text-center">
+        <?php foreach ($serikats as $serikat): ?>
+            <th rowspan="1" class="text-center"><?= $serikat["name"] ?></th>
+        <?php endforeach; ?>
+        <th class="text-center">BULAN</th>
+        <th class="text-center">TEMA PEMBAHASAN</th>
+        <th class="text-center">REKOMENDASI</th>
+        <th class="text-center">TINDAK LANJUT</th>
+        <th class="text-center">EVALUASI</th>
+        <th class="text-center">FOLLOW UP</th>
+        <th class="text-center">REALISASI</th>
+    </tr>
+</thead>
+<tbody>
+    <?php if (!empty($monitors)) : ?>
+        <?php foreach ($monitors as $monitorIndex => $monitor) : ?>
+            <?php foreach ($bulans as $bulanIndex => $bulan): ?>
+                <tr>
+                    <?php if ($bulanIndex === 0): ?>
+                        <td rowspan="12"><?= $monitorIndex + 1; ?></td>
+                        <td class="unit-name" rowspan="12"><?= htmlspecialchars($monitor['unit_name']); ?></td>
+                        <td rowspan="12"><?= htmlspecialchars($monitor['ba_name']); ?></td>
+                        <td rowspan="12"><?= htmlspecialchars($monitor['ba_created_at']); ?></td>
+                        <?php
+                        $serikatNames = explode(",", $monitor['serikat_ids']);
+                        $serikatValues = explode(",", $monitor['nilai_values']);
+                        foreach ($serikatNames as $i => $name) {
+                            echo "<td rowspan='12'>" . htmlspecialchars($serikatValues[$i]) . "</td>";
+                        }
+                        ?>
+                    <?php endif; ?>
+                    
+                    <td style="text-transform: uppercase;"><?= $bulan["name"]; ?></td>
+                    <td><?= htmlspecialchars($monitor['tema_' . ($bulanIndex + 1)] ?? '-'); ?></td>
+                    <td>
+                        <?php
+                        $rekomendasi = $monitor['rekomendasi_' . ($bulanIndex + 1)] ?? '-';
+                        echo htmlspecialchars(implode(' ', array_slice(explode(' ', $rekomendasi), 0, 7))) . 
+                             (str_word_count($rekomendasi) > 7 ? '...' : '');
+                        ?>
+                    </td>
+                    <td><?= htmlspecialchars($monitor['tindak_lanjut_' . ($bulanIndex + 1)] ?? '-'); ?></td>
+                    <td><?= htmlspecialchars($monitor['evaluasi_' . ($bulanIndex + 1)] ?? '-'); ?> 
+                        <i class="mdi mdi-timer-sand"></i>
+                    </td>
+                    <td><?= htmlspecialchars($monitor['follow_up_' . ($bulanIndex + 1)] ?? '-'); ?></td>
+                    <?php
+                    $realisasiKey = 'realisasi_' . ($bulanIndex + 1);
+                    $realisasi = isset($monitor[$realisasiKey]) ? $monitor[$realisasiKey] : null;
+                    if ($realisasi === '100%') { ?>
+                        <td class="text-center" style="background-color: green;">
+                    <?php } elseif ($realisasi === '0%') { ?>
+                        <td class="text-center" style="background-color: red;">
+                    <?php } else { ?>
+                        <td class="text-center" style="background-color: yellow;">
+                    <?php } ?>
+                        <?= htmlspecialchars($realisasi ?? '-'); ?>
+                    </td>
+                    
+                    <?php if ($bulanIndex === 0): ?>
+                        <td rowspan="12">
+                            <a href="index.php?page=monitor-jadwal-create&id=<?= $monitor["id"] ?>">
+                                Tambahkan Jadwal
+                            </a>
+                        </td>
+                        <td class="text-center" rowspan="12">
+                            <form action="index.php?page=monitor-destroy&id=<?= $monitor['id']; ?>"
+                                id="delete-<?= $monitor['id']; ?>" method="post" style="display:inline;">
+                                <input type="hidden" name="csrf_token" 
+                                       value="<?= \Libraries\CSRF::generateToken(); ?>">
+                                <button type="button" class="btn btn-danger btn-sm delete-btn"
+                                        data-id="<?= $monitor['id']; ?>">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <tr>
+            <td colspan="15" class="text-center">Data tidak ditemukan.</td>
+        </tr>
+    <?php endif; ?>
 </tbody>
                         </table>
                     </div>
