@@ -10,6 +10,7 @@ vendor/
 
 # Ignore dependency files
 composer.lock
+composer.json
 
 # production migration
 migration.prod.py

@@ -14,7 +14,7 @@ use Respect\Validation\Validator as v;
             $this->db = Database::getInstance();
         }
 
-        public function index($tahun = null) {
+        public function index($tahun = null, $unit = null) {
             // Ambil data monitor
             $stmt = $this->db->prepare("SELECT id FROM monitor_lks_bipartit");
             $stmt->execute();
@@ -74,6 +74,7 @@ use Respect\Validation\Validator as v;
                         WHERE 
                             m.id = ?
                             " . ($tahun ? " AND YEAR(b.created_at) = ?" : "") . "  -- Filter berdasarkan tahun jika ada
+                            " . ($unit ? " AND u.id = ?" : "") . "  -- Filter berdasarkan unit jika ada
                         GROUP BY 
                             m.id, u.name, b.name, b.created_at;
                     ";
@@ -81,7 +82,10 @@ use Respect\Validation\Validator as v;
                     $stmt = $this->db->prepare($sql);
                     if ($tahun) {
                         $stmt->execute([$idMonitor['id'], $tahun]); // Gunakan positional parameters
-                    } else {
+                    } elseif ($unit) {
+                        $stmt->execute([$idMonitor['id'], $unit]);
+                     } // Gunakan positional parameters
+                     else {
                         $stmt->execute([$idMonitor['id']]);
                     }
                 } else {
@@ -120,7 +124,11 @@ use Respect\Validation\Validator as v;
                     $stmt = $this->db->prepare($sql);
                     if ($tahun) {
                         $stmt->execute([$idMonitor['id'], $tahun]); // Gunakan positional parameters
-                    } else {
+                    }  elseif ($unit) {
+                        $stmt->execute([$idMonitor['id'], $unit]);
+                    } // Gunakan positional parameters
+                    
+                    else {
                         $stmt->execute([$idMonitor['id']]);
                     }
                 }
@@ -139,6 +147,11 @@ use Respect\Validation\Validator as v;
             $stmt = $this->db->prepare("SELECT * FROM serikat");
             $stmt->execute();
             $serikats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+             // Ambil data unit
+        $stmt = $this->db->prepare("SELECT id, name FROM units");
+        $stmt->execute();
+        $units = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
             include "view/lks-bipartit/monitor/index.php";
         }
