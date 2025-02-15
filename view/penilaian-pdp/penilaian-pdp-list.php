@@ -188,7 +188,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
             <div class="modal-body">
                 <form action="index.php?page=penilaian-pdp-importexcell" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                       <span><a href="/harmoni/view/penilaian-pdp/excel.xlsx">Download Format Import</a></span> 
+                       <span><a href="/harmoni/view/penilaian-pdp/format_import_pdp.xlsx">Download Format Import</a></span> 
                     </div>
                     <div class="form-group">
                         <label for="importExcell">Import Excel</label>
