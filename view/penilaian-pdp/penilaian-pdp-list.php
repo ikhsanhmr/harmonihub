@@ -13,7 +13,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
 } elseif (isset($_GET['error']) && $_GET['error'] == 4) {
     echo AlertHelper::showAlert('warning', 'Import data sebagian gagal', 'Ada nama pegawai yang tidak ada di database');
 } elseif (isset($_GET['success']) && $_GET['success'] == 1) {
-    echo AlertHelper::showAlert('error', 'Import Berhasil', 'Berhasil import data', 1000000);
+    echo AlertHelper::showAlert('success', 'Import Berhasil', 'Berhasil import data', 1000000);
 }
 
 
@@ -192,7 +192,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
                     </div>
                     <div class="form-group">
                         <label for="importExcell">Import Excel</label>
-                        <input type="file" name="excel_file" class="form-control form-control-sm" id="importExcell" required>
+                        <input type="file" name="excel_file" class="form-control form-control-sm" id="importToExcell" required>
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-sm">Import</button>
