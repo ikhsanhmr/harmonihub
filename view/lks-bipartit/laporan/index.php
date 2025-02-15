@@ -62,7 +62,7 @@ if (isset($_SESSION['message'])) {
                                                             </button>
                                             </td>
                                         </tr>
-                                    <?php endforeach; ?>
+                                    <?php endforeach; ?> 
                                 <?php else : ?>
                                     <tr>
                                         <td colspan="9" class="text-center">Data tidak ditemukan.</td>
