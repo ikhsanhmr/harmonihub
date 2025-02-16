@@ -15,6 +15,7 @@ if (isset($_SESSION['message'])) {
 <head>
     <!-- ...existing head content... -->
      <script>
+
    document.addEventListener('DOMContentLoaded', function() {
     const tahunSelect = document.getElementById('tahun');
     const unitFilter = document.getElementById('unitFilter');

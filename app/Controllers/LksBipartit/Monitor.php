@@ -33,6 +33,7 @@ use Respect\Validation\Validator as v;
             $dynamicColumns = implode(",\n    ", $columns);
         
             $data = [];
+
     foreach ($idMonitors as $idMonitor) {
         $sql = "
             SELECT 
@@ -84,7 +85,6 @@ use Respect\Validation\Validator as v;
         if ($unit) {
             $params['unit'] = $unit;
         }
-        
         $stmt->execute($params);
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if (!empty($result)) {
