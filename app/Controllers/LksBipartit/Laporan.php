@@ -72,7 +72,7 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
-        $unit = $_GET['unit'] ?? null;
+        $unit = $_GET['unit_id'] ?? null;
         $time_start = $_POST["time_start"];
         $time_end = $_POST["time_end"];
         $place = $_POST["place"];

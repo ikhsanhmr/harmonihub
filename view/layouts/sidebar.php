@@ -57,11 +57,11 @@ $rolename = $_SESSION['role_name'];
         } else if ($rolename == "unit") {
         ?>
             <li class="nav-item <?= in_array($current_page, ['unit-list']) ? 'active' : '' ?>">
-                <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="false" aria-controls="ui-basic">
+                <!-- <a class="nav-link" data-toggle="collapse" href="#master" aria-expanded="false" aria-controls="ui-basic">
                     <i class="icon-contract menu-icon"></i>
                     <span class="menu-title">Master Data</span>
                     <i class="menu-arrow"></i>
-                </a>
+                </a> -->
                 <div class="collapse <?= in_array($current_page, ['unit-list']) ? 'show' : '' ?>" id="master">
                     <ul class="nav flex-column sub-menu">
 

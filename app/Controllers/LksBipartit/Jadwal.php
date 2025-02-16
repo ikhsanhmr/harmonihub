@@ -47,7 +47,11 @@ class Jadwal
     public function fetchJadwal()
     {
         header('Content-Type: application/json');
-        $qry = $this->db->query("SELECT namaAgenda AS title, tanggal_start AS start, tanggal_end AS end FROM jadwal_lks_bipartit");
+        $qry = $this->db->query("SELECT j.namaAgenda AS title, j.tanggal_start AS start, j.tanggal_end AS end, u.name AS unit
+                                    FROM jadwal_lks_bipartit j
+                                    JOIN tema_lks_bipartit t ON j.temaId = t.id
+                                    JOIN units u ON j.unitId = u.id");
+        
         $events = $qry->fetchAll(PDO::FETCH_ASSOC);
         // Tambahkan satu hari ke setiap tanggal_end
         foreach ($events as &$event) {

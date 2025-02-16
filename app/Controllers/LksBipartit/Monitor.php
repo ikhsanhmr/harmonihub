@@ -33,128 +33,84 @@ use Respect\Validation\Validator as v;
             $dynamicColumns = implode(",\n    ", $columns);
         
             $data = [];
-            foreach ($idMonitors as $idMonitor) {
-                $stmt = $this->db->prepare("SELECT monitor_id FROM date_monitor_lks_bipartit WHERE monitor_id = ?");
-                $stmt->execute([$idMonitor['id']]);
-                $dmlb = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-                if ($dmlb) {
-                    // Query jika ada data dmlb
-                    $sql = "
-                        SELECT 
-                            m.id AS id, 
-                            u.name AS unit_name, 
-                            b.name AS ba_name, 
-                            b.created_at AS ba_created_at, 
-                            $dynamicColumns,
-                            ms.serikat_ids,
-                            ms.nilai_values
-                        FROM 
-                            date_monitor_lks_bipartit dmlb
-                        JOIN 
-                            monitor_lks_bipartit m ON m.id = dmlb.monitor_id
-                        JOIN 
-                            tema_lks_bipartit tlb ON tlb.id = dmlb.tema_id  
-                        JOIN 
-                            bulan ON bulan.id = dmlb.bulan_id  
-                        JOIN 
-                            units u ON u.id = m.unit_id 
-                        JOIN 
-                            ba_pembentukan b ON b.id = m.ba_id
-                        LEFT JOIN 
-                            (SELECT 
-                                monitor_id, 
-                                GROUP_CONCAT(DISTINCT serikat_id ORDER BY serikat_id ASC) AS serikat_ids,
-                                GROUP_CONCAT(nilai ORDER BY serikat_id ASC) AS nilai_values
-                            FROM 
-                                monitor_serikat
-                            GROUP BY 
-                                monitor_id) 
-                            ms ON ms.monitor_id = m.id
-                        WHERE 
-                            m.id = ?
-                            " . ($tahun ? " AND YEAR(b.created_at) = ?" : "") . "  -- Filter berdasarkan tahun jika ada
-                            " . ($unit ? " AND u.id = ?" : "") . "  -- Filter berdasarkan unit jika ada
-                        GROUP BY 
-                            m.id, u.name, b.name, b.created_at;
-                    ";
-        
-                    $stmt = $this->db->prepare($sql);
-                    if ($tahun) {
-                        $stmt->execute([$idMonitor['id'], $tahun]); // Gunakan positional parameters
-                    } elseif ($unit) {
-                        $stmt->execute([$idMonitor['id'], $unit]);
-                     } // Gunakan positional parameters
-                     else {
-                        $stmt->execute([$idMonitor['id']]);
-                    }
-                } else {
-                    // Query jika tidak ada data dmlb
-                    $sql = "
-                        SELECT 
-                            m.id AS id, 
-                            u.name AS unit_name, 
-                            b.name AS ba_name, 
-                            b.created_at AS ba_created_at, 
-                            ms.serikat_ids,
-                            ms.nilai_values
-                        FROM 
-                            monitor_lks_bipartit m
-                        JOIN 
-                            units u ON u.id = m.unit_id 
-                        JOIN 
-                            ba_pembentukan b ON b.id = m.ba_id
-                        LEFT JOIN 
-                            (SELECT 
-                                monitor_id, 
-                                GROUP_CONCAT(DISTINCT serikat_id ORDER BY serikat_id ASC) AS serikat_ids,
-                                GROUP_CONCAT(nilai ORDER BY serikat_id ASC) AS nilai_values
-                            FROM 
-                                monitor_serikat
-                            GROUP BY 
-                                monitor_id) 
-                            ms ON ms.monitor_id = m.id
-                        WHERE 
-                            m.id = ?
-                            " . ($tahun ? " AND YEAR(b.created_at) = ?" : "") . "  -- Filter berdasarkan tahun jika ada
-                        GROUP BY 
-                            m.id, u.name, b.name, b.created_at;
-                    ";
-        
-                    $stmt = $this->db->prepare($sql);
-                    if ($tahun) {
-                        $stmt->execute([$idMonitor['id'], $tahun]); // Gunakan positional parameters
-                    }  elseif ($unit) {
-                        $stmt->execute([$idMonitor['id'], $unit]);
-                    } // Gunakan positional parameters
-                    
-                    else {
-                        $stmt->execute([$idMonitor['id']]);
-                    }
-                }
-        
-                $data[] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-        
-            $monitors = array_merge(...$data);
-        
-            // Ambil data bulan
-            $stmt = $this->db->prepare("SELECT * FROM bulan");
-            $stmt->execute();
-            $bulans = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-            // Ambil data serikat
-            $stmt = $this->db->prepare("SELECT * FROM serikat");
-            $stmt->execute();
-            $serikats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-             // Ambil data unit
-        $stmt = $this->db->prepare("SELECT id, name FROM units");
-        $stmt->execute();
-        $units = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($idMonitors as $idMonitor) {
+        $sql = "
+            SELECT 
+                m.id AS id, 
+                u.name AS unit_name,
+                u.id AS unit_id, 
+                b.name AS ba_name, 
+                b.created_at AS ba_created_at, 
+                $dynamicColumns,
+                ms.serikat_ids,
+                ms.nilai_values
+            FROM 
+                monitor_lks_bipartit m
+            JOIN 
+                units u ON u.id = m.unit_id 
+            JOIN 
+                ba_pembentukan b ON b.id = m.ba_id
+            LEFT JOIN 
+                date_monitor_lks_bipartit dmlb ON m.id = dmlb.monitor_id
+            LEFT JOIN 
+                tema_lks_bipartit tlb ON tlb.id = dmlb.tema_id  
+            LEFT JOIN 
+                bulan ON bulan.id = dmlb.bulan_id  
+            LEFT JOIN 
+                (SELECT 
+                    monitor_id, 
+                    GROUP_CONCAT(DISTINCT serikat_id ORDER BY serikat_id ASC) AS serikat_ids,
+                    GROUP_CONCAT(nilai ORDER BY serikat_id ASC) AS nilai_values
+                FROM 
+                    monitor_serikat
+                GROUP BY 
+                    monitor_id) 
+                ms ON ms.monitor_id = m.id
+            WHERE 
+                m.id = :monitor_id
+                " . ($tahun ? " AND YEAR(b.created_at) = :tahun" : "") . "
+                " . ($unit ? " AND u.id = :unit" : "") . "
+            GROUP BY 
+                m.id, u.name, b.name, b.created_at
+        ";
+
+        $stmt = $this->db->prepare($sql);
         
-            include "view/lks-bipartit/monitor/index.php";
+        // Bind parameters
+        $params = ['monitor_id' => $idMonitor['id']];
+        if ($tahun) {
+            $params['tahun'] = $tahun;
         }
+        if ($unit) {
+            $params['unit'] = $unit;
+        }
+        $stmt->execute($params);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (!empty($result)) {
+            $data[] = $result;
+        }
+    }
+
+    $monitors = !empty($data) ? array_merge(...$data) : [];
+
+    // Get bulan data
+    $stmt = $this->db->prepare("SELECT * FROM bulan");
+    $stmt->execute();
+    $bulans = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Get serikat data
+    $stmt = $this->db->prepare("SELECT * FROM serikat");
+    $stmt->execute();
+    $serikats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Get units data
+    $stmt = $this->db->prepare("SELECT id, name FROM units");
+    $stmt->execute();
+    $units = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    include "view/lks-bipartit/monitor/index.php";
+}
 
         public function create()  {
             $stmt = $this->db->prepare("select * from units");
