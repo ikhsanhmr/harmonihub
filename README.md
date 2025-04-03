@@ -11,6 +11,23 @@ Sistem Sharing Industrial Relations UID (SIRU) memungkinkan pengelolaan hubungan
 3. `composer install`
 4. run local server
 
+## Stack
+- front-end:
+  - CSS:
+    - feather, themify-icons, materialdesignicons
+    - bootstrap5, datatable-bs4
+  - JS:
+    - fullcalendar [6.1.15], sweetalert2@11
+    - bootstrap5, datatable, datatable-bs4
+    - offcanvas, hoverable-collapse, setting, todolist
+    - dashboard, chart.roundedBarChart
+- backend:
+  - "respect/validation": "^2.3",
+  - "dompdf/dompdf": "^3.0",
+  - "phpoffice/phpspreadsheet": "^4.0",
+  - "vlucas/phpdotenv": "^5.6",
+  - "maatwebsite/excel": "^2.1"
+
 ## Role
 - "admin" | pw: K@rtini23
 - "user" | pw: K@rtini23
