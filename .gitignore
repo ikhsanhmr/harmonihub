@@ -1,16 +1,19 @@
+# Ignore vendor directory
+vendor/
+
+# Ignore dependency lock version
+composer.lock
+
 # Ignore specific directories in uploads
 uploads/users/
 uploads/dsp/
 uploads/serikat/
 uploads/dokumen/
 uploads/info-siru/
-
-# Ignore vendor directory
-vendor/
-
-# Ignore dependency files
-composer.lock
-composer.json
+uploads/data-lks-bipartit/
 
 # production migration
 migration.prod.py
+
+# for documenting
+job.txt

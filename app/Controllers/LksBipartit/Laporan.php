@@ -8,6 +8,7 @@ use Libraries\Database;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use IntlDateFormatter;
+use PDOException;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator as v;
 class Laporan
@@ -38,16 +39,16 @@ class Laporan
             FROM laporan_lks_bipartit l
             JOIN units u ON l.unit_id = u.id";
 
-            
+
         if ($unit !== null) {
             $sql .= " where u.id = :unit";
             $params['unit'] = $unit;
         }
-       
+
         if ($start_date && $end_date) {
-            if(strpos(strtolower($sql) , "where") !==false){
+            if (strpos(strtolower($sql), "where") !== false) {
                 $sql .= " and l.tanggal BETWEEN :start_date AND :end_date";
-            }else{
+            } else {
                 $sql .= " where l.tanggal BETWEEN :start_date AND :end_date";
             }
             $params['start_date'] = $start_date;
@@ -55,7 +56,7 @@ class Laporan
         }
 
         $sql .= " ORDER BY l.created_at DESC";
-        
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
         $laporans = $stmt->fetchAll();
@@ -63,7 +64,7 @@ class Laporan
         $stmt = $this->db->prepare("select id , name from units");
         $stmt->execute();
         $units = $stmt->fetchAll();
-        
+
 
         include 'view/lks-bipartit/laporan/index.php';
     }
@@ -79,7 +80,7 @@ class Laporan
         $agenda = $_POST["agenda"];
         $member = $_POST["member"];
 
-        $dateTable= "";
+        $dateTable = "";
         $fmt = new IntlDateFormatter(
             'id_ID', // Locale untuk bahasa Indonesia
             IntlDateFormatter::FULL,
@@ -87,12 +88,12 @@ class Laporan
         );
         $params = [];
 
-        if($unit !== null){
+        if ($unit !== null) {
             $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
             FROM laporan_lks_bipartit l
             JOIN units u ON l.unit_id = u.id where l.unit_id = :unit";
-            $params = ["unit"=>$unit];
-        }else{
+            $params = ["unit" => $unit];
+        } else {
             $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
             FROM laporan_lks_bipartit l
             JOIN units u ON l.unit_id = u.id";
@@ -100,18 +101,18 @@ class Laporan
 
         }
 
-       
+
         if ($start_date && $end_date) {
             if ($start_date == $end_date) {
                 $dateTable = $fmt->format(new DateTime($start_date));
             } else {
-                $dateTable = $fmt->format(new DateTime($start_date)) . ' s/d ' .        $fmt->format(new DateTime($end_date));
+                $dateTable = $fmt->format(new DateTime($start_date)) . ' s/d ' . $fmt->format(new DateTime($end_date));
                 $sql .= " WHERE l.tanggal BETWEEN :start_date AND :end_date";
                 $params['start_date'] = $start_date;
                 $params['end_date'] = $end_date;
             }
         }
-        
+
 
         $sql .= " ORDER BY l.created_at DESC";
 
@@ -124,21 +125,21 @@ class Laporan
         $stmtKetua = $this->db->prepare($sqlKetua);
         $stmtKetua->execute([$unit]);
         $ketua = $stmtKetua->fetch(); // Mengambil satu data Ketua
-        
-        
+
+
         // Mulai Membuat PDF
         $html = '<h3 style="text-align: center;font-family: Arial, sans-serif;">
         LAPORAN PROGRESS KEGIATAN DAN TINDAK LANJUT LKS BIPARTIT<br>
         PT PLN (PERSERO) UNIT INDUK DISTRIBUSI SUMATERA SELATAN, JAMBI, DAN BENGKULU<br>
         
         BULAN NOVEMBER TAHUN 2024</h3>';
-        
-       
+
+
         if ($start_date && $end_date) {
-            
-            $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Hari dan Tanggal:</strong> ' .  $dateTable . '</p>';
+
+            $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Hari dan Tanggal:</strong> ' . $dateTable . '</p>';
         }
-        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Waktu:</strong> ' .$time_start .' - ' . $time_end . '</p>';
+        $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Waktu:</strong> ' . $time_start . ' - ' . $time_end . '</p>';
         $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Tempat:</strong> ' . $place . '</p>';
         $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Agenda:</strong> ' . $agenda . '</p>';
         $html .= '<p style="font-family: Arial, sans-serif;margin:1rem"><strong>Peserta:</strong> ' . $member . '</p>';
@@ -160,11 +161,11 @@ class Laporan
         foreach ($laporans as $laporan) {
             $html .= '<tr style="font-family: Arial, sans-serif;">';
             $html .= '<td style="padding:0.8rem;">' . $no++ . '</td>';
-            $html .= '<td style="padding:0.8rem;">' .$fmt->format(new DateTime($laporan["tanggal"]))  . '</td>';
+            $html .= '<td style="padding:0.8rem;">' . $fmt->format(new DateTime($laporan["tanggal"])) . '</td>';
             $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['topik_bahasan']) . '</td>';
             $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['latar_belakang']) . '</td>';
             $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['rekomendasi']) . '</td>';
-            $html .= '<td style="padding:0.8rem;">' . $fmt->format(new DateTime($laporan["tanggal_tindak_lanjut"])). '</td>';
+            $html .= '<td style="padding:0.8rem;">' . $fmt->format(new DateTime($laporan["tanggal_tindak_lanjut"])) . '</td>';
             $html .= '<td style="padding:0.8rem;">' . htmlspecialchars($laporan['uraian_tindak_lanjut']) . '</td>';
             $html .= '</tr>';
         }
@@ -177,7 +178,7 @@ class Laporan
         } else {
             $html .= '<p><strong>Data Ketua tidak ditemukan.</strong></p>';
         }
-        
+
         $options = new Options();
         $options->set('isHtml5ParserEnabled', true);
         $options->set('isPhpEnabled', true);
@@ -247,6 +248,50 @@ class Laporan
         $units = $stmt->fetchAll();
 
         include 'view/lks-bipartit/laporan/edit.php';
+    }
+
+
+    public function importPdf()
+    {
+        // Periksa apakah ada file yang diunggah
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["pdf_file"])) {
+            $pdf_id = $_POST["pdf_id"]; // ID dari tombol
+            $file = $_FILES["pdf_file"];
+
+            $file_name = basename($file["name"]);
+            $file_tmp = $file["tmp_name"];
+            $upload_dir = "uploads/data-lks-bipartit/"; // Folder tujuan penyimpanan
+
+            // Pastikan folder uploads/ ada
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            // Simpan file ke folder uploads dengan nama unik
+            $new_file_name = time() . "_" . $file_name;
+            $target_path = $upload_dir . $new_file_name;
+
+            if (move_uploaded_file($file_tmp, $target_path)) {  
+                try {
+                    // Simpan nama file ke database
+                    $stmt = $this->db->prepare("UPDATE laporan_lks_bipartit SET pdf_name = ? WHERE id = ?");
+                    $stmt->execute([$new_file_name, $pdf_id]);
+
+                    // Redirect ke halaman laporan-list dengan parameter success
+                    header('Location: index.php?page=laporan-list&success=1');
+                    exit();
+
+                } catch (PDOException $e) {
+                    echo "Error: " . $e->getMessage();
+                } finally {
+                    $stmt = null; // Tutup statement
+                }
+            } else {
+                echo "Gagal mengunggah file ke server.";
+            }
+        } else {
+            echo "Tidak ada file yang diunggah.";
+        }
     }
 
     public function update($id)

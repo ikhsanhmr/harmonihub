@@ -1,5 +1,5 @@
 <?php
-// kode untuk menjalankan composer install secara otomatis
+// kode untuk menjalankan composer install secara otomatis setelah di deploy ke server
 // untuk sekarang masih gagal
 // folder vendor di push secara manual
 $secret = 'harmonigo'; // Ganti dengan token rahasia
