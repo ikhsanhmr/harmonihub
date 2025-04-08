@@ -36,46 +36,46 @@ final class Monitor
 
         $data = [];
 
-        foreach ($idMonitors as $key => $idMonitor) {
+        foreach ($idMonitors as $idMonitor) {
             $sql = "
-            SELECT 
-                m.id AS id, 
-                u.name AS unit_name,
-                u.id AS unit_id, 
-                b.name AS ba_name, 
-                b.created_at AS ba_created_at, 
-                $dynamicColumns,
-                ms.serikat_ids,
-                ms.nilai_values
-            FROM 
-                monitor_lks_bipartit m
-            JOIN 
-                units u ON u.id = m.unit_id 
-            JOIN 
-                ba_pembentukan b ON b.id = m.ba_id
-            LEFT JOIN 
-                date_monitor_lks_bipartit dmlb ON m.id = dmlb.monitor_id
-            LEFT JOIN 
-                tema_lks_bipartit tlb ON tlb.id = dmlb.tema_id  
-            LEFT JOIN 
-                bulan ON bulan.id = dmlb.bulan_id  
-            LEFT JOIN 
-                (SELECT 
-                    monitor_id, 
-                    GROUP_CONCAT(DISTINCT serikat_id ORDER BY serikat_id ASC) AS serikat_ids,
-                    GROUP_CONCAT(nilai ORDER BY serikat_id ASC) AS nilai_values
+                SELECT 
+                    m.id AS id, 
+                    u.name AS unit_name,
+                    u.id AS unit_id, 
+                    b.name AS ba_name, 
+                    b.created_at AS ba_created_at, 
+                    $dynamicColumns,
+                    ms.serikat_ids,
+                    ms.nilai_values
                 FROM 
-                    monitor_serikat
+                    monitor_lks_bipartit m
+                JOIN 
+                    units u ON u.id = m.unit_id 
+                JOIN 
+                    ba_pembentukan b ON b.id = m.ba_id
+                LEFT JOIN 
+                    date_monitor_lks_bipartit dmlb ON m.id = dmlb.monitor_id
+                LEFT JOIN 
+                    tema_lks_bipartit tlb ON tlb.id = dmlb.tema_id  
+                LEFT JOIN 
+                    bulan ON bulan.id = dmlb.bulan_id  
+                LEFT JOIN 
+                    (SELECT 
+                        monitor_id, 
+                        GROUP_CONCAT(DISTINCT serikat_id ORDER BY serikat_id ASC) AS serikat_ids,
+                        GROUP_CONCAT(nilai ORDER BY serikat_id ASC) AS nilai_values
+                    FROM 
+                        monitor_serikat
+                    GROUP BY 
+                        monitor_id) 
+                    ms ON ms.monitor_id = m.id
+                WHERE 
+                    m.id = :monitor_id" .
+                ($tahun ? " AND YEAR(b.created_at) = :tahun" : "") .
+                ($unit ? " AND u.id = :unit" : "") . "
                 GROUP BY 
-                    monitor_id) 
-                ms ON ms.monitor_id = m.id
-            WHERE 
-                m.id = :monitor_id
-                " . ($tahun ? " AND YEAR(b.created_at) = :tahun" : "") . "
-                " . ($unit ? " AND u.id = :unit" : "") . "
-            GROUP BY 
-                m.id, u.name, b.name, b.created_at
-        ";
+                    m.id, u.name, b.name, b.created_at
+            ";
 
             $stmt = $this->db->prepare($sql);
 
@@ -87,25 +87,27 @@ final class Monitor
             if ($unit) {
                 $params['unit'] = $unit;
             }
-            $stmt->execute($params);
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // ambil ba_perubahan.name & laporan_lks_bipartit.pdf_name on unit.id = ba_perubahan.unit_id
-            $stmt = $this->db->prepare('
-                SELECT ba_perubahan.name AS ba_perubahan_name, laporan_lks_bipartit.pdf_name
-                FROM ba_perubahan
-                LEFT JOIN laporan_lks_bipartit ON ba_perubahan.id = laporan_lks_bipartit.ba_perubahan_id
-                WHERE ba_perubahan.unit_id = :unit_id');
-            $stmt->execute(['unit_id'=> '1']);
-            $resultBAPerNLaporan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->execute($params);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC); // gunakan fetch satu baris
 
             if (!empty($result)) {
-                $result[$key]['ba_perubahan_laporan'] = $resultBAPerNLaporan; // Tambahkan hasil query kedua ke dalam `$result`
-                $data[] = $result;
+                // Ambil ba_perubahan dan laporan hanya untuk unit terkait
+                $stmtBAP = $this->db->prepare("
+                    SELECT ba_perubahan.name, laporan_lks_bipartit.topik_bahasan, laporan_lks_bipartit.pdf_name
+                    FROM ba_perubahan
+                    LEFT JOIN laporan_lks_bipartit ON ba_perubahan.id = laporan_lks_bipartit.ba_perubahan_id
+                    WHERE ba_perubahan.unit_id = :unit_id
+                ");
+                $stmtBAP->execute(['unit_id' => $result['unit_id']]);
+                $resultBAPerNLaporan = $stmtBAP->fetchAll(PDO::FETCH_ASSOC);
+
+                $result['ba_perubahan_laporan'] = $resultBAPerNLaporan;
+                $data[] = $result; // simpan per item (bukan $result[])
             }
         }
 
-        $monitors = !empty($data) ? array_merge(...$data) : [];
+        $monitors = $data;
 
         // Get bulan data
         $stmt = $this->db->prepare("SELECT * FROM bulan");
