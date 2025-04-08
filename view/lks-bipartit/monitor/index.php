@@ -150,7 +150,7 @@ if (isset($_SESSION['message'])) {
                                     <th rowspan="2">PDF BA PERUBAHAN</th>
                                     <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>
                                     <th colspan="7">MONITORING KEGIATAN LKS BIPARTIT</th>
-                                    <th rowspan="2" colspan="2" class="text-center" width="100">AKSI</th>
+                                    <th rowspan="2" class="text-center" width="100">AKSI</th>
                                 </tr>
                                 <tr class="text-center">
                                     <?php foreach ($serikats as $serikat): ?>
@@ -240,8 +240,6 @@ if (isset($_SESSION['message'])) {
                                                             href="index.php?page=monitor-jadwal-create&id=<?= htmlspecialchars($monitor['id'] ?? ''); ?>">
                                                             Tambahkan Jadwal
                                                         </a>
-                                                    </td>
-                                                    <td class="text-center" rowspan="12">
                                                         <form
                                                             action="index.php?page=monitor-destroy&id=<?= htmlspecialchars($monitor['id'] ?? ''); ?>"
                                                             id="delete-<?= htmlspecialchars($monitor['id'] ?? ''); ?>" method="post"

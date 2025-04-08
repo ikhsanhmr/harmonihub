@@ -1,9 +1,7 @@
 <?php
 
 ob_start(); // Mulai output buffering
-
 ?>
-
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -16,11 +14,11 @@ ob_start(); // Mulai output buffering
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="unit_id">Unit</label>
-                                    <select class="form-control" id="unit_id" name="unit_id" required>
-                                        <option value="" selected disabled>Pilih Unit</option>
-                                        <?php foreach ($units as $unit): ?>
-                                            <option value="<?= $unit['id']; ?>"><?= $unit['name']; ?></option>
+                                    <label for="ba_perubahan_id">BA Perubahan</label>
+                                    <select class="form-control" id="ba_perubahan_id" name="ba_perubahan_id" required>
+                                        <option value="" selected disabled>Pilih BA Perubahan</option>
+                                        <?php foreach ($baPerubahans as $baPerubahan): ?>
+                                            <option value="<?= $baPerubahan['id']; ?>"><?= $baPerubahan['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -30,25 +28,30 @@ ob_start(); // Mulai output buffering
                                 </div>
                                 <div class="form-group">
                                     <label for="topik_bahasan">Topik Bahasan</label>
-                                    <textarea rows="6" cols="20" name="topik_bahasan" id="topik_bahasan" class="form-control"></textarea>
+                                    <textarea rows="6" cols="20" name="topik_bahasan" id="topik_bahasan"
+                                        class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="latar_belakang">Latar Belakang</label>
-                                    <textarea rows="6" cols="20" name="latar_belakang" id="latar_belakang" class="form-control"></textarea>
+                                    <textarea rows="6" cols="20" name="latar_belakang" id="latar_belakang"
+                                        class="form-control"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="rekomendasi">Rekomendasi</label>
-                                    <textarea rows="6" cols="20" class="form-control" id="rekomendasi" name="rekomendasi" required></textarea>
+                                    <textarea rows="6" cols="20" class="form-control" id="rekomendasi"
+                                        name="rekomendasi" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_tindak_lanjut">Tanggal Tindak Lanjut</label>
-                                    <input type="date" class="form-control" id="tanggal_tindak_lanjut" name="tanggal_tindak_lanjut" required>
+                                    <input type="date" class="form-control" id="tanggal_tindak_lanjut"
+                                        name="tanggal_tindak_lanjut" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="uraian_tindak_lanjut">Uraian Tindak Lanjut</label>
-                                    <textarea name="uraian_tindak_lanjut" id="uraian_tindak_lanjut" class="form-control"></textarea>
+                                    <textarea name="uraian_tindak_lanjut" id="uraian_tindak_lanjut"
+                                        class="form-control"></textarea>
                                 </div>
                             </div>
                         </div>

@@ -33,7 +33,7 @@ if (isset($_SESSION['message'])) {
                                 <tr class="text-center">
                                     <th class="text-center" width="50">No.</th>
                                     <th>Import PDF</th>
-                                    <th>Unit</th>
+                                    <th>BA Perubahan</th>
                                     <th>Tanggal</th>
                                     <th>Topik Bahasan</th>
                                     <th>Latar Belakang</th>
@@ -54,7 +54,7 @@ if (isset($_SESSION['message'])) {
                                                     Import PDF
                                                 </button>
                                             </td>
-                                            <td><?= htmlspecialchars($laporan['unit_name']); ?></td>
+                                            <td><?= htmlspecialchars($laporan['ba_ubah_name']); ?></td>
                                             <td><?= date('d-m-Y', strtotime($laporan['tanggal'])); ?></td>
                                             <td><?= htmlspecialchars($laporan['topik_bahasan']); ?></td>
                                             <td><?= htmlspecialchars(implode(' ', array_slice(explode(' ', $laporan['latar_belakang']), 0, 7))) . (str_word_count($laporan['latar_belakang']) > 7 ? '...' : ''); ?>
@@ -172,11 +172,11 @@ if (isset($_SESSION['message'])) {
                     </div>
                     <div style="margin-top: 2rem;" class="row">
                         <div class="col-md-12">
-                            <label class=" text-black col-form-label" for="unit">Unit</label>
+                            <label class=" text-black col-form-label" for="unit">BA Perubahan</label>
                             <select class="form-control" id="unit" name="unit" required>
-                                <option value="" selected disabled>Pilih Unit</option>
-                                <?php foreach ($units as $unit): ?>
-                                    <option value="<?= $unit['id']; ?>" <?= $unit['id'] == ($_GET["unit"] ?? '') ? 'selected' : ''; ?>><?= $unit['name']; ?></option>
+                                <option value="" selected disabled>Pilih BA Perubahan</option>
+                                <?php foreach ($baPerubahans as $baPerubahan): ?>
+                                    <option value="<?= $baPerubahan['id']; ?>" <?= $baPerubahan['id'] == ($_GET["ba_perubahan"] ?? '') ? 'selected' : ''; ?>><?= $baPerubahan['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -207,7 +207,7 @@ if (isset($_SESSION['message'])) {
             <div class="modal-body">
                 <form action="index.php?page=laporan/importPdf" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <span><a href="/harmoni/template/format_lks-bipartit.docx">Download Format Import
+                        <span><a href="#" onclick="downloadAndClose()">Download Format Import
                                 (docx)</a></span>
                     </div>
                     <div class="form-group">
@@ -227,49 +227,69 @@ if (isset($_SESSION['message'])) {
 
 <script type="text/javascript">
 
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
 
-    // Event listener untuk tombol "Import PDF"
-    var importPdfModal = document.getElementById("importPdfModal");
+        // Event listener untuk tombol "Import PDF"
+        var importPdfModal = document.getElementById("importPdfModal");
 
-    importPdfModal.addEventListener("show.bs.modal", function(event) {
-        var button = event.relatedTarget; // Tombol yang diklik untuk membuka modal
-        var id = button.getAttribute("data-id"); // Ambil nilai ID dari tombol
+        importPdfModal.addEventListener("show.bs.modal", function (event) {
+            var button = event.relatedTarget; // Tombol yang diklik untuk membuka modal
+            var id = button.getAttribute("data-id"); // Ambil nilai ID dari tombol
 
-        // Masukkan ID ke dalam form, misalnya dalam input hidden
-        var inputHidden = document.createElement("input");
-        inputHidden.type = "hidden";
-        inputHidden.name = "pdf_id";
-        inputHidden.value = id;
+            // Masukkan ID ke dalam form, misalnya dalam input hidden
+            var inputHidden = document.createElement("input");
+            inputHidden.type = "hidden";
+            inputHidden.name = "pdf_id";
+            inputHidden.value = id;
 
-        // Masukkan input hidden ke dalam form
-        var form = importPdfModal.querySelector("form");
-        form.appendChild(inputHidden);
+            // Masukkan input hidden ke dalam form
+            var form = importPdfModal.querySelector("form");
+            form.appendChild(inputHidden);
+        });
+
+
+        // Cek apakah ada parameter "success" di URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('success')) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: 'File PDF berhasil diunggah dan disimpan.',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
     });
 
-    
-    // Cek apakah ada parameter "success" di URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('success')) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Berhasil!',
-            text: 'File PDF berhasil diunggah dan disimpan.',
-            showConfirmButton: false,
-            timer: 2000
-        });
-    }
-});
+    document.getElementById("pdfInput").addEventListener("change", function () {
+        var file = this.files[0]; // Ambil file pertama yang dipilih
+        var maxSize = 5 * 1024 * 1024; // 5MB dalam byte
 
-document.getElementById("pdfInput").addEventListener("change", function() {
-    var file = this.files[0]; // Ambil file pertama yang dipilih
-    var maxSize = 5 * 1024 * 1024; // 5MB dalam byte
+        if (file && file.size > maxSize) {
+            alert("Ukuran file terlalu besar! Maksimal 5MB.");
+            this.value = ""; // Kosongkan input file
+        }
+    });
 
-    if (file && file.size > maxSize) {
-        alert("Ukuran file terlalu besar! Maksimal 5MB.");
-        this.value = ""; // Kosongkan input file
+    function downloadAndClose() {
+        const downloadUrl = "<?=htmlspecialchars(Config\Config::$base_url)?>/templates/format_lks-bipartit.docx";
+        
+        // Buka tab baru
+        const newTab = window.open("", "_blank");
+
+        // Tulis HTML ke dalam tab baru untuk memulai download
+        newTab.document.write(`
+        <html>
+        <body>
+            <a id="dl" href="${downloadUrl}" download></a>
+            <script>
+                document.getElementById('dl').click();
+                setTimeout(() => window.close(), 1000);
+            <\/script>
+        </body>
+        </html>
+    `);
     }
-});
 </script>
 
 <?php
