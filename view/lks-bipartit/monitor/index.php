@@ -18,57 +18,43 @@ if (isset($_SESSION['message'])) {
     <script>
         // debugging start (bisa dihapus)
         var monitors = <?= json_encode($monitors, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
-        console.log(monitors);
+        console.log("All monitors:", monitors);
+
+        monitors.map((monitor, index) => {
+            console.log(`Monitor #${index + 1}`);
+            console.log("Unit:", monitor.unit_name);
+            console.log("Serikat IDs (raw string):", monitor.serikat_ids);
+
+            // Parse string ke array di JavaScript, bukan PHP
+            let serikatIds = monitor.serikat_ids ? monitor.serikat_ids.split(",") : [];
+            console.log("Serikat IDs (parsed array):", serikatIds);
+        });
         // debugging end
 
         document.addEventListener('DOMContentLoaded', function () {
-            const tahunSelect = document.getElementById('tahun');
             const unitFilter = document.getElementById('unitFilter');
+            const tahunFilter = document.getElementById('tahun');
+            const rows = document.querySelectorAll('tbody tr[data-unit-id][data-tahun]');
 
-            // Handle year filter
-            tahunSelect?.addEventListener('change', function () {
-                const tahun = this.value;
-                let newUrl = 'index.php?page=monitor';
-
-                if (tahun) {
-                    newUrl += `&tahun=${tahun}`;
-                }
-
-                window.location.href = newUrl;
-            });
-
-            // Handle unit filter
-            unitFilter?.addEventListener('change', function () {
-                const selectedUnit = this.value;
-                const rows = document.querySelectorAll('tbody tr[data-unit-id]');
+            function applyFilters() {
+                const selectedUnit = unitFilter?.value || 'all';
+                const selectedTahun = tahunFilter?.value || '';
 
                 rows.forEach(row => {
                     const rowUnitId = row.getAttribute('data-unit-id');
-                    if (selectedUnit === 'all' || rowUnitId === selectedUnit) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                    const rowTahun = row.getAttribute('data-tahun');
+
+                    const matchUnit = selectedUnit === 'all' || rowUnitId === selectedUnit;
+                    const matchTahun = selectedTahun === '' || rowTahun === selectedTahun;
+
+                    row.style.display = (matchUnit && matchTahun) ? '' : 'none';
                 });
-
-                // Update URL with selected unit
-                const currentUrl = new URL(window.location.href);
-                if (selectedUnit !== 'all') {
-                    currentUrl.searchParams.set('unit', selectedUnit);
-                } else {
-                    currentUrl.searchParams.delete('unit');
-                }
-                history.pushState({}, '', currentUrl);
-            });
-
-            // Set initial unit filter from URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const unitParam = urlParams.get('unit');
-            if (unitParam) {
-                unitFilter.value = unitParam;
-                unitFilter.dispatchEvent(new Event('change'));
             }
+
+            unitFilter?.addEventListener('change', applyFilters);
+            tahunFilter?.addEventListener('change', applyFilters);
         });
+
     </script>
     <style>
         .table-bordered td,
@@ -94,50 +80,34 @@ if (isset($_SESSION['message'])) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Monitoring LKS Bipartit</h4>
-                    <div style="float: left;">
-                        <form method="GET" action="index.php">
-                            <input type="hidden" name="page" value="monitor">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-auto">
+                            <select class="form-control form-control-sm" id="tahun">
+                                <option value="">Pilih Tahun</option>
+                                <?php for ($i = 2015; $i <= date('Y'); $i++) { ?>
+                                    <option value="<?= $i; ?>" <?= (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : ''; ?>>
+                                        <?= $i; ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
 
-                            <div class="form-group">
-                                <div class="select-group d-flex align-items-center">
-                                    <select class="form-control form-control-sm" id="tahun" name="tahun">
-                                        <!-- Pilihan tahun dari 2015 sampai tahun saat ini -->
-                                        <option value="">Pilih tahun</option>
-                                        <?php for ($i = 2015; $i <= date('Y'); $i++) { ?>
-                                            <option value="<?= $i; ?>" <?= (isset($_GET['tahun']) && $_GET['tahun'] == $i) ? 'selected' : ''; ?>>
-                                                <?= $i; ?>
-                                            </option>
-                                        <?php } ?>
-                                    </select>
-
-                                    <!-- Gantikan button dengan a href -->
-                                    <div class="select-group-append col-5">
-                                        <a href="index.php?page=monitor&tahun=" id="filter-link"
-                                            class="btn btn-sm btn-primary ms-2">
-                                            Filter
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
+                        <div class="col-auto">
+                            <select id="unitFilter" class="form-control form-control-sm">
+                                <option value="all">Pilih Unit</option>
+                                <?php foreach ($units as $unit): ?>
+                                    <option value="<?= $unit['id']; ?>" <?= (isset($_GET['unit']) && $_GET['unit'] == $unit['id']) ? 'selected' : ''; ?>>
+                                        <?= $unit['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-end text-end">
+                            <a href="index.php?page=monitor-create" class="btn btn-success btn-sm">Tambah Data</a>
+                        </div>
                     </div>
 
-                    <div class="filter-container">
 
-
-                        <select id="unitFilter" class="form-control form-control-sm col-2 ms-2">
-                            <option value="all">Semua</option>
-                            <?php foreach ($units as $unit): ?>
-                                <option value="<?= htmlspecialchars($unit['id']); ?>" <?= (isset($_GET['unit']) && $_GET['unit'] == $unit['id']) ? 'selected' : ''; ?>>
-                                    <?= htmlspecialchars($unit['name']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div style="float: right">
-                        <a href="index.php?page=monitor-create" class="btn btn-success btn-sm">Tambah Data</a>
-                    </div>
 
                     <div class="table-responsive pt-3">
                         <table class="table table-bordered data-table">
@@ -146,7 +116,6 @@ if (isset($_SESSION['message'])) {
                                     <th rowspan="2" class="text-center" width="50">No.</th>
                                     <th rowspan="2">UNIT</th>
                                     <th rowspan="2">BA PEMBENTUKAN</th>
-                                    <th rowspan="2">TANGGAL PENDAFTARAN BA</th>
                                     <th rowspan="2">PDF BA PERUBAHAN</th>
                                     <th colspan="3" rowspan="1">KOMPOSISI & JUMLAH KEANGGOTAAN SERIKAT DALAM LKS</th>
                                     <th colspan="7">MONITORING KEGIATAN LKS BIPARTIT</th>
@@ -169,58 +138,82 @@ if (isset($_SESSION['message'])) {
                                 <?php if (!empty($monitors)): ?>
                                     <?php foreach ($monitors as $monitorIndex => $monitor): ?>
                                         <?php foreach ($bulans as $bulanIndex => $bulan): ?>
-                                            <tr data-unit-id="<?= htmlspecialchars($monitor['unit_id'] ?? ''); ?>">
+                                            <tr data-unit-id="<?= $monitor['unit_id'] ?? ''; ?>"
+                                                data-tahun="<?= date('Y', strtotime($monitor['ba_created_at'])) ?? ''; ?>">
                                                 <?php if ($bulanIndex === 0): ?>
                                                     <td rowspan="12"><?= $monitorIndex + 1; ?></td>
                                                     <td class="unit-name" rowspan="12">
-                                                        <?= htmlspecialchars($monitor['unit_name'] ?? ''); ?></td>
-                                                    <td rowspan="12"><?= htmlspecialchars($monitor['ba_name'] ?? ''); ?></td>
-                                                    <td rowspan="12"><?= htmlspecialchars($monitor['ba_created_at'] ?? ''); ?></td>
-                                                    <td rowspan="12">
-                                                        <?php foreach ($monitor['ba_perubahan_laporan'] as $baPerubahanLaporan): 
-                                                            if($baPerubahanLaporan['pdf_name'] == ''):
-                                                            ?>
-                                                            <p><?= $baPerubahanLaporan['ba_perubahan_name'] ?> [no File]</p>
-                                                            <?php else: ?>
-                                                            <p><a href="uploads/data-lks-bipartit/<?= $baPerubahanLaporan['pdf_name'] ?>" target="_blank"><?= $baPerubahanLaporan['ba_perubahan_name'] ?></a></p>
-                                                        <?php 
-                                                        endif;
-                                                    endforeach; ?>
+                                                        <?= $monitor['unit_name'] ?? ''; ?>
                                                     </td>
+                                                    <td rowspan="12">
+                                                        <div class="p-2 border rounded bg-light">
+                                                            <h6 class="mb-1">
+                                                                <?= $monitor['ba_name'] ?? '<em>Nama BA tidak tersedia</em>'; ?>
+                                                            </h6>
+                                                            <small class="text-muted">
+                                                                <i class="bi bi-calendar-event me-1"></i>
+                                                                Tanggal Pendaftaran BA:
+                                                                <?= $monitor['ba_created_at'] ?? '<em>Belum ada</em>'; ?>
+                                                            </small>
+                                                        </div>
+                                                    </td>
+                                                    <td rowspan="12">
+                                                        <div class="mb-2 fw-bold">
+                                                            <?= !empty($monitor['ba_perubahan_laporan']) ? $monitor['ba_perubahan_laporan'][0]['name'] : ''; ?>
+                                                        </div>
+
+                                                        <?php foreach ($monitor['ba_perubahan_laporan'] as $baPerubahanLaporan): ?>
+                                                            <?php if (empty($baPerubahanLaporan['pdf_name'])): ?>
+                                                                <p class="mb-1 text-muted small">
+                                                                    <?= $baPerubahanLaporan['topik_bahasan'] ?> <span
+                                                                        class="badge bg-secondary">No File</span>
+                                                                </p>
+                                                            <?php else: ?>
+                                                                <p class="mb-1">
+                                                                    <a href="uploads/data-lks-bipartit/<?= $baPerubahanLaporan['pdf_name'] ?>"
+                                                                        target="_blank" class="link-primary text-decoration-none">
+                                                                        <?= $baPerubahanLaporan['topik_bahasan'] ?>
+                                                                    </a>
+                                                                </p>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    </td>
+
                                                     <?php
                                                     $serikatNames = !empty($monitor['serikat_ids']) ? explode(",", $monitor['serikat_ids']) : [];
                                                     $serikatValues = !empty($monitor['nilai_values']) ? explode(",", $monitor['nilai_values']) : [];
 
                                                     foreach ($serikatNames as $i => $name) {
                                                         $value = isset($serikatValues[$i]) ? $serikatValues[$i] : '';
-                                                        echo "<td rowspan='12'>" . htmlspecialchars($value) . "</td>";
+                                                        echo "<td rowspan='12'>" . $value . "</td>";
                                                     }
                                                     ?>
                                                 <?php endif; ?>
 
                                                 <td style="text-transform: uppercase;">
-                                                    <?= htmlspecialchars($bulan["name"] ?? ''); ?></td>
-                                                <td><?= htmlspecialchars($monitor['tema_' . ($bulanIndex + 1)] ?? '-'); ?></td>
+                                                    <?= $bulan["name"] ?? ''; ?>
+                                                </td>
+                                                <td><?= $monitor['tema_' . ($bulanIndex + 1)] ?? '-'; ?></td>
                                                 <td>
                                                     <?php
                                                     $rekomendasi = $monitor['rekomendasi_' . ($bulanIndex + 1)] ?? '-';
                                                     if ($rekomendasi !== '-') {
                                                         $words = explode(' ', $rekomendasi);
                                                         $limitedWords = array_slice($words, 0, 7);
-                                                        echo htmlspecialchars(implode(' ', $limitedWords)) .
+                                                        echo implode(' ', $limitedWords) .
                                                             (count($words) > 7 ? '...' : '');
                                                     } else {
                                                         echo '-';
                                                     }
                                                     ?>
                                                 </td>
-                                                <td><?= htmlspecialchars($monitor['tindak_lanjut_' . ($bulanIndex + 1)] ?? '-'); ?>
+                                                <td><?= $monitor['tindak_lanjut_' . ($bulanIndex + 1)] ?? '-' ?>
                                                 </td>
                                                 <td>
-                                                    <?= htmlspecialchars($monitor['evaluasi_' . ($bulanIndex + 1)] ?? '-'); ?>
+                                                    <?= $monitor['evaluasi_' . ($bulanIndex + 1)] ?? '-' ?>
                                                     <i class="mdi mdi-timer-sand"></i>
                                                 </td>
-                                                <td><?= htmlspecialchars($monitor['follow_up_' . ($bulanIndex + 1)] ?? '-'); ?></td>
+                                                <td><?= $monitor['follow_up_' . ($bulanIndex + 1)] ?? '-' ?></td>
                                                 <?php
                                                 $realisasiKey = 'realisasi_' . ($bulanIndex + 1);
                                                 $realisasi = $monitor[$realisasiKey] ?? null;
@@ -231,23 +224,21 @@ if (isset($_SESSION['message'])) {
                                                 };
                                                 ?>
                                                 <td class="text-center" style="background-color: <?= $bgColor; ?>">
-                                                    <?= htmlspecialchars($realisasi ?? '-'); ?>
+                                                    <?= $realisasi ?? '-' ?>
                                                 </td>
 
                                                 <?php if ($bulanIndex === 0): ?>
                                                     <td rowspan="12">
-                                                        <a
-                                                            href="index.php?page=monitor-jadwal-create&id=<?= htmlspecialchars($monitor['id'] ?? ''); ?>">
+                                                        <a href="index.php?page=monitor-jadwal-create&id=<?= $monitor['id'] ?? '' ?>">
                                                             Tambahkan Jadwal
                                                         </a>
-                                                        <form
-                                                            action="index.php?page=monitor-destroy&id=<?= htmlspecialchars($monitor['id'] ?? ''); ?>"
-                                                            id="delete-<?= htmlspecialchars($monitor['id'] ?? ''); ?>" method="post"
+                                                        <form action="index.php?page=monitor-destroy&id=<?= $monitor['id'] ?? '' ?>"
+                                                            id="delete-<?= $monitor['id'] ?? '' ?>" method="post"
                                                             style="display:inline;">
                                                             <input type="hidden" name="csrf_token"
-                                                                value="<?= \Libraries\CSRF::generateToken(); ?>">
+                                                                value="<?= \Libraries\CSRF::generateToken() ?>">
                                                             <button type="button" class="btn btn-danger btn-sm delete-btn"
-                                                                data-id="<?= htmlspecialchars($monitor['id'] ?? ''); ?>">
+                                                                data-id="<?= $monitor['id'] ?? '' ?>">
                                                                 Delete
                                                             </button>
                                                         </form>
@@ -272,18 +263,6 @@ if (isset($_SESSION['message'])) {
     </div>
 </div>
 <script>
-    document.getElementById('tahun').addEventListener('change', function () {
-        const tahun = this.value;
-        const filterLink = document.getElementById('filter-link');
-        let newUrl = 'index.php?page=monitor';
-
-        if (tahun) {
-            newUrl += `&tahun=${tahun}`;
-        }
-
-        filterLink.href = newUrl;
-    });
-
     document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function () {
             const serikatId = this.getAttribute('data-id');
