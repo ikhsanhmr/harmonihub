@@ -25,11 +25,11 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
-        $unit = $_GET['unit'] ?? null;
+        $baUbah = $_GET['ba_perubahan'] ?? null;
         $params = [];
 
         $sql = "SELECT l.id, 
-                    u.name AS unit_name, 
+                    ba_ubah.name AS ba_ubah_name, 
                     l.tanggal, 
                     l.topik_bahasan, 
                     l.latar_belakang, 
@@ -37,12 +37,12 @@ class Laporan
                     l.tanggal_tindak_lanjut, 
                     l.uraian_tindak_lanjut
             FROM laporan_lks_bipartit l
-            JOIN units u ON l.unit_id = u.id";
+            JOIN ba_perubahan ba_ubah ON l.ba_perubahan_id = ba_ubah.id";
 
 
-        if ($unit !== null) {
-            $sql .= " where u.id = :unit";
-            $params['unit'] = $unit;
+        if ($baUbah !== null) {
+            $sql .= " where ba_ubah.id = :ba_ubah";
+            $params['ba_ubah'] = $baUbah;
         }
 
         if ($start_date && $end_date) {
@@ -59,11 +59,11 @@ class Laporan
 
         $stmt = $this->db->prepare($sql);
         $stmt->execute($params);
-        $laporans = $stmt->fetchAll();
+        $laporans = $stmt->fetchAll(); // digunakan di views/
 
-        $stmt = $this->db->prepare("select id , name from units");
+        $stmt = $this->db->prepare("select id , name from ba_perubahan");
         $stmt->execute();
-        $units = $stmt->fetchAll();
+        $baPerubahans = $stmt->fetchAll(); // digunakan di views/
 
 
         include 'view/lks-bipartit/laporan/index.php';
@@ -73,7 +73,7 @@ class Laporan
     {
         $start_date = $_GET['start_date'] ?? null;
         $end_date = $_GET['end_date'] ?? null;
-        $unit = $_GET['unit_id'] ?? null;
+        $unit = $_GET['ba_perubahan_id'] ?? null;
         $time_start = $_POST["time_start"];
         $time_end = $_POST["time_end"];
         $place = $_POST["place"];
@@ -91,12 +91,12 @@ class Laporan
         if ($unit !== null) {
             $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
             FROM laporan_lks_bipartit l
-            JOIN units u ON l.unit_id = u.id where l.unit_id = :unit";
+            JOIN units u ON l.ba_perubahan_id = u.id where l.ba_perubahan_id = :unit";
             $params = ["unit" => $unit];
         } else {
             $sql = "SELECT l.id, u.name as unit_name, l.tanggal, l.topik_bahasan, l.latar_belakang, l.rekomendasi, l.tanggal_tindak_lanjut, l.uraian_tindak_lanjut
             FROM laporan_lks_bipartit l
-            JOIN units u ON l.unit_id = u.id";
+            JOIN units u ON l.ba_perubahan_id = u.id";
             $params = [];
 
         }
@@ -195,9 +195,9 @@ class Laporan
 
     public function create()
     {
-        $stmt = $this->db->prepare("SELECT id, name FROM units");
+        $stmt = $this->db->prepare("SELECT id, name FROM ba_perubahan");
         $stmt->execute();
-        $units = $stmt->fetchAll();
+        $baPerubahans = $stmt->fetchAll();
 
         $stmt = $this->db->prepare("SELECT id, name FROM anggota_serikats");
         $stmt->execute();
@@ -209,7 +209,7 @@ class Laporan
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $unit_id = $_POST['unit_id'];
+            $ba_perubahan_id = $_POST['ba_perubahan_id'];
             $tanggal = $_POST['tanggal'];
             $topik_bahasan = $_POST['topik_bahasan'];
             $latar_belakang = $_POST['latar_belakang'];
@@ -220,10 +220,10 @@ class Laporan
             $createdAt = date('Y-m-d H:i:s');
             $updatedAt = date('Y-m-d H:i:s');
 
-            $query = "INSERT INTO laporan_lks_bipartit (unit_id, tanggal, topik_bahasan, latar_belakang, rekomendasi, tanggal_tindak_lanjut, uraian_tindak_lanjut, created_at, updated_at) 
+            $query = "INSERT INTO laporan_lks_bipartit (ba_perubahan_id, tanggal, topik_bahasan, latar_belakang, rekomendasi, tanggal_tindak_lanjut, uraian_tindak_lanjut, created_at, updated_at) 
                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt = $this->db->prepare($query);
-            $success = $stmt->execute([$unit_id, $tanggal, $topik_bahasan, $latar_belakang, $rekomendasi, $tanggal_tindak_lanjut, $uraian_tindak_lanjut, $createdAt, $updatedAt]);
+            $success = $stmt->execute([$ba_perubahan_id, $tanggal, $topik_bahasan, $latar_belakang, $rekomendasi, $tanggal_tindak_lanjut, $uraian_tindak_lanjut, $createdAt, $updatedAt]);
 
             if ($success) {
                 $_SESSION['message'] = ['type' => 'success', 'text' => 'Laporan LKS Bipartit created successfully!'];
@@ -297,7 +297,7 @@ class Laporan
     public function update($id)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $unit_id = $_POST['unit_id'];
+            $ba_perubahan_id = $_POST['ba_perubahan_id'];
             $tanggal = $_POST['tanggal'];
             $topik_bahasan = $_POST['topik_bahasan'];
             $latar_belakang = $_POST['latar_belakang'];
@@ -307,9 +307,9 @@ class Laporan
 
             $updatedAt = date('Y-m-d H:i:s');
 
-            $query = "UPDATE laporan_lks_bipartit SET unit_id = ?, tanggal = ?, topik_bahasan = ?, latar_belakang = ?, rekomendasi = ?, tanggal_tindak_lanjut = ?, uraian_tindak_lanjut = ?, updated_at = ? WHERE id = ?";
+            $query = "UPDATE laporan_lks_bipartit SET ba_perubahan_id = ?, tanggal = ?, topik_bahasan = ?, latar_belakang = ?, rekomendasi = ?, tanggal_tindak_lanjut = ?, uraian_tindak_lanjut = ?, updated_at = ? WHERE id = ?";
             $stmt = $this->db->prepare($query);
-            $success = $stmt->execute([$unit_id, $tanggal, $topik_bahasan, $latar_belakang, $rekomendasi, $tanggal_tindak_lanjut, $uraian_tindak_lanjut, $updatedAt, $id]);
+            $success = $stmt->execute([$ba_perubahan_id, $tanggal, $topik_bahasan, $latar_belakang, $rekomendasi, $tanggal_tindak_lanjut, $uraian_tindak_lanjut, $updatedAt, $id]);
 
             if ($success) {
                 $_SESSION['message'] = ['type' => 'success', 'text' => 'Laporan LKS Bipartit updated successfully!'];

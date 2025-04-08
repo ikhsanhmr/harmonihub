@@ -3,7 +3,6 @@
 ob_start(); // Mulai output buffering
 
 ?>
-
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
@@ -15,10 +14,10 @@ ob_start(); // Mulai output buffering
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="unit_id">Unit</label>
-                                    <select class="form-control" id="unit_id" name="unit_id" required>
-                                        <?php foreach ($units as $unit): ?>
-                                            <option value="<?= $unit['id']; ?>" <?= $unit['id'] == $laporan['unit_id'] ? 'selected' : ''; ?>><?= $unit['name']; ?></option>
+                                    <label for="ba_perubahan_id">BA Perubahan</label>
+                                    <select class="form-control" id="ba_perubahan_id" name="ba_perubahan_id" required>
+                                        <?php foreach ($baPerubahans as $baPerubahan): ?>
+                                            <option value="<?= $baPerubahan['id']; ?>" <?= $baPerubahan['id'] == $laporan['ba_perubahan_id'] ? 'selected' : ''; ?>><?= $baPerubahan['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

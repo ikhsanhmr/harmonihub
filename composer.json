@@ -5,7 +5,8 @@
       "Models\\": "app/Models",
       "Libraries\\": "app/Libraries",
       "Migrations\\": "migrations",
-      "Helpers\\": "app/Helpers"
+      "Helpers\\": "app/Helpers",
+      "Config\\": "config"
     }
   },
   "scripts": {

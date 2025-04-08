@@ -26,6 +26,8 @@ use Controllers\Serikats;
 use Controllers\UnitController;
 use Controllers\UserController;
 
+// echo "<script>console.log('" . Config\Config::$base_url . "')</script>";
+
 $frontend = new FrontendController();
 $auth = new AuthController();
 $dashboard = new Dashboard();
